@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "Bugatti-Divo_Lady_Bug-2020-1024-0b.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
