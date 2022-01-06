@@ -178,14 +178,19 @@ class AddOfferViewController: UIViewController{
     @objc func segmentClicked(){
         if segment.selectedSegmentIndex == 0{
             selectedCat = categories[0]
+            print(selectedCat)
         }else if segment.selectedSegmentIndex == 1{
             selectedCat = categories[1]
+            print(selectedCat)
         }else if segment.selectedSegmentIndex == 2{
             selectedCat = categories[2]
+            print(selectedCat)
         }else if segment.selectedSegmentIndex == 3{
             selectedCat = categories[3]
+            print(selectedCat)
         }else{
             selectedCat = categories[4]
+            print(selectedCat)
         }
     }
     @objc func postOfferBtnClick(){
@@ -280,7 +285,10 @@ extension AddOfferViewController : UIPickerViewDelegate, UIPickerViewDataSource{
         self.selectedCity = cities[row]
         return selectedCity
     }
-    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.selectedCity = cities[row]
+        print(selectedCity)
+    }
 }
 
 extension AddOfferViewController : UINavigationControllerDelegate, UIImagePickerControllerDelegate{
