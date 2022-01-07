@@ -9,6 +9,8 @@ import UIKit
 
 class ChatViewController: UIViewController {
 
+    var offerProvider : Offer? = nil
+    var offerProviderPofile : User? = nil
     lazy var chatTableView : UITableView = {
         $0.register(ChatTableViewCell.self, forCellReuseIdentifier: "cell")
         $0.rowHeight = UITableView.automaticDimension
@@ -63,11 +65,11 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        newLable.text! = offerProviderPofile!.name
         setBackgroundImage(imageName: "chatBackG")
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
-        
+        print("Offer provider id \(offerProvider!.userID)")
         NSLayoutConstraint.activate([
-            
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),

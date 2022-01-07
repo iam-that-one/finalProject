@@ -10,6 +10,7 @@ import SwiftUI
 import Firebase
 class OfferDetailsViewController: UIViewController {
     var offer : Offer? = nil
+    var offerProviderProfile : User? = nil
     var isOnline = false
     var phoneNumber = ""
     let db = Firestore.firestore()
@@ -240,6 +241,8 @@ class OfferDetailsViewController: UIViewController {
     }
     @objc func sendMessageBtnClick(){
         let chatView = ChatViewController()
+        chatView.offerProvider = offer
+        chatView.offerProviderPofile = offerProviderProfile
         self.navigationController?.pushViewController(chatView, animated: true)
     }
     @objc func phoneCallBtnClic(){
@@ -284,6 +287,7 @@ class OfferDetailsViewController: UIViewController {
                             self.profilePicture.image = UIImage(data: profilePic)
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
                             self.phoneNumber = phoneNumber
+                            self.offerProviderProfile = User(name: firstName)
                         }
                     }
                 }

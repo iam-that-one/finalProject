@@ -6,8 +6,9 @@
 //
 
 import UIKit
-
+import Firebase
 class MessagesViewController: UIViewController {
+    let db = Firestore.firestore()
     lazy var messagesTableView : UITableView = {
         $0.register(MessagsTableViewCell.self, forCellReuseIdentifier: "cell")
         $0.rowHeight = UITableView.automaticDimension
@@ -49,6 +50,58 @@ class MessagesViewController: UIViewController {
             messagesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             messagesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
         ])
+    }
+    func getProfile(){
+        db.collection("offers_users").whereField("uid", isEqualTo:Auth.auth().currentUser!.uid)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("Error while fetching profile\(error)")
+                } else {
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            let firstName = data["firstName"] as! String
+                           // self.username.text = firstName
+                          //  self.email.text = Auth.auth().currentUser!.email
+                          //  let profilePic = data["image"] as! Data
+                          //  self.profPic.image = UIImage(data: profilePic)
+                            
+                        }
+                    }
+                }
+            }
+    }
+    
+    func getMyOffers(){
+        db.collection("Offers").whereField("userID", isEqualTo:Auth.auth().currentUser!.uid)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("Error while fetching profile\(error)")
+                } else {
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            let userID = data["userID"] as? String ?? ""
+                            let offerID = data["offerID"] as? String ?? ""
+                            let date = data["date"] as? String ?? ""
+                            let offerTitle = data["offerTitle"] as? String ?? ""
+                            let offerDes = data["offerDes"] as? String ?? ""
+                            let price = data["price"] as? String ?? ""
+                            let city = data["city"] as? String ?? ""
+                            let cat = data["cate"] as? String ?? ""
+                            let image1 = data["image1"] as? Data ?? Data()
+                            let image2 = data["image2"] as? Data ?? Data()
+                            let image3 = data["image3"] as? Data ?? Data()
+                            let image4 = data["image4"] as? Data ?? Data()
+                            
+                           // self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                        }
+                       // self.profileOffersTableView.reloadData()
+                        
+                      
+                    }
+                }
+            }
     }
 }
 
