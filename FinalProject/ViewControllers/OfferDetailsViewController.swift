@@ -141,8 +141,10 @@ class OfferDetailsViewController: UIViewController {
         isUserOnline()
         if isOnline == true{
             appearance.text = "متصل"
+            dote.tintColor = .green
         }else{
             appearance.text = "غير متصل"
+            dote.tintColor = .red
         }
         uiSettings()
           }
@@ -257,9 +259,11 @@ class OfferDetailsViewController: UIViewController {
            userRef.observe(.value){ (snapshot) in
                if snapshot.hasChild(self.offer!.userID){
                    self.appearance.text = "متصل"
+                   self.dote.tintColor = .green
                }
                else{
                    self.appearance.text = "غير متصل"
+                   self.dote.tintColor = .red
                }
                
            }
