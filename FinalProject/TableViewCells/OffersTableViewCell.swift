@@ -42,9 +42,9 @@ class OffersTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = .gray
         $0.textAlignment = .left
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         
         return $0
     }(UILabel())
@@ -97,7 +97,7 @@ class OffersTableViewCell: UITableViewCell {
     }
     
     func cellSettings(){
-        contentView.backgroundColor = UIColor.systemGray6
+        contentView.backgroundColor = UIColor.systemGray5
         contentView.layer.cornerRadius = 5
       //  contentView.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
       //  contentView.layer.borderWidth = 5

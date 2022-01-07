@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         deleteOffer(offer)
     }
     
- 
     var myOffers : [Offer] = []
    
     let db1 = Firestore.firestore()
@@ -43,7 +42,6 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         $0.paddingTop = 40
         return $0
     }(PaddingLabel())
-    
     
     lazy var container : UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +86,6 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         return $0
     }(UIButton(type: .system))
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         view.addSubview(container)
         [email,username,profPic,editBtn].forEach{container.addSubview($0)}

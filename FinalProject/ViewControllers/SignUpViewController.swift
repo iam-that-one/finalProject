@@ -268,7 +268,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
              }
          }
     }
-    // Move lofin view 300 points upward
+    // Move signUp view 300 points upward
     @objc func keyboardWillShow(sender: NSNotification) {
          self.view.frame.origin.y = -200
     }

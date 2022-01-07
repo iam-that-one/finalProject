@@ -75,7 +75,9 @@ class OfferDetailsViewController: UIViewController {
     
     lazy var container : UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = UIColor(red: 249, green: 195, blue: 34, alpha: 0)
+        //$0.backgroundColor = UIColor(red: 249, green: 195, blue: 34, alpha: 0)
+        $0.backgroundColor = UIColor.systemGray5
+
         return $0
     }(UIView())
     
@@ -151,7 +153,7 @@ class OfferDetailsViewController: UIViewController {
           }
     func uiSettings(){
         view.backgroundColor = .white
-        container.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        container.backgroundColor = UIColor.systemGray5
         offerTitle.backgroundColor  = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline

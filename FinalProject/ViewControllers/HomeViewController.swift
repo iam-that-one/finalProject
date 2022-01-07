@@ -57,12 +57,12 @@ var categoery = ""
     }(UIButton())
     
     lazy var logo4 : UIButton = {
-        $0.tintColor = .darkGray
-     //   $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-
-        $0.setTitle("", for: .normal)
+        $0.tintColor = categoery == "خدمات\nأخرى" ? .black : .darkGray
+        $0.setTitle("خدمات عامة", for: .normal)
+        $0.addTarget(self, action: #selector(other), for: .touchDown)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIButton())
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -124,8 +124,9 @@ var categoery = ""
         stackView.addArrangedSubview(logo2)
         stackView.addArrangedSubview(logo3)
         stackView.addArrangedSubview(logo4)
-     //   temp = Offer.example
+        
         getOffers()
+        temp = offers
         [newLable, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
@@ -188,49 +189,95 @@ var categoery = ""
                 }
             }
     }
+    func filterOffers(_ categoery : String){
+        
+        db.collection("Offers")
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("Error while fetching profile\(error)")
+                } else {
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            let userID = data["userID"] as? String ?? ""
+                            let offerID = data["offerID"] as? String ?? ""
+                            let date = data["date"] as? String ?? ""
+                            let offerTitle = data["offerTitle"] as? String ?? ""
+                            let offerDes = data["offerDes"] as? String ?? ""
+                            let price = data["price"] as? String ?? ""
+                            let city = data["city"] as? String ?? ""
+                            let cat = data["cate"] as? String ?? ""
+                            let image1 = data["image1"] as? Data ?? Data()
+                            let image2 = data["image2"] as? Data ?? Data()
+                            let image3 = data["image3"] as? Data ?? Data()
+                            let image4 = data["image4"] as? Data ?? Data()
+                            
+                            if cat == categoery{
+                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            }
+                            self.offersTableView.reloadData()
+                        }
+                        
+                      
+                    }
+                }
+            }
+    }
     @objc func moveBtnClick(){
     }
     @objc func devices(){
-        logo2.tintColor = .black
-        logo.tintColor = .darkGray
-        logo3.tintColor = .darkGray
-        categoery = "أجهزة"
-        if offers.isEmpty{
-        getOffers()
-        }
-        offers = offers.filter{$0.categoery == categoery}
-        offersTableView.reloadData()
-        animateTableView()
-    }
-    @objc func cars(){
-      //  offers = []
+          logo2.tintColor = .black
+          logo.tintColor = .darkGray
+          logo3.tintColor = .darkGray
+          logo4.tintColor = .darkGray
+          categoery = "أجهزة"
+        offers = []
+        filterOffers(categoery)
+          animateTableView()
+      }
+      @objc func cars(){
+          animateTableView()
+          logo3.tintColor = .black
+          logo.tintColor = .darkGray
+          logo2.tintColor = .darkGray
+          logo4.tintColor = .darkGray
+          categoery = "سيارات"
+          offers = []
+          filterOffers(categoery)
+          offersTableView.reloadData()
+      }
+    @objc func other(){
         animateTableView()
         logo3.tintColor = .black
         logo.tintColor = .darkGray
         logo2.tintColor = .darkGray
-        categoery = "سيارات"
-        if offers.isEmpty{
-        getOffers()
-        }
-        offers = offers.filter{$0.categoery == categoery}
-        offersTableView.reloadData()
-
-    }
-    @objc func all(){
-        animateTableView()
-        logo.tintColor = .black
-        logo3.tintColor = .darkGray
-        logo2.tintColor = .darkGray
+    
+        logo4.tintColor = .black
+        logo4.tintColor = .darkGray
+        categoery = "خدمات عامة"
         offers = []
-        getOffers()
-        offersTableView.reloadData()
-
+        filterOffers(categoery)
+        
     }
+    
+      @objc func all(){
+          animateTableView()
+          logo.tintColor = .black
+          logo3.tintColor = .darkGray
+          logo2.tintColor = .darkGray
+          logo4.tintColor = .darkGray
+          offers = []
+          getOffers()
+
+      }
     func animateTableView(){
         UIView.transition(with: offersTableView,
                           duration: 0.35,
                           options: .transitionCrossDissolve,
-                          animations: { self.offersTableView.reloadData() })
+                          animations: {
+            //self.offersTableView.reloadData()
+            
+        })
     }
     
     var dateFormatter: DateFormatter = {
@@ -252,7 +299,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.offerImage.image = UIImage(data:offers[indexPath.row].image1) ?? UIImage()
         cell.title.text = offers[indexPath.row].title
         let date = dateFormatter.date(from: offers[indexPath.row].date)
-        cell.price.text = offers[indexPath.row].price
+        cell.price.text = offers[indexPath.row].price + "ريال سعودي" + " "
         cell.date.text = date?.timeAgoDisplay()
         cell.categoery.text = "#" + offers[indexPath.row].categoery
         cell.city.text = offers[indexPath.row].city
