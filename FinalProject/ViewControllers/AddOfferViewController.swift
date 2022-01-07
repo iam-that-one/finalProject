@@ -211,7 +211,7 @@ class AddOfferViewController: UIViewController{
         let db = Firestore.firestore()
         db.collection("Offers")
             .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": self.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": self.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": self.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": self.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": dateFormatter.string(from: Date()).self])
-
+        self.tabBarController!.selectedIndex = 0
     }
     
     @objc func image1BtnClick(_ sender : UIButton){

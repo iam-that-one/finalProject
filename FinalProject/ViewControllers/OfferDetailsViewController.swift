@@ -11,6 +11,7 @@ import Firebase
 class OfferDetailsViewController: UIViewController {
     var offer : Offer? = nil
     var isOnline = false
+    var phoneNumber = ""
     let db = Firestore.firestore()
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
@@ -243,7 +244,7 @@ class OfferDetailsViewController: UIViewController {
         call()
     }
     func call(){
-        if let url = URL(string: "tel://+966547105745"),
+        if let url = URL(string: "tel://\(self.phoneNumber)"),
         UIApplication.shared.canOpenURL(url) {
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
@@ -265,7 +266,7 @@ class OfferDetailsViewController: UIViewController {
        
        }
     func getProfile(){
-        db.collection("offers_users").whereField("uid", isEqualTo:Auth.auth().currentUser!.uid)
+        db.collection("offers_users").whereField("uid", isEqualTo: offer!.userID)
             .addSnapshotListener { (querySnapshot, error) in
                 if let error = error {
                     print("Error while fetching profile\(error)")
@@ -277,7 +278,8 @@ class OfferDetailsViewController: UIViewController {
                             self.username.text = firstName
                             let profilePic = data["image"] as! Data
                             self.profilePicture.image = UIImage(data: profilePic)
-                            
+                            let phoneNumber = data["phoneNumnber"] as? String ?? ""
+                            self.phoneNumber = phoneNumber
                         }
                     }
                 }
