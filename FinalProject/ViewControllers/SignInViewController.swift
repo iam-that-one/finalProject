@@ -20,7 +20,8 @@ class SignInViewController: UIViewController {
     }(UIImageView())
     
     lazy var email : UITextField = {
-        $0.placeholder = "أدخل رقم جوالك"
+        $0.placeholder = "ايميلك لو سمحت"
+        $0.text = "A@aa.com"
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -28,6 +29,7 @@ class SignInViewController: UIViewController {
     
     lazy var passwprd : UITextField = {
         $0.placeholder = "كلمة المرور"
+        $0.text = "Aa123456789&"
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -143,6 +145,9 @@ class SignInViewController: UIViewController {
                         let currentUserRef = self.userRef.child(user.uid)
                         currentUserRef.setValue(user.email)
                         currentUserRef.onDisconnectRemoveValue()
+                        let dashboard = DashboardTabBarController()
+                      //  self.present(dashboard, animated: true, completion: nil)
+                        self.navigationController?.pushViewController(dashboard, animated: true)
                     }
                 }
             }

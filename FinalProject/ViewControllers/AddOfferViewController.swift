@@ -116,7 +116,7 @@ class AddOfferViewController: UIViewController{
         return $0
     }(UIStackView())
     
-    
+  
     // // // //
     
     lazy var postOfferBtn : UIButton = {
@@ -205,7 +205,7 @@ class AddOfferViewController: UIViewController{
     @objc func postOfferBtnClick(){
         addOffer()
     }
-    
+   
     func addOffer(){
         let id = UUID().uuidString
         let db = Firestore.firestore()

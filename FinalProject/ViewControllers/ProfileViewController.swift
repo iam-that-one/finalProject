@@ -67,7 +67,12 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return $0
     }(UILabel())
-    
+    lazy var signOut : UIButton = {
+        $0.setTitle("تسجيل الخروج", for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(signOutBtnClick), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
     lazy var email : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -89,8 +94,10 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         super.viewDidLoad()
         view.addSubview(container)
         [email,username,profPic,editBtn].forEach{container.addSubview($0)}
+        
         view.addSubview(profileOffersTableView)
         view.addSubview(newLable)
+        view.addSubview(signOut)
         getProfile()
         getMyOffers()
         NSLayoutConstraint.activate([
@@ -98,6 +105,9 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             newLable.heightAnchor.constraint(equalToConstant: 120),
+            
+            signOut.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            signOut.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant:-20),
             
             container.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -123,10 +133,25 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 20),
             profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
             profileOffersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
-            profileOffersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            profileOffersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            signOut.trailingAnchor.constraint(equalTo: newLable.trailingAnchor,constant: -20),
+            signOut.centerYAnchor.constraint(equalTo: newLable.centerYAnchor,constant: 20)
         ])
     }
-    
+    @objc func signOutBtnClick(){
+        do{
+            try Auth.auth().signOut()
+            let signIn = SignInViewController()
+            
+            signIn.modalPresentationStyle = .fullScreen
+            signIn.modalTransitionStyle = .flipHorizontal
+
+            self.navigationController?.pushViewController(signIn, animated: true)
+        }catch{
+            print(error)
+        }
+    }
     func getProfile(){
         db.collection("offers_users").whereField("uid", isEqualTo:Auth.auth().currentUser!.uid)
             .addSnapshotListener { (querySnapshot, error) in
