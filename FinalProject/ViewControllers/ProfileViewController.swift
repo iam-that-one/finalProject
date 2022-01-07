@@ -145,8 +145,6 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             let signIn = SignInViewController()
             
             signIn.modalPresentationStyle = .fullScreen
-            signIn.modalTransitionStyle = .flipHorizontal
-
             self.navigationController?.pushViewController(signIn, animated: true)
         }catch{
             print(error)

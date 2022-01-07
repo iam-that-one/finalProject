@@ -156,7 +156,7 @@ class SignInViewController: UIViewController {
     
     func moveToSignUp(){
         let sigunUp = SignUpViewController()
-        self.present(sigunUp, animated: true)
+        self.navigationController?.pushViewController(sigunUp, animated: true)
     }
     
     func fieldsValidation() -> String?{
