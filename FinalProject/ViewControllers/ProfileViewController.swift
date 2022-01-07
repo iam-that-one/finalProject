@@ -84,6 +84,7 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         $0.setBackgroundImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(editBtnClick), for: .touchDown)
+        $0.tintColor = .black
         return $0
     }(UIButton(type: .system))
     override func viewDidLoad() {
@@ -119,6 +120,8 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             
             editBtn.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
             editBtn.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
+            editBtn.widthAnchor.constraint(equalToConstant: 20),
+            editBtn.heightAnchor.constraint(equalToConstant: 20),
             
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 20),
             profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
@@ -138,7 +141,7 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
                             let data = doc.data()
                             let firstName = data["firstName"] as! String
                             self.username.text = firstName
-                            
+                            self.email.text = Auth.auth().currentUser!.email
                             let profilePic = data["image"] as! Data
                             self.profPic.image = UIImage(data: profilePic)
                             
