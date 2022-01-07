@@ -151,10 +151,10 @@ class profileTableViewCell: UITableViewCell {
     }
     
     @objc func updateBtnClick(_ sender : UIButton){
-        if let offers = offers,
-             let _ = delegate {
-            self.delegate?.myPrfileTableViewCell(self,delete: offers)
-          }
+//        if let offers = offers,
+//             let _ = delegate {
+//            self.delegate?.myPrfileTableViewCell(self,delete: offers)
+//          }
     }
     
     
