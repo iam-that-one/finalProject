@@ -11,6 +11,7 @@ import Firebase
 class OfferDetailsViewController: UIViewController {
     var offer : Offer? = nil
     var isOnline = false
+    let db = Firestore.firestore()
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -158,11 +159,9 @@ class OfferDetailsViewController: UIViewController {
         image2.setBackgroundImage(UIImage(data: offer!.image2) ?? UIImage(), for: .normal)
         image3.setBackgroundImage(UIImage(data: offer!.image3) ?? UIImage(), for: .normal)
         image4.setBackgroundImage(UIImage(data: offer!.image4) ?? UIImage(), for: .normal)
-
+        
         offerDescription.text = offer!.description
-       // offerImage.image = offer!.image
-        //image2.setBackgroundImage(offer!.image2, for: .normal)
-        //image3.setBackgroundImage(offer!.image3, for: .normal)
+        getProfile()
         [offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
         [profilePicture,username,appearance,sendMessage,phoneCall,dote].forEach{container.addSubview($0)}
         
@@ -244,7 +243,7 @@ class OfferDetailsViewController: UIViewController {
         call()
     }
     func call(){
-        if let url = URL(string: "tel://+966447105745"),
+        if let url = URL(string: "tel://+966547105745"),
         UIApplication.shared.canOpenURL(url) {
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
@@ -265,6 +264,25 @@ class OfferDetailsViewController: UIViewController {
            }
        
        }
+    func getProfile(){
+        db.collection("offers_users").whereField("uid", isEqualTo:Auth.auth().currentUser!.uid)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("Error while fetching profile\(error)")
+                } else {
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            let firstName = data["firstName"] as! String
+                            self.username.text = firstName
+                            let profilePic = data["image"] as! Data
+                            self.profilePicture.image = UIImage(data: profilePic)
+                            
+                        }
+                    }
+                }
+            }
+    }
 }
 
 

@@ -80,16 +80,18 @@ var categoery = ""
         return $0
     }(UITableView())
     
-    lazy var newLable : UILabel = {
+    lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "اسم التطبيق"
         $0.textColor = .black
-        $0.textAlignment = .left
+        $0.textAlignment = .center
+        $0.backgroundColor = UIColor.systemGray6
+        $0.paddingTop = 20
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
         return $0
-    }(UILabel())
+    }(PaddingLabel())
     lazy var newButton : UIButton = {
         $0.setBackgroundImage(UIImage(systemName: "line.3.horizontal"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -120,12 +122,11 @@ var categoery = ""
         stackView.addArrangedSubview(logo4)
      //   temp = Offer.example
         getOffers()
-        [newLable,newButton, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
+        [newLable, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
-            newLable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 5),
-            newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            newButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
-            newButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 5),
+            newLable.topAnchor.constraint(equalTo: view.topAnchor),
+            newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            newLable.heightAnchor.constraint(equalToConstant: 120),
             
             searchBar.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),

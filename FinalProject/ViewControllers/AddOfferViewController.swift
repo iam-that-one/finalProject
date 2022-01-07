@@ -33,7 +33,7 @@ class AddOfferViewController: UIViewController{
         $0.text = "إضافة إعلان جديد"
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.backgroundColor = UIColor.systemGray4
+        $0.backgroundColor = UIColor.systemGray6
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 20
         return $0
@@ -127,6 +127,15 @@ class AddOfferViewController: UIViewController{
     }(UIButton(type: .system))
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         print(dateFormatter.string(from: Date()))
         [pageTitle,offerTitle,offerDes,segment,price,picker,stackView,postOfferBtn].forEach{view.addSubview($0)}
         [image1,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
@@ -326,6 +335,17 @@ extension AddOfferViewController : UINavigationControllerDelegate, UIImagePicker
           guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
           return imageData
       }
- 
+    // Move lofin view 300 points upward
+    @objc func keyboardWillShow(sender: NSNotification) {
+         self.view.frame.origin.y = -100
+    }
+
+    // Move login view to original position
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0
+    }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 

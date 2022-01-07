@@ -20,12 +20,31 @@ class MessagesViewController: UIViewController {
         return $0
     }(UITableView())
     
+    lazy var newLable : PaddingLabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "محادثاتي"
+        $0.backgroundColor = UIColor.systemGray6
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+        $0.textColor = .black
+        $0.textAlignment = .center
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.paddingTop = 40
+        return $0
+    }(PaddingLabel())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        [messagesTableView].forEach{view.addSubview($0)}
+        [messagesTableView,newLable].forEach{view.addSubview($0)}
         
         NSLayoutConstraint.activate([
-            messagesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            
+            newLable.topAnchor.constraint(equalTo: view.topAnchor),
+            newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            newLable.heightAnchor.constraint(equalToConstant: 120),
+            
+            messagesTableView.topAnchor.constraint(equalTo: newLable.bottomAnchor ,constant: 10),
             messagesTableView.widthAnchor.constraint(equalToConstant: 380),
             messagesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             messagesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
