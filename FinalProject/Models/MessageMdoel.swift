@@ -13,6 +13,7 @@ struct Message{
     let userID : String
     let content : String
     
+    
     static var example = [
     
         Message(name: "عبدالله", date: "10/Dec/2020", userID: "1001", content: "حط المنبه على 12:00"),

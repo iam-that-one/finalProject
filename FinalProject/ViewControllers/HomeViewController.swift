@@ -25,6 +25,10 @@ var categoery = ""
         $0.tintColor = .black
         $0.setTitle("الكل", for: .normal)
         $0.addTarget(self, action: #selector(all), for: .touchDown)
+        $0.layer.cornerRadius = 5
+        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
        // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
@@ -130,21 +134,21 @@ var categoery = ""
             
             searchBar.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            searchBar.widthAnchor.constraint(equalToConstant: 350),
+            searchBar.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
             stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor,constant: 20),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
           
-            logo.widthAnchor.constraint(equalToConstant: 100),
-            logo.heightAnchor.constraint(equalToConstant: 100),
+            logo.widthAnchor.constraint(equalToConstant: 80),
+            logo.heightAnchor.constraint(equalToConstant: 80),
             
-            logo2.widthAnchor.constraint(equalToConstant: 100),
-            logo2.heightAnchor.constraint(equalToConstant: 100),
+            logo2.widthAnchor.constraint(equalToConstant: 80),
+            logo2.heightAnchor.constraint(equalToConstant: 80),
             
-            logo3.widthAnchor.constraint(equalToConstant: 100),
-            logo3.heightAnchor.constraint(equalToConstant: 100),
+            logo3.widthAnchor.constraint(equalToConstant: 80),
+            logo3.heightAnchor.constraint(equalToConstant: 80),
             
-            logo4.widthAnchor.constraint(equalToConstant: 100),
-            logo4.heightAnchor.constraint(equalToConstant: 100),
+            logo4.widthAnchor.constraint(equalToConstant: 80),
+            logo4.heightAnchor.constraint(equalToConstant: 80),
             
             offersTableView.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: 10),
             offersTableView.widthAnchor.constraint(equalToConstant: 380),

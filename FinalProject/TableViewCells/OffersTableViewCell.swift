@@ -98,7 +98,13 @@ class OffersTableViewCell: UITableViewCell {
     
     func cellSettings(){
         contentView.backgroundColor = UIColor.systemGray6
-        contentView.layer.cornerRadius = 10
+        contentView.layer.cornerRadius = 5
+      //  contentView.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+      //  contentView.layer.borderWidth = 5
+        contentView.layer.shadowRadius = 3.0
+        contentView.layer.shadowOpacity = 1.0
+        contentView.layer.shadowColor = CGColor.init(gray: 0.50, alpha: 1)
+        contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
         [offerImage,title,categoery,price,date,pin,city].forEach{contentView.addSubview($0)}
         
         NSLayoutConstraint.activate([

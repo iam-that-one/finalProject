@@ -258,6 +258,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
                                  currentUserRef.setValue(user.email)
                                  currentUserRef.onDisconnectRemoveValue()
                              }
+                         let dashboard = DashboardTabBarController()
+                         self.present(dashboard, animated: true, completion: nil)
                      }
                  }
              }
