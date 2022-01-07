@@ -27,7 +27,7 @@ var categoery = ""
         $0.addTarget(self, action: #selector(all), for: .touchDown)
         $0.translatesAutoresizingMaskIntoConstraints = false
        // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
         return $0
     }(UIButton())
     
@@ -37,7 +37,7 @@ var categoery = ""
         $0.addTarget(self, action: #selector(devices), for: .touchDown)
         $0.translatesAutoresizingMaskIntoConstraints = false
      //   $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
         return $0
     }(UIButton())
     
@@ -48,7 +48,7 @@ var categoery = ""
 
         $0.addTarget(self, action: #selector(cars), for: .touchDown)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
         return $0
     }(UIButton())
     
@@ -58,7 +58,7 @@ var categoery = ""
 
         $0.setTitle("", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
         return $0
     }(UIButton())
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()

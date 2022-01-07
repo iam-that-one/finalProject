@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
         var rootViewController : UIViewController?
         if Auth.auth().currentUser?.uid == nil{
-             rootViewController = SignUpViewController()
+             rootViewController = SignInViewController()
         }else{
             rootViewController = DashboardTabBarController()
             if let user = Auth.auth().currentUser{

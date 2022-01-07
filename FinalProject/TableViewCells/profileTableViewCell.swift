@@ -24,6 +24,15 @@ class profileTableViewCell: UITableViewCell {
         return $0
     }(UIButton(type: .system))
     
+    lazy var updateBtn : UIButton = {
+        $0.tintColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setBackgroundImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        $0.addTarget(self, action: #selector(updateBtnClick), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
+    
+    
     lazy var offerImage : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "photo")
@@ -98,7 +107,7 @@ class profileTableViewCell: UITableViewCell {
     func cellSettings(){
         contentView.backgroundColor = UIColor.systemGray6
         contentView.layer.cornerRadius = 10
-        [offerImage,title,categoery,price,deleteBtn,date].forEach{contentView.addSubview($0)}
+        [offerImage,title,categoery,price,deleteBtn,updateBtn,date].forEach{contentView.addSubview($0)}
         
         NSLayoutConstraint.activate([
             offerImage.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -119,9 +128,13 @@ class profileTableViewCell: UITableViewCell {
             
             deleteBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 10),
             deleteBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
-            deleteBtn.heightAnchor.constraint(equalToConstant: 30),
-            deleteBtn.widthAnchor.constraint(equalToConstant: 30),
+            deleteBtn.heightAnchor.constraint(equalToConstant: 20),
+            deleteBtn.widthAnchor.constraint(equalToConstant: 20),
             
+            updateBtn.leadingAnchor.constraint(equalTo: deleteBtn.trailingAnchor,constant: 10),
+            updateBtn.centerYAnchor.constraint(equalTo: deleteBtn.centerYAnchor),
+            updateBtn.heightAnchor.constraint(equalToConstant: 20),
+            updateBtn.widthAnchor.constraint(equalToConstant: 20),
             
             date.bottomAnchor.constraint(equalTo: price.topAnchor,constant: -5),
             date.trailingAnchor.constraint(equalTo: offerImage.leadingAnchor,constant: -10)
@@ -136,4 +149,14 @@ class profileTableViewCell: UITableViewCell {
             self.delegate?.myPrfileTableViewCell(self,delete: offers)
           }
     }
+    
+    @objc func updateBtnClick(_ sender : UIButton){
+        if let offers = offers,
+             let _ = delegate {
+            self.delegate?.myPrfileTableViewCell(self,delete: offers)
+          }
+    }
+    
+    
+    
 }
