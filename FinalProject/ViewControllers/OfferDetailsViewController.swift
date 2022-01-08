@@ -33,14 +33,15 @@ class OfferDetailsViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
         $0.textAlignment = .center
-        $0.layer.cornerRadius = 10
-        $0.layer.masksToBounds = false
+       // $0.layer.cornerRadius = 10
         $0.backgroundColor = .yellow
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+            $0.layer.cornerRadius = 5
+        
         $0.layer.shadowRadius = 3.0
         $0.layer.shadowOpacity = 1.0
-        $0.layer.shadowOffset = CGSize(width: 4, height: 4)
-        
+
         return $0
     }(UILabel())
    
@@ -85,6 +86,9 @@ class OfferDetailsViewController: UIViewController {
     lazy var profilePicture : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "person.fill")
+        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = .lightGray
         $0.tintColor = .black
         return $0
     }(UIImageView())
@@ -107,13 +111,17 @@ class OfferDetailsViewController: UIViewController {
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
+        
         return $0
     }(UILabel())
     
     lazy var dote : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "circle.fill")
-        $0.tintColor = .green
+        $0.tintColor = UIColor.init(red: 34/255, green: 139/355, blue: 34/255, alpha: 1)
+        $0.layer.borderColor = CGColor.init(red: 34/255, green: 139/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 10
+        $0.layer.cornerRadius = 40
         return $0
     }(UIImageView())
     
@@ -287,7 +295,7 @@ class OfferDetailsViewController: UIViewController {
                             let firstName = data["firstName"] as! String
                             self.username.text = firstName
                             let profilePic = data["image"] as! Data
-                            self.profilePicture.image = profilePic != Data() ? UIImage(data: profilePic) : UIImage(systemName: "person")
+                            self.profilePicture.image = profilePic != Data() ? UIImage(data: profilePic) : UIImage(systemName: "person.fill")
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
                             self.phoneNumber = phoneNumber
                             self.offerProviderProfile = User(name: firstName)

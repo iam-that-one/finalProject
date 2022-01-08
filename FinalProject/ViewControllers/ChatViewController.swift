@@ -6,9 +6,11 @@
 //
 
 import UIKit
-
+import Firebase
 class ChatViewController: UIViewController {
-
+var myName = ""
+    var messages : [Message] = []
+    let db = Firestore.firestore()
     var offerProvider : Offer? = nil
     var offerProviderPofile : User? = nil
     lazy var chatTableView : UITableView = {
@@ -26,6 +28,7 @@ class ChatViewController: UIViewController {
     
     lazy var messageTf : UITextField = {
         $0.placeholder = ""
+        $0.text = "Hi"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .white
         $0.clipsToBounds = true
@@ -64,6 +67,7 @@ class ChatViewController: UIViewController {
     }(UIButton(type: .system))
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchMesssages()
         view.backgroundColor = .white
         newLable.text! = offerProviderPofile!.name
         setBackgroundImage(imageName: "chatBackG")
@@ -94,7 +98,15 @@ class ChatViewController: UIViewController {
         ])
     }
     @objc func sentBtnClick(){
-        
+        let msg = ["content": messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : dateFormatter.string(from: Date()), "Name" : self.myName]
+           
+               db.collection("offers_users").document(Auth.auth().currentUser!.uid)
+            .collection("Message").document(offerProvider!.userID).collection("msg").document().setData(msg as [String : Any])
+               
+               
+        db.collection("offers_users").document(offerProvider!.userID)
+            .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
+        fetchMesssages()
     }
     @objc func backToDetailsViewBtnClick(){
         self.navigationController?.popViewController(animated: true)
@@ -110,18 +122,69 @@ class ChatViewController: UIViewController {
           view.addSubview(imageView)
           self.view.sendSubviewToBack(imageView)
       }
+    func fetchMesssages(){
+        let name = db.collection("offers_users").document(Auth.auth().currentUser!.uid)
+            name.getDocument { user, error in
+                if let error = error{
+                    print(error)
+                }else{
+                    if Auth.auth().currentUser?.uid == user?.get("ID") as? String{
+                    self.myName = user?.get("Name") as! String
+                    }
+                    print("###########")
+                    print(self.myName)
+                }
+            }
+            db.collection("offers_users").document(Auth.auth().currentUser!.uid)
+            .collection("Message").document(offerProvider!.userID).collection("msg")
+                .order(by: "date")
+                .addSnapshotListener { (querySnapshot, error) in
+                    self.messages = []
+                    if let e = error {
+                        print(e)
+                    }else {
+                        if let snapshotDocuments = querySnapshot?.documents{
+                            for document in snapshotDocuments {
+                                let data = document.data()
+                                if  let msg = data["content"] as? String,
+                                let id = data["id"] as? String,
+                                    let date = data["date"] as? String,
+                                    let name = data["Name"] as? String
+                                {
+                                    let fetchedMessage = Message(name: name, date: date, userID: id, content: msg)
+                                    self.messages.append(fetchedMessage)
+                                    DispatchQueue.main.async {
+                                        self.chatTableView.reloadData()
+                                        print(self.messages)
+                                        let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+                                        self.chatTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    var dateFormatter: DateFormatter = {
+          let formatter = DateFormatter()
+          formatter.dateFormat = "HH:mm E, d MMM y"
+          formatter.dateStyle = .medium
+          formatter.timeStyle = .medium
+          return formatter
+      }()
 }
 
 extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Message.example.count
+        return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! ChatTableViewCell
-        cell.username.text = Message.example[indexPath.row].name
-        cell.content.text = Message.example[indexPath.row].content
-        cell.date.text = Message.example[indexPath.row].date
+        cell.username.text = messages[indexPath.row].name
+        cell.content.text = messages[indexPath.row].content
+        cell.date.text = messages[indexPath.row].date
         return cell
     }
     
