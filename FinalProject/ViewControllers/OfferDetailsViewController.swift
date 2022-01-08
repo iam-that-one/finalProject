@@ -11,6 +11,7 @@ import Firebase
 class OfferDetailsViewController: UIViewController {
     var offer : Offer? = nil
     var offerProviderProfile : User? = nil
+
     var isOnline = false
     var phoneNumber = ""
     let db = Firestore.firestore()
@@ -286,7 +287,7 @@ class OfferDetailsViewController: UIViewController {
                             let firstName = data["firstName"] as! String
                             self.username.text = firstName
                             let profilePic = data["image"] as! Data
-                            self.profilePicture.image = UIImage(data: profilePic)
+                            self.profilePicture.image = profilePic != Data() ? UIImage(data: profilePic) : UIImage(systemName: "person")
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
                             self.phoneNumber = phoneNumber
                             self.offerProviderProfile = User(name: firstName)
