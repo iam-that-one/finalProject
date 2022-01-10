@@ -10,6 +10,9 @@ import Firebase
 class ChatViewController: UIViewController {
 var myName = ""
     var messages : [Message] = []
+    var name = ""
+    var initialMessage = ""
+    var pic = Data()
     let db = Firestore.firestore()
     var offerProvider : Offer? = nil
     var offerProviderPofile : User? = nil
@@ -68,6 +71,7 @@ var myName = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchMesssages()
+        messageTf.text = initialMessage
         view.backgroundColor = .white
         newLable.text! = offerProviderPofile!.name
         setBackgroundImage(imageName: "chatBackG")
@@ -98,15 +102,34 @@ var myName = ""
         ])
     }
     @objc func sentBtnClick(){
-        let msg = ["content": messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : dateFormatter.string(from: Date()), "Name" : self.myName]
+        db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error{
+                    print(error)
+                }else{
+                   
+                    for doc in querySnapshot!.documents{
+                         let data = doc.data()
+                        self.name = data["firstName"] as? String ?? ""
+                        self.pic = data["image"] as? Data ?? Data()
+                    }
+                    
+                
            
-               db.collection("offers_users").document(Auth.auth().currentUser!.uid)
-            .collection("Message").document(offerProvider!.userID).collection("msg").document().setData(msg as [String : Any])
+        
+                    let msg = ["content": self.messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : self.dateFormatter.string(from: Date()), "Name" : self.name] as [String : Any]
+           
+                    self.db.collection("offers_users").document(Auth.auth().currentUser!.uid)
+                        .collection("Message").document(self.offerProvider!.userID).collection("msg").document().setData(msg as [String : Any])
                
                
-        db.collection("offers_users").document(offerProvider!.userID)
+                    self.db.collection("offers_users").document(self.offerProvider!.userID)
             .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
+                    
+                }
+            }
         fetchMesssages()
+      
     }
     @objc func backToDetailsViewBtnClick(){
         self.navigationController?.popViewController(animated: true)
@@ -151,7 +174,8 @@ var myName = ""
                                     let date = data["date"] as? String,
                                     let name = data["Name"] as? String
                                 {
-                                    let fetchedMessage = Message(name: name, date: date, userID: id, content: msg)
+                                    let finalDate = self.dateFormatter.date(from: date)
+                                    let fetchedMessage = Message(name: name, date: finalDate ?? Date(), userID: id, content: msg)
                                     self.messages.append(fetchedMessage)
                                     DispatchQueue.main.async {
                                         self.chatTableView.reloadData()
@@ -182,9 +206,34 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! ChatTableViewCell
-        cell.username.text = messages[indexPath.row].name
-        cell.content.text = messages[indexPath.row].content
-        cell.date.text = messages[indexPath.row].date
+        if messages[indexPath.row].userID == Auth.auth().currentUser!.uid{
+            cell.username.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
+            cell.username.topAnchor.constraint(equalTo: cell.contentView.topAnchor).isActive = true
+            cell.content.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
+            cell.content.topAnchor.constraint(equalTo:cell.username.bottomAnchor,constant: 10).isActive = true
+            cell.date.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
+            cell.content.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            cell.date.topAnchor.constraint(equalTo: cell.content.bottomAnchor,constant: 5).isActive = true
+
+        }else{
+            NSLayoutConstraint.activate([
+              
+                cell.username.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 20),
+                cell.username.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20),
+                
+                cell.content.topAnchor.constraint(equalTo:cell.username.bottomAnchor,constant: 10),
+                cell.content.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -10),
+                cell.content.heightAnchor.constraint(equalToConstant: 40),
+                
+                cell.date.topAnchor.constraint(equalTo: cell.content.bottomAnchor,constant: 5),
+                cell.date.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20)
+            
+            ])
+        }
+       // let date = dateFormatter.date(from: messages[indexPath.row].date)
+        cell.username.text = messages.sorted{$0.date < $1.date}[indexPath.row].name
+        cell.content.text = messages.sorted{$0.date < $1.date}[indexPath.row].content
+        cell.date.text = dateFormatter.string(from:messages.sorted{$0.date < $1.date}[indexPath.row].date )
         return cell
     }
     

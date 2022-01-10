@@ -15,7 +15,7 @@ class MessagsTableViewCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "لجين"
         $0.textColor = .black
-        $0.textAlignment = .left
+        $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
         return $0

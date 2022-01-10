@@ -8,7 +8,14 @@
 
 import UIKit
 import Firebase
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
+    func myHomeTableViewCell(_ HomeTableViewCel: OffersTableViewCell, move offer: Offer) {
+        move()
+    }
+    
+   
+   
+    
     lazy var myColletionView : UICollectionView? = nil
     var offers : [Offer] = []
     let db = Firestore.firestore()
@@ -49,7 +56,8 @@ var categoery = ""
         $0.tintColor = categoery == "سيارات" ? .black : .darkGray
         $0.setTitle("سيارات", for: .normal)
     //    $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 20
         $0.addTarget(self, action: #selector(cars), for: .touchDown)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
@@ -157,6 +165,10 @@ var categoery = ""
             offersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
         ])
     }
+    func move(){
+        let mapView = MapViewController()
+        self.navigationController?.pushViewController(mapView, animated: true)
+    }
     func getOffers(){
         
         db.collection("Offers")
@@ -179,8 +191,10 @@ var categoery = ""
                             let image2 = data["image2"] as? Data ?? Data()
                             let image3 = data["image3"] as? Data ?? Data()
                             let image4 = data["image4"] as? Data ?? Data()
+                            let lat = data["lat"] as? Double ?? 0.0
+                            let log = data["log"] as? Double ?? 0.0
                             
-                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                         }
                         self.offersTableView.reloadData()
                         
@@ -211,9 +225,11 @@ var categoery = ""
                             let image2 = data["image2"] as? Data ?? Data()
                             let image3 = data["image3"] as? Data ?? Data()
                             let image4 = data["image4"] as? Data ?? Data()
+                            let lat = data["lat"] as? Double ?? 0.0
+                            let log = data["log"] as? Double ?? 0.0
                             
                             if cat == categoery{
-                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             }
                             self.offersTableView.reloadData()
                         }
@@ -303,6 +319,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.date.text = date?.timeAgoDisplay()
         cell.categoery.text = "#" + offers[indexPath.row].categoery
         cell.city.text = offers[indexPath.row].city
+        cell.delegate = self
         return cell
     
     }

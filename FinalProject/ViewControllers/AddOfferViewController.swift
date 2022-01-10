@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import MapKit
 import Firebase
-class AddOfferViewController: UIViewController{
+class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
+    let locationManager = CLLocationManager()
+    var lat = 0.0
+    var log = 0.0
+    
+    
     var row : String?
     var toBeSavedImage1 : UIImage?
     var toBeSavedImage2 : UIImage?
@@ -129,6 +135,19 @@ class AddOfferViewController: UIViewController{
     }(UIButton(type: .system))
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -212,7 +231,7 @@ class AddOfferViewController: UIViewController{
         let id = UUID().uuidString
         let db = Firestore.firestore()
         db.collection("Offers")
-            .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": self.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": self.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": self.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": self.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": dateFormatter.string(from: Date()).self])
+            .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": self.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": self.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": self.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": self.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": dateFormatter.string(from: Date()).self, "lat": self.lat, "log":self.log])
         self.tabBarController!.selectedIndex = 0
     }
     
@@ -282,6 +301,13 @@ class AddOfferViewController: UIViewController{
           formatter.timeStyle = .medium
           return formatter
       }()
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        self.lat = locValue.latitude
+        self.log = locValue.longitude
+    }
+
 }
 
 extension AddOfferViewController : UIPickerViewDelegate, UIPickerViewDataSource{

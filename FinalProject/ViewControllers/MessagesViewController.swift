@@ -9,6 +9,8 @@ import UIKit
 import Firebase
 class MessagesViewController: UIViewController {
     let db = Firestore.firestore()
+    var ids = [""]
+    var recntChates : [RecentChat] = []
     lazy var messagesTableView : UITableView = {
         $0.register(MessagsTableViewCell.self, forCellReuseIdentifier: "cell")
         $0.rowHeight = UITableView.automaticDimension
@@ -37,6 +39,7 @@ class MessagesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getProfile()
         [messagesTableView,newLable].forEach{view.addSubview($0)}
         
         NSLayoutConstraint.activate([
@@ -52,67 +55,75 @@ class MessagesViewController: UIViewController {
         ])
     }
     func getProfile(){
-        db.collection("offers_users").whereField("uid", isEqualTo:Auth.auth().currentUser!.uid)
-            .addSnapshotListener { (querySnapshot, error) in
-                if let error = error {
-                    print("Error while fetching profile\(error)")
-                } else {
-                    if let snapshotDocuments = querySnapshot?.documents {
-                        for doc in snapshotDocuments {
-                            let data = doc.data()
-                            let firstName = data["firstName"] as! String
-                           // self.username.text = firstName
-                          //  self.email.text = Auth.auth().currentUser!.email
-                          //  let profilePic = data["image"] as! Data
-                          //  self.profPic.image = UIImage(data: profilePic)
-                            
-                        }
-                    }
-                }
-            }
-    }
-    
-    func getMyOffers(){
-        db.collection("Offers").whereField("userID", isEqualTo:Auth.auth().currentUser!.uid)
-            .addSnapshotListener { (querySnapshot, error) in
-                if let error = error {
-                    print("Error while fetching profile\(error)")
-                } else {
-                    if let snapshotDocuments = querySnapshot?.documents {
-                        for doc in snapshotDocuments {
-                            let data = doc.data()
-                            let userID = data["userID"] as? String ?? ""
-                            let offerID = data["offerID"] as? String ?? ""
-                            let date = data["date"] as? String ?? ""
-                            let offerTitle = data["offerTitle"] as? String ?? ""
-                            let offerDes = data["offerDes"] as? String ?? ""
-                            let price = data["price"] as? String ?? ""
-                            let city = data["city"] as? String ?? ""
-                            let cat = data["cate"] as? String ?? ""
-                            let image1 = data["image1"] as? Data ?? Data()
-                            let image2 = data["image2"] as? Data ?? Data()
-                            let image3 = data["image3"] as? Data ?? Data()
-                            let image4 = data["image4"] as? Data ?? Data()
-                            
-                           // self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
-                        }
-                       // self.profileOffersTableView.reloadData()
-                        
-                      
-                    }
-                }
-            }
+          
     }
 }
+//    func getProfile(){
+//        print("Inside")
+//        db.collection("offers_users").document(Auth.auth().currentUser!.uid)
+//        .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg")
+//
+//            .addSnapshotListener { (querySnapshot, error) in
+//
+//                if let e = error {
+//                    print(e)
+//                }else {
+//                    if let snapshotDocuments = querySnapshot?.documents{
+//                        for document in snapshotDocuments {
+//                            let data = document.data()
+//                            if  let msg = data["content"] as? String,
+//                            let id = data["id"] as? String,
+//                                let date = data["date"] as? String,
+//                                let _ = data["Name"] as? String
+//                            {
+//                                self.db.collection("offers_users").whereField("uid", isEqualTo:id)
+//                                    .addSnapshotListener { (querySnapshot, error) in
+//                                        if let error = error {
+//                                            print("Error while fetching profile\(error)")
+//                                        } else {
+//                                            if let snapshotDocuments = querySnapshot?.documents {
+//                                                for doc in snapshotDocuments {
+//                                                    let data = doc.data()
+//                                                    let name = data["firstName"] as? String ?? ""
+//                                                    let image = data["image"] as? Data ?? Data()
+//
+//                                                    self.recntChates.append(RecentChat(name: name, content: msg, date: date, profilePic: image))
+//                                                    print(self.recntChates)
+//                                                    DispatchQueue.main.async {
+//                                                        self.messagesTableView.reloadData()
+//
+//                                                }
+//                                                }
+//                                            }
+//                                        }
+//
+//                                    }
+//
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//
+//
+//    }
+    
+   
+
 
 extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return recntChates.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = messagesTableView.dequeueReusableCell(withIdentifier: "cell") as! MessagsTableViewCell
-        cell.progilePic.image = UIImage(systemName: "person.circle.fill")
+        cell.progilePic.image = UIImage(data: recntChates[indexPath.row].profilePic)
+        cell.date.text = recntChates[indexPath.row].date
+        cell.username.text = recntChates[indexPath.row].name
+        cell.progilePic.image = UIImage(data: recntChates[indexPath.row].profilePic)
         return cell
     }
     

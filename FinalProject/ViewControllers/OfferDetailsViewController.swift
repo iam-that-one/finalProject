@@ -124,7 +124,12 @@ class OfferDetailsViewController: UIViewController {
         $0.layer.cornerRadius = 40
         return $0
     }(UIImageView())
-    
+    lazy var pin : UIButton = {
+        $0.setBackgroundImage(UIImage(named: "pin"), for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(moveBtnClick), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
     lazy var sendMessage: UIButton = {
         $0.setTitle("ارسل رسالة للمعلن", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -178,7 +183,7 @@ class OfferDetailsViewController: UIViewController {
         offerDescription.text = offer!.description
         getProfile()
         [offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
-        [profilePicture,username,appearance,sendMessage,phoneCall,dote].forEach{container.addSubview($0)}
+        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin].forEach{container.addSubview($0)}
         
         NSLayoutConstraint.activate([
             
@@ -238,8 +243,22 @@ class OfferDetailsViewController: UIViewController {
             phoneCall.widthAnchor.constraint(equalToConstant: 40),
             phoneCall.heightAnchor.constraint(equalToConstant: 40),
             
+            pin.trailingAnchor.constraint(equalTo: sendMessage.leadingAnchor,constant: -10),
+            pin.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -30),
+            pin.widthAnchor.constraint(equalToConstant: 30),
+            pin.heightAnchor.constraint(equalToConstant: 30),
+            
         ])
     }
+    
+    
+    @objc func moveBtnClick(){
+     let mapView = MapViewController()
+        mapView.offer = offer
+        mapView.modalPresentationStyle = .fullScreen
+        self.present(mapView, animated: true, completion: nil)
+    }
+    
     @objc func image2BtnClick(){
      
     }
@@ -253,6 +272,7 @@ class OfferDetailsViewController: UIViewController {
     @objc func sendMessageBtnClick(){
         let chatView = ChatViewController()
         chatView.offerProvider = offer
+        chatView.initialMessage =  "حاب اسألك بخصوص عرضك بعنوان: " + offer!.title
         chatView.offerProviderPofile = offerProviderProfile
         self.navigationController?.pushViewController(chatView, animated: true)
     }

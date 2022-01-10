@@ -8,8 +8,15 @@
 import Foundation
 import UIKit
 
-class OffersTableViewCell: UITableViewCell {
+protocol OfferTableViewCellMapDelegate: AnyObject {
+  func myHomeTableViewCell(_ HomeTableViewCel: OffersTableViewCell, move offer: Offer)
+}
 
+class OffersTableViewCell: UITableViewCell {
+    let d = HomeViewController()
+    var offers : Offer?
+    weak var delegate : OfferTableViewCellMapDelegate?
+    
     lazy var city : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -136,11 +143,16 @@ class OffersTableViewCell: UITableViewCell {
             pin.heightAnchor.constraint(equalToConstant: 20),
             
         ])
+        pin.isEnabled = false
     }
     required init?(coder: NSCoder) {
         fatalError("")
     }
-    @objc func moveToMapView(){
-        
+    @objc func moveToMapView(_ sender : UIButton){
+        if let offers = offers,
+             let _ = delegate {
+            self.delegate?.myHomeTableViewCell(self, move: offers)
+          }
     }
 }
+

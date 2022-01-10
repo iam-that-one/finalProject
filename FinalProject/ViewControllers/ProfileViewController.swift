@@ -192,8 +192,10 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
                             let image2 = data["image2"] as? Data ?? Data()
                             let image3 = data["image3"] as? Data ?? Data()
                             let image4 = data["image4"] as? Data ?? Data()
+                            let lat = data["lat"] as? Double ?? 0.0
+                            let log = data["log"] as? Double ?? 0.0
                             
-                            self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                         }
                         self.profileOffersTableView.reloadData()
                         

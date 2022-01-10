@@ -14,8 +14,8 @@ struct Offer{
     let userID : String
     let offerID : String
     let date : String
-    //let lat : Double
-   // let log : Double
+    let lat : Double
+    let log : Double
     let city : String
     let categoery : String
     let image1 : Data
