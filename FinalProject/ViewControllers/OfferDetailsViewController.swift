@@ -11,7 +11,8 @@ import Firebase
 class OfferDetailsViewController: UIViewController {
     var offer : Offer? = nil
     var offerProviderProfile : User? = nil
-
+    var viewControllerSourceIndicator = false
+    
     var isOnline = false
     var phoneNumber = ""
     let db = Firestore.firestore()
@@ -140,6 +141,14 @@ class OfferDetailsViewController: UIViewController {
         return $0
     }(UIButton(type: .system))
     
+    lazy var comments : UIButton = {
+        $0.setTitle("التعليقات", for: .normal)
+        $0.tintColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(showCommentsBtnCkick), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
+    
     lazy var phoneCall : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "phone.bubble.left.fill"), for: .normal)
@@ -183,7 +192,7 @@ class OfferDetailsViewController: UIViewController {
         offerDescription.text = offer!.description
         getProfile()
         [offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
-        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin].forEach{container.addSubview($0)}
+        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments].forEach{container.addSubview($0)}
         
         NSLayoutConstraint.activate([
             
@@ -227,6 +236,9 @@ class OfferDetailsViewController: UIViewController {
             username.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             username.trailingAnchor.constraint(equalTo: profilePicture.leadingAnchor,constant: -10),
             
+            comments.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
+            comments.topAnchor.constraint(equalTo: container.topAnchor),
+            
             appearance.lastBaselineAnchor.constraint(equalTo: profilePicture.lastBaselineAnchor,constant:30),
             appearance.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             appearance.trailingAnchor.constraint(equalTo: profilePicture.leadingAnchor,constant: -10),
@@ -259,6 +271,12 @@ class OfferDetailsViewController: UIViewController {
         self.present(mapView, animated: true, completion: nil)
     }
     
+    
+    @objc func showCommentsBtnCkick(){
+        let commentView = CommentsViewController()
+        commentView.offerID = offer!.offerID
+        self.present(commentView, animated: true, completion: nil)
+    }
     @objc func image2BtnClick(){
      
     }
@@ -274,7 +292,12 @@ class OfferDetailsViewController: UIViewController {
         chatView.offerProvider = offer
         chatView.initialMessage =  "حاب اسألك بخصوص عرضك بعنوان: " + offer!.title
         chatView.offerProviderPofile = offerProviderProfile
+        
+        if viewControllerSourceIndicator == false{
         self.navigationController?.pushViewController(chatView, animated: true)
+        }else{
+            self.present(chatView, animated: true, completion: nil)
+        }
     }
     @objc func phoneCallBtnClic(){
         call()
@@ -286,7 +309,12 @@ class OfferDetailsViewController: UIViewController {
     }
     }
     @objc func backToOfferViewBtnClick(){
+        if viewControllerSourceIndicator == false{
         self.navigationController?.popViewController(animated: true)
+        }
+        else{
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     func isUserOnline(){
            let userRef = Database.database().reference(withPath: "online")

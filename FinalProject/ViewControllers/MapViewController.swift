@@ -10,6 +10,7 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     var offer : Offer? = nil
+    var count = 0
     let map = MKMapView()
     var cordinat = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     lazy var dismissMapView : UIButton = {
@@ -26,8 +27,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         cordinat =  CLLocationCoordinate2D(latitude: offer!.lat, longitude: offer!.log)
         print("My",cordinat.latitude, cordinat.longitude)
-        
+        if cordinat.latitude == 0.0 && cordinat.longitude == 0.0{
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "تنبيه", message: "هذا المستخدم لايرغب بالإفصاح عن موقعه", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { (_) in
+                    self.dismiss(animated: true, completion: nil)
+                }))
+                self.present(alert, animated: true, completion: nil)
+        }
+      
+        }
         map.frame = view.bounds
+        map.mapType = .hybrid
         view.backgroundColor = .white
         view.addSubview(map)
         map.addSubview(dismissMapView)
@@ -45,9 +56,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         pin.coordinate = cordinat
         pin.title = offer!.title
         pin.subtitle = offer!.description
+        
         map.addAnnotation(pin)
         
-        
+        //map.selectAnnotation(map.annotations[0], animated: true)
     }
     @objc func dismissBtnClick(){
         self.dismiss(animated: true, completion: nil)
@@ -64,18 +76,37 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }else{
             annotationView?.annotation = annotation
         }
+        
+        // // // // // // //
+        
+        
+        // // // // // // //
+        
         let pinImage = UIImage(data: offer!.image1)
         let size = CGSize(width: 100, height: 100
         )
                UIGraphicsBeginImageContext(size)
                pinImage!.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
                let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+       
         annotationView!.image = resizedImage
         return annotationView
     }
     internal func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView){
-            let latitude: CLLocationDegrees = Double(offer!.lat)
-            let longitude: CLLocationDegrees = Double(offer!.log)
+        let alert = UIAlertController(title: "تنبيه", message: "عرض تفاصيل أكثر،أو الاإنتقال إلى الخرائط", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "تفاصيل", style: .default, handler: { (_) in
+            let details = OfferDetailsViewController()
+            details.offer = self.offer
+            details.viewControllerSourceIndicator = true
+            self.present(details, animated: true)
+        }))
+        alert.addAction(UIAlertAction(title: "إلغاء", style: .cancel, handler: { (_) in
+         
+        }))
+        alert.addAction(UIAlertAction(title: "الخرائط", style: .default, handler: { (_) in
+            let latitude: CLLocationDegrees = Double(self.offer!.lat)
+            let longitude: CLLocationDegrees = Double(self.offer!.log)
             let regionDistance:CLLocationDistance = 10000
             let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
             let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
@@ -83,11 +114,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
                 MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
             ]
+        
             let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
         
             let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = offer!.title
+        
+            mapItem.name = self.offer!.title
         mapItem.phoneNumber = "+966547105745"
             mapItem.openInMaps(launchOptions: options)
+      
+        }))
+        self.present(alert, animated: true, completion: nil)
         }
 }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B8109E212789C71F000FF1FA /* RecentChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E202789C71F000FF1FA /* RecentChatModel.swift */; };
+		B8109E23278CBA9D000FF1FA /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */; };
+		B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */; };
+		B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E26278CD4D7000FF1FA /* CommentsModel.swift */; };
 		B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC199277DA3BB00342B70 /* AppDelegate.swift */; };
 		B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */; };
 		B83FC19E277DA3BB00342B70 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19D277DA3BB00342B70 /* HomeViewController.swift */; };
@@ -45,6 +48,9 @@
 
 /* Begin PBXFileReference section */
 		B8109E202789C71F000FF1FA /* RecentChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentChatModel.swift; sourceTree = "<group>"; };
+		B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
+		B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
+		B8109E26278CD4D7000FF1FA /* CommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsModel.swift; sourceTree = "<group>"; };
 		B83FC196277DA3BB00342B70 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83FC199277DA3BB00342B70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +142,7 @@
 				B8922F792782218500153B4A /* UserModel.swift */,
 				B8D5BA772786D657009C1340 /* Extensions01.swift */,
 				B8109E202789C71F000FF1FA /* RecentChatModel.swift */,
+				B8109E26278CD4D7000FF1FA /* CommentsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -154,6 +161,7 @@
 				B8922F7F2782D2E700153B4A /* MapViewController.swift */,
 				B8922F832782D39D00153B4A /* UpdateViewController.swift */,
 				B8922F852782D3DA00153B4A /* VerefyingRequestViewController.swift */,
+				B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -174,6 +182,7 @@
 				B8922F752780D39900153B4A /* ChatTableViewCell.swift */,
 				B8922F8727832AE200153B4A /* MyCollectionViewCell.swift */,
 				B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */,
+				B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -286,12 +295,14 @@
 				B8D5BA7A27873E56009C1340 /* profileTableViewCell.swift in Sources */,
 				B8922F7C2782D29200153B4A /* SignUpViewController.swift in Sources */,
 				B8922F6B277FA84600153B4A /* OfferDetailsViewController.swift in Sources */,
+				B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */,
 				B8109E212789C71F000FF1FA /* RecentChatModel.swift in Sources */,
 				B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */,
 				B8922F7E2782D2A500153B4A /* SignInViewController.swift in Sources */,
 				B8922F7A2782218500153B4A /* UserModel.swift in Sources */,
 				B8922F8827832AE200153B4A /* MyCollectionViewCell.swift in Sources */,
 				B8922F702780AC8B00153B4A /* Extensions.swift in Sources */,
+				B8109E23278CBA9D000FF1FA /* CommentsViewController.swift in Sources */,
 				B83FC1C2277F2FE800342B70 /* ProfileViewController.swift in Sources */,
 				B83FC1BC277F25A800342B70 /* ViewControllersDashboard.swift in Sources */,
 				B8922F862782D3DA00153B4A /* VerefyingRequestViewController.swift in Sources */,
@@ -301,6 +312,7 @@
 				B8922F762780D39900153B4A /* ChatTableViewCell.swift in Sources */,
 				B8922F722780AF6700153B4A /* MessagsTableViewCell.swift in Sources */,
 				B83FC1C0277F2F6800342B70 /* AddOfferViewController.swift in Sources */,
+				B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

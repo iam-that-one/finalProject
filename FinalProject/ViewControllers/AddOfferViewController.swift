@@ -12,7 +12,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     let locationManager = CLLocationManager()
     var lat = 0.0
     var log = 0.0
-    
+    var isUpdating = false
     
     var row : String?
     var toBeSavedImage1 : UIImage?

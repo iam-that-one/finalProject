@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     
    
    
-    
+    var filterdResult : [Offer] = []
     lazy var myColletionView : UICollectionView? = nil
     var offers : [Offer] = []
     let db = Firestore.firestore()
@@ -76,6 +76,7 @@ var categoery = ""
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     lazy var searchBar : UISearchBar = {
         $0.placeholder = "بحث"
+        $0.delegate = self
         $0.translatesAutoresizingMaskIntoConstraints = false
       return $0
     }(UISearchBar())
@@ -134,6 +135,7 @@ var categoery = ""
         stackView.addArrangedSubview(logo4)
         
         getOffers()
+      //  filterdResult = offers
         temp = offers
         [newLable, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
@@ -195,7 +197,11 @@ var categoery = ""
                             let log = data["log"] as? Double ?? 0.0
                             
                             self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            
+                            self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            
                         }
+                       
                         self.offersTableView.reloadData()
                         
                       
@@ -230,7 +236,10 @@ var categoery = ""
                             
                             if cat == categoery{
                             self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                                self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             }
+                           
+                          
                             self.offersTableView.reloadData()
                         }
                         
@@ -247,7 +256,7 @@ var categoery = ""
           logo3.tintColor = .darkGray
           logo4.tintColor = .darkGray
           categoery = "أجهزة"
-        offers = []
+        filterdResult = []
         filterOffers(categoery)
           animateTableView()
       }
@@ -258,7 +267,7 @@ var categoery = ""
           logo2.tintColor = .darkGray
           logo4.tintColor = .darkGray
           categoery = "سيارات"
-          offers = []
+          filterdResult = []
           filterOffers(categoery)
           offersTableView.reloadData()
       }
@@ -271,7 +280,7 @@ var categoery = ""
         logo4.tintColor = .black
         logo4.tintColor = .darkGray
         categoery = "خدمات عامة"
-        offers = []
+        filterdResult = []
         filterOffers(categoery)
         
     }
@@ -282,6 +291,7 @@ var categoery = ""
           logo3.tintColor = .darkGray
           logo2.tintColor = .darkGray
           logo4.tintColor = .darkGray
+          filterdResult = []
           offers = []
           getOffers()
 
@@ -307,18 +317,18 @@ var categoery = ""
 
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return offers.count// Offer.example.count
+        return filterdResult.count// Offer.example.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = offersTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! OffersTableViewCell
-        cell.offerImage.image = UIImage(data:offers[indexPath.row].image1) ?? UIImage()
-        cell.title.text = offers[indexPath.row].title
-        let date = dateFormatter.date(from: offers[indexPath.row].date)
-        cell.price.text = offers[indexPath.row].price + "ريال سعودي" + " "
+        cell.offerImage.image = UIImage(data:filterdResult[indexPath.row].image1) ?? UIImage()
+        cell.title.text = filterdResult[indexPath.row].title
+        let date = dateFormatter.date(from: filterdResult[indexPath.row].date)
+        cell.price.text = filterdResult[indexPath.row].price + "ريال سعودي" + " "
         cell.date.text = date?.timeAgoDisplay()
-        cell.categoery.text = "#" + offers[indexPath.row].categoery
-        cell.city.text = offers[indexPath.row].city
+        cell.categoery.text = "#" + filterdResult[indexPath.row].categoery
+        cell.city.text = filterdResult[indexPath.row].city
         cell.delegate = self
         return cell
     
@@ -328,7 +338,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = OfferDetailsViewController()
-        vc.offer = offers[indexPath.row]
+        vc.offer = filterdResult[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -345,5 +355,25 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     
+    
+}
+
+extension HomeViewController : UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterdResult = []
+        
+        if searchText == ""{
+           filterdResult = offers
+        }
+        else{
+        for offer in offers{
+            if offer.title.lowercased().contains(searchText.lowercased()){
+                filterdResult.append(offer)
+            }
+        }
+    }
+       // getOffers()
+       offersTableView.reloadData()
+    }
     
 }

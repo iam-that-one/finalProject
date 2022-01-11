@@ -7,16 +7,18 @@
 
 import UIKit
 import Firebase
-class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
+class ProfileViewController: UIViewController {
     let db = Firestore.firestore()
-    func myPrfileTableViewCell(_ profileTableViewCel: profileTableViewCell, delete offer: Offer) {
-        print(offer.offerID)
-        deleteOffer(offer)
-    }
-    
     var myOffers : [Offer] = []
-   
     let db1 = Firestore.firestore()
+    
+    lazy var sendAuthReqBtn : UIButton = {
+        $0.setTitle("طلب توثيق", for: .normal)
+        $0.tintColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(sendAuthReqBtnClick), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
     lazy var profileOffersTableView : UITableView = {
         $0.register(profileTableViewCell.self, forCellReuseIdentifier: "cell")
         $0.rowHeight = UITableView.automaticDimension
@@ -96,8 +98,10 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
         [email,username,profPic,editBtn].forEach{container.addSubview($0)}
         
         view.addSubview(profileOffersTableView)
+        
         view.addSubview(newLable)
         view.addSubview(signOut)
+        view.addSubview(sendAuthReqBtn)
         getProfile()
         getMyOffers()
         NSLayoutConstraint.activate([
@@ -105,6 +109,9 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             newLable.heightAnchor.constraint(equalToConstant: 120),
+            
+            sendAuthReqBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            sendAuthReqBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             
             signOut.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             signOut.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant:-20),
@@ -114,7 +121,7 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             container.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40),
             container.heightAnchor.constraint(equalToConstant: 120),
             
-            profPic.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -20),
+            profPic.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -5),
             profPic.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             profPic.widthAnchor.constraint(equalToConstant: 100),
             profPic.heightAnchor.constraint(equalToConstant: 100),
@@ -138,6 +145,9 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
             signOut.trailingAnchor.constraint(equalTo: newLable.trailingAnchor,constant: -20),
             signOut.centerYAnchor.constraint(equalTo: newLable.centerYAnchor,constant: 20)
         ])
+    }
+    @objc func sendAuthReqBtnClick(){
+        
     }
     @objc func signOutBtnClick(){
         do{
@@ -163,7 +173,11 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
                             self.username.text = firstName
                             self.email.text = Auth.auth().currentUser!.email
                             let profilePic = data["image"] as! Data
+                            print("dddddddddddddd", profilePic)
                             self.profPic.image = UIImage(data: profilePic)
+                            if profilePic.count == 0{
+                                self.profPic.image = UIImage(systemName: "person.circle.fill")
+                            }
                             
                         }
                     }
@@ -177,6 +191,7 @@ class ProfileViewController: UIViewController, OfferTableViewCellDelegate {
                 if let error = error {
                     print("Error while fetching profile\(error)")
                 } else {
+                    self.myOffers = []
                     if let snapshotDocuments = querySnapshot?.documents {
                         for doc in snapshotDocuments {
                             let data = doc.data()
@@ -256,4 +271,20 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
     
     }
     
+}
+
+extension ProfileViewController : OfferTableViewCellDelegate{
+    func myPrfileTableViewCell(_ profileTableViewCel: profileTableViewCell, delete offer: Offer) {
+        print(offer.offerID)
+        let alert = UIAlertController(title: "تنبيه", message: "هل تود حذف هذا الإعلان", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "نعم", style: .default, handler: { (_) in
+            self.deleteOffer(offer)
+            
+            self.getMyOffers()
+        }))
+        alert.addAction(UIAlertAction(title: "لا", style: .cancel, handler: { (_) in
+            
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
