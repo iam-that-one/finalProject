@@ -9,8 +9,10 @@ import UIKit
 import Firebase
 class ChatViewController: UIViewController {
 var myName = ""
+    var userInfo : [User] = []
     var messages : [Message] = []
     var name = ""
+    var offerProviderId = ""
     var initialMessage = ""
     var pic = Data()
     let db = Firestore.firestore()
@@ -73,11 +75,11 @@ var myName = ""
         fetchMesssages()
         messageTf.text = initialMessage
         view.backgroundColor = .white
-        newLable.text! = offerProviderPofile!.name
+       // newLable.text! = offerProviderPofile!.name
         setBackgroundImage(imageName: "chatBackG")
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
-        print("Offer provider id \(offerProvider!.userID)")
-        
+      //  print("Offer provider id \(offerProvider!.userID)")
+        getProfile(offerProviderId)
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -110,6 +112,7 @@ var myName = ""
             sendButton.widthAnchor.constraint(equalToConstant: 30),
             sendButton.heightAnchor.constraint(equalToConstant: 30),
         ])
+        print("AAAAAAAAAAAAAAAAAA",offerProviderId)
     }
     @objc func sentBtnClick(){
         db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
@@ -130,10 +133,10 @@ var myName = ""
                     let msg = ["content": self.messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : self.dateFormatter.string(from: Date()), "Name" : self.name] as [String : Any]
            
                     self.db.collection("offers_users").document(Auth.auth().currentUser!.uid)
-                        .collection("Message").document(self.offerProvider!.userID).collection("msg").document().setData(msg as [String : Any])
+                        .collection("Message").document(self.offerProviderId).collection("msg").document().setData(msg as [String : Any])
                
                
-                    self.db.collection("offers_users").document(self.offerProvider!.userID)
+                    self.db.collection("offers_users").document(self.offerProviderId)
             .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
                     
                 }
@@ -169,7 +172,7 @@ var myName = ""
                 }
             }
             db.collection("offers_users").document(Auth.auth().currentUser!.uid)
-            .collection("Message").document(offerProvider!.userID).collection("msg")
+            .collection("Message").document(offerProviderId).collection("msg")
                 .order(by: "date")
                 .addSnapshotListener { (querySnapshot, error) in
                     self.messages = []
@@ -199,7 +202,28 @@ var myName = ""
                 }
             }
         }
+    func getProfile(_ id: String){
+        db.collection("offers_users").whereField("uid", isEqualTo:id)
+            .addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    print("Error while fetching profile\(error)")
+                } else {
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            let phone = data["phoneNumnber"] as? String ?? ""
+                            let firstName = data["firstName"] as! String
+                            let profilePic = data["image"] as! Data
+                            self.userInfo.append(User(name: firstName, phoneNumber: phone))
+                            self.newLable.text = firstName
+                            
+                            
+                        }
+                    }
+                }
+            }
 
+    }
     var dateFormatter: DateFormatter = {
           let formatter = DateFormatter()
           formatter.dateFormat = "HH:mm E, d MMM y"
@@ -216,30 +240,7 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! ChatTableViewCell
-        if messages[indexPath.row].userID == Auth.auth().currentUser!.uid{
-            cell.username.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-            cell.username.topAnchor.constraint(equalTo: cell.contentView.topAnchor).isActive = true
-            cell.content.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-            cell.content.topAnchor.constraint(equalTo:cell.username.bottomAnchor,constant: 10).isActive = true
-            cell.date.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
-            cell.content.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            cell.date.topAnchor.constraint(equalTo: cell.content.bottomAnchor,constant: 5).isActive = true
-
-        }else{
-            NSLayoutConstraint.activate([
-              
-                cell.username.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 20),
-                cell.username.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20),
-                
-                cell.content.topAnchor.constraint(equalTo:cell.username.bottomAnchor,constant: 10),
-                cell.content.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -10),
-                cell.content.heightAnchor.constraint(equalToConstant: 40),
-                
-                cell.date.topAnchor.constraint(equalTo: cell.content.bottomAnchor,constant: 5),
-                cell.date.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20)
-            
-            ])
-        }
+   
        // let date = dateFormatter.date(from: messages[indexPath.row].date)
         cell.username.text = messages.sorted{$0.date < $1.date}[indexPath.row].name
         cell.content.text = messages.sorted{$0.date < $1.date}[indexPath.row].content

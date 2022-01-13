@@ -100,16 +100,16 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
         identityIsSelected = true
         cerIsSelected = false
            self.identity.isUserInteractionEnabled = true
-           let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-           alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
                self.openCamera()
            }))
            
-           alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
                self.openGallary()
            }))
            
-           alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+           alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
            
            switch UIDevice.current.userInterfaceIdiom {
            case .pad:
@@ -126,16 +126,16 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
         identityIsSelected = false
         cerIsSelected = true
            self.identity.isUserInteractionEnabled = true
-           let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-           alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
                self.openCamera()
            }))
            
-           alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
                self.openGallary()
            }))
            
-           alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+           alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
            
            switch UIDevice.current.userInterfaceIdiom {
            case .pad:
@@ -150,7 +150,9 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     }
     
     @objc func sendRequestBtnCLick(){
-        sendMail(identity, certificate)
+      
+        self.sendMail( self.identity,  self.certificate)
+    
     }
     func sendMail(_ imageView1 : UIImageView,_ imageView2 : UIImageView) {
       if MFMailComposeViewController.canSendMail() {
@@ -165,6 +167,8 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
           let imageData2: NSData = imageView2.image!.pngData()! as NSData
         mail.addAttachmentData(imageData as Data, mimeType: "image/png", fileName: "identity.png")
           mail.addAttachmentData(imageData2 as Data, mimeType: "image/png", fileName: "certificate.png")
+          self.navigationController?.pushViewController(mail, animated: true)
+          mail.modalPresentationStyle = .formSheet
           self.present(mail, animated: true, completion: nil)
       }
     }

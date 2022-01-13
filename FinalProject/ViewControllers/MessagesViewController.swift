@@ -11,6 +11,16 @@ class MessagesViewController: UIViewController {
     let db = Firestore.firestore()
     var ids = [""]
     var recntChates : [RecentChat] = []
+    var filterdResult : [RecentChat] = []
+    var offers : [Offer] = []
+    var userId = ""
+    lazy var searchBar : UISearchBar = {
+        $0.placeholder = "بحث"
+        $0.delegate = self
+        $0.translatesAutoresizingMaskIntoConstraints = false
+      return $0
+    }(UISearchBar())
+    
     lazy var messagesTableView : UITableView = {
         $0.register(MessagsTableViewCell.self, forCellReuseIdentifier: "cell")
         $0.rowHeight = UITableView.automaticDimension
@@ -42,32 +52,63 @@ class MessagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        // getProfile()
-        [messagesTableView,newLable].forEach{view.addSubview($0)}
-        
+        [messagesTableView,newLable,searchBar].forEach{view.addSubview($0)}
+        filterdResult = recntChates
         NSLayoutConstraint.activate([
+            
             
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             newLable.heightAnchor.constraint(equalToConstant: 120),
             
-            messagesTableView.topAnchor.constraint(equalTo: newLable.bottomAnchor ,constant: 10),
+            searchBar.topAnchor.constraint(equalTo: newLable.bottomAnchor ,constant: 10),
+            searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            searchBar.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
+            
+            messagesTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor ,constant: 10),
             messagesTableView.widthAnchor.constraint(equalToConstant: 380),
             messagesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             messagesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
         ])
     }
+    
     func getProfile(){
-        print("Starting fetch recent messages")
-        db.collection("offers_users").document(Auth.auth().currentUser!.uid).collection(Auth.auth().currentUser!.uid).document().collection("Message").getDocuments { QuerySnapshot, error in
+        
+        db.collection("offers_users").getDocuments { querySnapshot, error in
             if let error = error{
-                
+                print(error)
             }else{
-                for doc in QuerySnapshot!.documents{
-                    print(doc.documentID)
+                self.recntChates = []
+                for doc in querySnapshot!.documents{
+                    let data = doc.data()
+                    let id = data["uid"] as? String ?? ""
+                    let name = data["firstName"] as? String ?? ""
+                    var pic = data["image"] as? Data ?? Data()
+                    if pic.count == 0{
+                        pic = UIImage(systemName: "person.circle.fill")!.pngData() ?? Data()
+                    }
+                    self.recntChates.append(RecentChat(name: name, id: id, profilePic: pic))
+                    self.userId = id
+                    self.filterdResult = self.recntChates
+                    self.messagesTableView.reloadData()
                 }
             }
         }
     }
+  
+//    func getProfile(){
+//        print("Starting fetch recent messages")
+//        db.collection("offers_users").document(Auth.auth().currentUser!.uid).collection("Message").getDocuments { querySnapshot, error in
+//            if let error = error{
+//                print(error)
+//            }else{
+//                for doc in querySnapshot!.documents{
+//                    let data = doc.data()
+//                    print(data)
+//                }
+//            }
+//        }
+//    }
         
         
        
@@ -130,36 +171,44 @@ class MessagesViewController: UIViewController {
 
 extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recntChates.count
+        return filterdResult.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = messagesTableView.dequeueReusableCell(withIdentifier: "cell") as! MessagsTableViewCell
-        cell.progilePic.image = UIImage(data: recntChates[indexPath.row].profilePic)
-        cell.date.text = recntChates[indexPath.row].date
-        cell.username.text = recntChates[indexPath.row].name
-        cell.progilePic.image = UIImage(data: recntChates[indexPath.row].profilePic)
+        cell.progilePic.image = UIImage(data: filterdResult[indexPath.row].profilePic)
+       // cell.date.text = recntChates[indexPath.row].date
+        cell.username.text = filterdResult[indexPath.row].name
+        cell.progilePic.image =  UIImage(data: filterdResult[indexPath.row].profilePic)
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let chatVC = ChatViewController()
+        chatVC.offerProviderId = recntChates[indexPath.row].id
+       // print("AAAAAAAAAAAAAAAA",self.userId)
+        self.navigationController?.pushViewController(chatVC, animated: true)
+    }
     
 }
 
 
-//
-//func getProfile(){
-//    print("Starting fetch recent messages")
-//    db.collection("offers_users").addSnapshotListener { querySnapshot, error in
-//
-//
-//        if let error = error{
-//            print(error)
-//        }else{
-//
-//            for doc in querySnapshot!.documents{
-//                print(doc.documentID)
-//            }
-//        }
-//    }
-//}
-//}
+extension MessagesViewController : UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterdResult = []
+        
+        if searchText == ""{
+           filterdResult = recntChates
+        }
+        else{
+        for chat in recntChates{
+            if chat.name.lowercased().contains(searchText.lowercased()){
+                filterdResult.append(chat)
+            }
+        }
+    }
+       // getOffers()
+       messagesTableView.reloadData()
+    }
+    
+}

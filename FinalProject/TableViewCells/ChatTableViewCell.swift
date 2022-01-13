@@ -69,7 +69,19 @@ class ChatTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 10
         [username,date,content].forEach{contentView.addSubview($0)}
         
-  
+        NSLayoutConstraint.activate([
+          
+            username.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 20),
+           username.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
+            
+            content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 10),
+            content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
+          content.heightAnchor.constraint(equalToConstant: 40),
+            
+           date.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 5),
+          date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
+        
+        ])
     }
     required init?(coder: NSCoder) {
         fatalError("")

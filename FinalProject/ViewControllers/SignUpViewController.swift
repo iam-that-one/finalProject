@@ -256,7 +256,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
                                  currentUserRef.onDisconnectRemoveValue()
                              }
                          let dashboard = DashboardTabBarController()
-                         self.present(dashboard, animated: true, completion: nil)
+                         dashboard.modalPresentationStyle = .fullScreen
+                         self.navigationController?.pushViewController(dashboard, animated: true)
                      }
                  }
              }

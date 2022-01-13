@@ -176,7 +176,7 @@ class OfferDetailsViewController: UIViewController {
           }
     func uiSettings(){
         view.backgroundColor = .white
-        container.backgroundColor = UIColor.systemGray5
+        container.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         offerTitle.backgroundColor  = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
@@ -275,6 +275,7 @@ class OfferDetailsViewController: UIViewController {
     @objc func showCommentsBtnCkick(){
         let commentView = CommentsViewController()
         commentView.offerID = offer!.offerID
+        
         self.present(commentView, animated: true, completion: nil)
     }
     @objc func image2BtnClick(){
@@ -290,6 +291,7 @@ class OfferDetailsViewController: UIViewController {
     @objc func sendMessageBtnClick(){
         let chatView = ChatViewController()
         chatView.offerProvider = offer
+        chatView.offerProviderId = offer!.userID
         chatView.initialMessage =  "حاب اسألك بخصوص عرضك بعنوان: " + offer!.title
         chatView.offerProviderPofile = offerProviderProfile
         

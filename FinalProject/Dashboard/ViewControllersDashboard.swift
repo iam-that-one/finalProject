@@ -37,7 +37,7 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
         let icon4 = UITabBarItem(title: "حسابي", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         item4.tabBarItem = icon4
        
-        let controllers = [item1,item3,item4]
+        let controllers = [item1,item2,item3,item4]
         self.viewControllers = controllers
     
     }

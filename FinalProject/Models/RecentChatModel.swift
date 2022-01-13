@@ -7,6 +7,6 @@
 
 import Foundation
 struct RecentChat{
-    let name, content, date, id : String
+    let name, id : String
     let profilePic : Data
 }

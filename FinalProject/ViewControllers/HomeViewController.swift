@@ -46,6 +46,10 @@ var categoery = ""
         $0.tintColor = categoery == "أجهزة" ? .black : .darkGray
         $0.setTitle("أجهزة", for: .normal)
         $0.addTarget(self, action: #selector(devices), for: .touchDown)
+        $0.layer.cornerRadius = 5
+        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
      //   $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
@@ -59,6 +63,10 @@ var categoery = ""
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
         $0.addTarget(self, action: #selector(cars), for: .touchDown)
+        $0.layer.cornerRadius = 5
+        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
         return $0
@@ -68,6 +76,10 @@ var categoery = ""
         $0.tintColor = categoery == "خدمات\nأخرى" ? .black : .darkGray
         $0.setTitle("خدمات عامة", for: .normal)
         $0.addTarget(self, action: #selector(other), for: .touchDown)
+        $0.layer.cornerRadius = 5
+        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -96,10 +108,10 @@ var categoery = ""
     lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "اسم التطبيق"
+        $0.text = "مستودع"
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.backgroundColor = UIColor.systemGray6
+        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 20
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -330,6 +342,9 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.categoery.text = "#" + filterdResult[indexPath.row].categoery
         cell.city.text = filterdResult[indexPath.row].city
         cell.delegate = self
+        if indexPath.row % 2 == 0{
+            cell.contentView.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        }
         return cell
     
     }

@@ -15,13 +15,15 @@ class SignInViewController: UIViewController {
     lazy var logo : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "capsule.portrait.righthalf.filled")
-        $0.tintColor = .black
+        $0.tintColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(UIImageView())
     
     lazy var email : UITextField = {
         $0.placeholder = "ايميلك لو سمحت"
-        $0.text = "A@aa.com"
+        $0.text = "n@nn.com"
+        $0.backgroundColor = .black
+        $0.tintColor = .yellow
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -31,6 +33,7 @@ class SignInViewController: UIViewController {
         $0.placeholder = "كلمة المرور"
         $0.text = "Aa123456789&"
         $0.borderStyle = .roundedRect
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
@@ -61,36 +64,44 @@ class SignInViewController: UIViewController {
         $0.addTarget(self, action: #selector(moveToSignUpBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        setBackgroundImage(imageName: "")
+        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0.3, alpha: 1)
+        setBackgroundImage(imageName: "w2")
         uiSettings()
     }
     
     
     func uiSettings(){
-        [logo,signInBtn,newLable,moveToSignUpBtn,passwprd,email].forEach{view.addSubview($0)}
+        [signInBtn,newLable,moveToSignUpBtn,passwprd,email].forEach{view.addSubview($0)}
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NSLayoutConstraint.activate([
-            logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 50),
-            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logo.widthAnchor.constraint(equalToConstant: 200),
-            logo.heightAnchor.constraint(equalToConstant: 200),
+        
             
-            email.topAnchor.constraint(equalTo: logo.bottomAnchor,constant: 20),
+            email.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 450),
             email.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            email.widthAnchor.constraint(equalToConstant: 300),
+            email.widthAnchor.constraint(equalToConstant: 200),
             
             passwprd.topAnchor.constraint(equalTo: email.bottomAnchor,constant: 20),
             passwprd.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwprd.widthAnchor.constraint(equalToConstant: 300),
+            passwprd.widthAnchor.constraint(equalToConstant: 200),
             
             
             signInBtn.topAnchor.constraint(equalTo: passwprd.bottomAnchor,constant: 30),
             signInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signInBtn.widthAnchor.constraint(equalToConstant: 200),
-            signInBtn.heightAnchor.constraint(equalToConstant: 70),
+            signInBtn.heightAnchor.constraint(equalToConstant: 100),
             
             newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -130),
             newLable.topAnchor.constraint(equalTo: signInBtn.bottomAnchor,constant: 20),
@@ -189,5 +200,17 @@ class SignInViewController: UIViewController {
         return nil
     }
     
-    
+    // Move lofin view 300 points upward
+    @objc func keyboardWillShow(sender: NSNotification) {
+         self.view.frame.origin.y = -300
+    }
+
+    // Move login view to original position
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0
+    }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
 }

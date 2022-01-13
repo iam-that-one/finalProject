@@ -150,7 +150,8 @@ class ProfileViewController: UIViewController {
     @objc func sendAuthReqBtnClick(){
         let authVC = VerefyingRequestViewController()
         authVC.user = myInfo
-        self.navigationController?.pushViewController(authVC, animated: true)
+        self.present(authVC, animated: true)
+       
     }
     @objc func signOutBtnClick(){
         do{
