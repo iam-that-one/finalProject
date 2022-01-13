@@ -346,7 +346,7 @@ class OfferDetailsViewController: UIViewController {
                             self.profilePicture.image = profilePic != Data() ? UIImage(data: profilePic) : UIImage(systemName: "person.fill")
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
                             self.phoneNumber = phoneNumber
-                            self.offerProviderProfile = User(name: firstName)
+                            self.offerProviderProfile = User(name: firstName,phoneNumber: phoneNumber)
                         }
                     }
                 }

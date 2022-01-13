@@ -77,6 +77,16 @@ var myName = ""
         setBackgroundImage(imageName: "chatBackG")
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
         print("Offer provider id \(offerProvider!.userID)")
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         NSLayoutConstraint.activate([
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -240,5 +250,17 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
-    
+    // Move lofin view 300 points upward
+    @objc func keyboardWillShow(sender: NSNotification) {
+         self.view.frame.origin.y = -300
+    }
+
+    // Move login view to original position
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0
+    }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
 }

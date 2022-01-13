@@ -36,10 +36,12 @@ class MessagesViewController: UIViewController {
         $0.paddingTop = 40
         return $0
     }(PaddingLabel())
-    
+    override func viewWillAppear(_ animated: Bool) {
+        getProfile()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        getProfile()
+       // getProfile()
         [messagesTableView,newLable].forEach{view.addSubview($0)}
         
         NSLayoutConstraint.activate([
@@ -55,8 +57,21 @@ class MessagesViewController: UIViewController {
         ])
     }
     func getProfile(){
-          
+        print("Starting fetch recent messages")
+        db.collection("offers_users").document(Auth.auth().currentUser!.uid).collection(Auth.auth().currentUser!.uid).document().collection("Message").getDocuments { QuerySnapshot, error in
+            if let error = error{
+                
+            }else{
+                for doc in QuerySnapshot!.documents{
+                    print(doc.documentID)
+                }
+            }
+        }
     }
+        
+        
+       
+    
 }
 //    func getProfile(){
 //        print("Inside")
@@ -129,3 +144,22 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     
     
 }
+
+
+//
+//func getProfile(){
+//    print("Starting fetch recent messages")
+//    db.collection("offers_users").addSnapshotListener { querySnapshot, error in
+//
+//
+//        if let error = error{
+//            print(error)
+//        }else{
+//
+//            for doc in querySnapshot!.documents{
+//                print(doc.documentID)
+//            }
+//        }
+//    }
+//}
+//}

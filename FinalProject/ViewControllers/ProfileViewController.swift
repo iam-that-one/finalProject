@@ -10,6 +10,7 @@ import Firebase
 class ProfileViewController: UIViewController {
     let db = Firestore.firestore()
     var myOffers : [Offer] = []
+    var myInfo : [User] = []
     let db1 = Firestore.firestore()
     
     lazy var sendAuthReqBtn : UIButton = {
@@ -147,7 +148,9 @@ class ProfileViewController: UIViewController {
         ])
     }
     @objc func sendAuthReqBtnClick(){
-        
+        let authVC = VerefyingRequestViewController()
+        authVC.user = myInfo
+        self.navigationController?.pushViewController(authVC, animated: true)
     }
     @objc func signOutBtnClick(){
         do{
@@ -169,12 +172,14 @@ class ProfileViewController: UIViewController {
                     if let snapshotDocuments = querySnapshot?.documents {
                         for doc in snapshotDocuments {
                             let data = doc.data()
+                            let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
                             self.username.text = firstName
                             self.email.text = Auth.auth().currentUser!.email
                             let profilePic = data["image"] as! Data
                             print("dddddddddddddd", profilePic)
                             self.profPic.image = UIImage(data: profilePic)
+                            self.myInfo.append(User(name: firstName, phoneNumber: phone))
                             if profilePic.count == 0{
                                 self.profPic.image = UIImage(systemName: "person.circle.fill")
                             }
@@ -186,7 +191,7 @@ class ProfileViewController: UIViewController {
     }
     
     func getMyOffers(){
-        db1.collection("Offers").whereField("userID", isEqualTo:Auth.auth().currentUser!.uid)
+        db.collection("Offers").whereField("userID", isEqualTo:Auth.auth().currentUser!.uid)
             .addSnapshotListener { (querySnapshot, error) in
                 if let error = error {
                     print("Error while fetching profile\(error)")
@@ -274,6 +279,14 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
 }
 
 extension ProfileViewController : OfferTableViewCellDelegate{
+    func myPrfileTableViewEditButton(_ profileTableViewCel: profileTableViewCell, delete offer: Offer) {
+        print("Edidting")
+        let updateVC = UpdateViewController()
+        updateVC.toBeUpdateOffer = offer
+        updateVC.selectedCity = offer.city
+        self.present(updateVC, animated: true, completion: nil)
+    }
+    
     func myPrfileTableViewCell(_ profileTableViewCel: profileTableViewCell, delete offer: Offer) {
         print(offer.offerID)
         let alert = UIAlertController(title: "تنبيه", message: "هل تود حذف هذا الإعلان", preferredStyle: .actionSheet)

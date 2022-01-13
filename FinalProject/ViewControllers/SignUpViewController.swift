@@ -182,6 +182,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             {
                 imagePicker.sourceType = UIImagePickerController.SourceType.camera
                 imagePicker.allowsEditing = true
+                
                 self.present(imagePicker, animated: true, completion: nil)
             }
             else
@@ -231,16 +232,12 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
              verificationCode: verficationCode.text!)
              Auth.auth().signIn(with: credential) { success, error in
                  if error == nil {
-                 //TO Do :- Save profilePic To UserDafaults
-                 //  guard let data = PickedImage?.jpegData(compressionQuality: 0.5) else { return }
-                 //  let encoded = try! PropertyListEncoder().encode(data)
-                 // UserDefaults.standard.set(encoded, forKey: "profilepickedImage")
                  let user = Auth.auth().currentUser
                  user?.delete { error in
                      if let error = error {
                          print(error)
                       } else {
-                         print("User account has deleted")
+                         print("User account has been deleted")
                      }
                  }
                  Auth.auth().createUser(withEmail: self.email.text!.trimmingCharacters(in: .whitespacesAndNewlines), password: self.password.text!.trimmingCharacters(in: .whitespacesAndNewlines)) { (result, error) in

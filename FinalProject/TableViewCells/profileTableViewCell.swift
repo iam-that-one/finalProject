@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 protocol OfferTableViewCellDelegate: AnyObject {
   func myPrfileTableViewCell(_ profileTableViewCel: profileTableViewCell, delete offer: Offer)
+    func myPrfileTableViewEditButton(_ profileTableViewCel: profileTableViewCell, delete offer: Offer)
 }
 class profileTableViewCell: UITableViewCell {
 
@@ -151,10 +152,10 @@ class profileTableViewCell: UITableViewCell {
     }
     
     @objc func updateBtnClick(_ sender : UIButton){
-//        if let offers = offers,
-//             let _ = delegate {
-//            self.delegate?.myPrfileTableViewCell(self,delete: offers)
-//          }
+        if let offers = offers,
+             let _ = delegate {
+            self.delegate?.myPrfileTableViewEditButton(self,delete: offers)
+          }
     }
     
     
