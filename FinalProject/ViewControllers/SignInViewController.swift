@@ -22,8 +22,8 @@ class SignInViewController: UIViewController {
     lazy var email : UITextField = {
         $0.placeholder = "ايميلك لو سمحت"
         $0.text = "n@nn.com"
-        $0.backgroundColor = .black
-        $0.tintColor = .yellow
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.tintColor = .black
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0

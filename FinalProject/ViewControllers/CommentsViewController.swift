@@ -163,13 +163,13 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = commentsTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! CommentsTableViewCell
         cell.username.text = comments.sorted(by: { d1, d2 in
-            dateFormatter.date(from: d1.dat)! < dateFormatter.date(from: d2.dat)!
+            dateFormatter.date(from: d1.dat) ?? Date() < dateFormatter.date(from: d2.dat) ?? Date()
         })[indexPath.row].username
         cell.content.text = comments.sorted(by: { d1, d2 in
-            dateFormatter.date(from: d1.dat)! < dateFormatter.date(from: d2.dat)!
+            dateFormatter.date(from: d1.dat) ?? Date()  < dateFormatter.date(from: d2.dat) ?? Date()
         })[indexPath.row].comment
         let stringDate = comments.sorted(by: { d1, d2 in
-            dateFormatter.date(from: d1.dat)! < dateFormatter.date(from: d2.dat)!
+            dateFormatter.date(from: d1.dat) ?? Date()  < dateFormatter.date(from: d2.dat) ?? Date()
         })[indexPath.row].dat
         cell.date.text = stringDate
         return cell

@@ -86,17 +86,15 @@ class ProfileViewController: UIViewController {
         return $0
     }(UILabel())
     
-    lazy var editBtn : UIButton = {
-        $0.setBackgroundImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+    lazy var verfied : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.addTarget(self, action: #selector(editBtnClick), for: .touchDown)
         $0.tintColor = .black
         return $0
-    }(UIButton(type: .system))
+    }(UIImageView())
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(container)
-        [email,username,profPic,editBtn].forEach{container.addSubview($0)}
+        [email,username,profPic,verfied].forEach{container.addSubview($0)}
         
         view.addSubview(profileOffersTableView)
         
@@ -133,10 +131,10 @@ class ProfileViewController: UIViewController {
             email.topAnchor.constraint(equalTo: username.bottomAnchor,constant: 60),
             email.trailingAnchor.constraint(equalTo: profPic.leadingAnchor,constant: -10),
             
-            editBtn.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
-            editBtn.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
-            editBtn.widthAnchor.constraint(equalToConstant: 20),
-            editBtn.heightAnchor.constraint(equalToConstant: 20),
+            verfied.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
+            verfied.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
+            verfied.widthAnchor.constraint(equalToConstant: 20),
+            verfied.heightAnchor.constraint(equalToConstant: 20),
             
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 20),
             profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
@@ -175,12 +173,16 @@ class ProfileViewController: UIViewController {
                             let data = doc.data()
                             let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
+                            let isVerified = data["isVerified"] as? Bool ?? false
                             self.username.text = firstName
                             self.email.text = Auth.auth().currentUser!.email
                             let profilePic = data["image"] as! Data
+                            if isVerified{
+                                self.verfied.image = UIImage(systemName: "star.circle.fill") ?? UIImage()
+                            }
                             print("dddddddddddddd", profilePic)
                             self.profPic.image = UIImage(data: profilePic)
-                            self.myInfo.append(User(name: firstName, phoneNumber: phone))
+                            self.myInfo.append(User(name: firstName, phoneNumber: phone, isVerified: isVerified))
                             if profilePic.count == 0{
                                 self.profPic.image = UIImage(systemName: "person.circle.fill")
                             }

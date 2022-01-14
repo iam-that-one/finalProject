@@ -74,7 +74,7 @@ var categoery = ""
     
     lazy var logo4 : UIButton = {
         $0.tintColor = categoery == "خدمات\nأخرى" ? .black : .darkGray
-        $0.setTitle("خدمات عامة", for: .normal)
+        $0.setTitle("خدمات", for: .normal)
         $0.addTarget(self, action: #selector(other), for: .touchDown)
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)

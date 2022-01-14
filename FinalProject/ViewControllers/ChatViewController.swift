@@ -213,8 +213,9 @@ var myName = ""
                             let data = doc.data()
                             let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
+                            let isVerified = data["isVerified"] as! Bool
                            // let profilePic = data["image"] as! Data
-                            self.userInfo.append(User(name: firstName, phoneNumber: phone))
+                            self.userInfo.append(User(name: firstName, phoneNumber: phone, isVerified: isVerified))
                             self.newLable.text = firstName
                             
                             

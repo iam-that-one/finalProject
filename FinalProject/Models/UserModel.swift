@@ -10,4 +10,5 @@ import UIKit
 struct User{
     let name : String
     let phoneNumber : String
+    let isVerified : Bool
 }
