@@ -13,7 +13,7 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        
+      
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -23,7 +23,7 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
         let item2 = MessagesViewController()
         let item3 = AddOfferViewController()
         let item4 = ProfileViewController()
-
+       
         
         let icon1 = UITabBarItem(title: "الرئيسية", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
             item1.tabBarItem = icon1

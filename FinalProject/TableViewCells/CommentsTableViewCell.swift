@@ -38,8 +38,8 @@ class CommentsTableViewCell: UITableViewCell {
        // $0.backgroundColor = UIColor.systemIndigo
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 15
-        $0.textColor = .black
-        $0.textAlignment = .left
+        $0.textColor = UIColor.systemIndigo
+        $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingLeft = 10
         $0.paddingRight = 10
@@ -81,9 +81,10 @@ class CommentsTableViewCell: UITableViewCell {
             
             content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 5),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-          //  content.heightAnchor.constraint(equalToConstant: 40),
+            content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            content.bottomAnchor.constraint(equalTo: date.topAnchor,constant: -10),
             
-            date.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 5),
+          //  date.topAnchor.constraint(equalTo: content.bottomAnchor),
             date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
             date.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         

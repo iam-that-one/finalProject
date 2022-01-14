@@ -131,6 +131,7 @@ var categoery = ""
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         myColletionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myColletionView!.backgroundColor = UIColor.white
         myColletionView!.dataSource = self

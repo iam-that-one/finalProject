@@ -167,10 +167,25 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
           let imageData2: NSData = imageView2.image!.pngData()! as NSData
         mail.addAttachmentData(imageData as Data, mimeType: "image/png", fileName: "identity.png")
           mail.addAttachmentData(imageData2 as Data, mimeType: "image/png", fileName: "certificate.png")
-          self.navigationController?.pushViewController(mail, animated: true)
-          mail.modalPresentationStyle = .formSheet
+        //  self.navigationController?.pushViewController(mail, animated: true)
+        //  mail.modalPresentationStyle = .formSheet
           self.present(mail, animated: true, completion: nil)
       }
+    }
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+                case .cancelled:
+                    print("Mail cancelled")
+                case .saved:
+                    print("Mail saved")
+                case .sent:
+                    print("Mail sent")
+                case .failed:
+            print("Mail sent failure: \(error!)")
+                default:
+                    break
+                }
+        self.dismiss(animated: true, completion: nil)
     }
     func openCamera()
         {

@@ -109,13 +109,14 @@ class CommentsViewController: UIViewController {
         getComments()
     }
     func getComments(){
-        
+     
         db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
+    
             .addSnapshotListener { querySnapshot, error in
                 if let error = error{
                     print(error)
                 }else{
-                   
+                    
                     for doc in querySnapshot!.documents{
                          let data = doc.data()
                         self.name = data["firstName"] as? String ?? ""
@@ -133,8 +134,7 @@ class CommentsViewController: UIViewController {
                             let data = doc.data()
                             let username = data["username"] as? String ?? ""
                             let comment = data["comment"] as? String ?? ""
-                            let date = data["date"] as? String ??  ""
-                            
+                            let date = data["date"] as? String ?? ""
                             self.comments.append(Comment(username: username, dat: date, comment: comment))
                             self.commentsTableView.reloadData()
                         }
@@ -162,15 +162,21 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = commentsTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! CommentsTableViewCell
-        cell.username.text = comments[indexPath.row].username
-        cell.content.text = comments[indexPath.row].comment
-        let stringDate = comments[indexPath.row].dat
+        cell.username.text = comments.sorted(by: { d1, d2 in
+            dateFormatter.date(from: d1.dat)! < dateFormatter.date(from: d2.dat)!
+        })[indexPath.row].username
+        cell.content.text = comments.sorted(by: { d1, d2 in
+            dateFormatter.date(from: d1.dat)! < dateFormatter.date(from: d2.dat)!
+        })[indexPath.row].comment
+        let stringDate = comments.sorted(by: { d1, d2 in
+            dateFormatter.date(from: d1.dat)! < dateFormatter.date(from: d2.dat)!
+        })[indexPath.row].dat
         cell.date.text = stringDate
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 120
     }
     // Move lofin view 300 points upward
     @objc func keyboardWillShow(sender: NSNotification) {

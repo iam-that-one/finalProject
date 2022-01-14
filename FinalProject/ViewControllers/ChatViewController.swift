@@ -213,7 +213,7 @@ var myName = ""
                             let data = doc.data()
                             let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
-                            let profilePic = data["image"] as! Data
+                           // let profilePic = data["image"] as! Data
                             self.userInfo.append(User(name: firstName, phoneNumber: phone))
                             self.newLable.text = firstName
                             

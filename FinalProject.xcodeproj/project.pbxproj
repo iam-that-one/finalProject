@@ -11,6 +11,7 @@
 		B8109E23278CBA9D000FF1FA /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */; };
 		B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */; };
 		B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E26278CD4D7000FF1FA /* CommentsModel.swift */; };
+		B8109E2B279155C2000FF1FA /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2A279155C1000FF1FA /* EmailHelper.swift */; };
 		B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC199277DA3BB00342B70 /* AppDelegate.swift */; };
 		B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */; };
 		B83FC19E277DA3BB00342B70 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19D277DA3BB00342B70 /* HomeViewController.swift */; };
@@ -51,6 +52,7 @@
 		B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
 		B8109E26278CD4D7000FF1FA /* CommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsModel.swift; sourceTree = "<group>"; };
+		B8109E2A279155C1000FF1FA /* EmailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelper.swift; sourceTree = "<group>"; };
 		B83FC196277DA3BB00342B70 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83FC199277DA3BB00342B70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				B8D5BA772786D657009C1340 /* Extensions01.swift */,
 				B8109E202789C71F000FF1FA /* RecentChatModel.swift */,
 				B8109E26278CD4D7000FF1FA /* CommentsModel.swift */,
+				B8109E2A279155C1000FF1FA /* EmailHelper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */,
 				B8109E212789C71F000FF1FA /* RecentChatModel.swift in Sources */,
 				B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */,
+				B8109E2B279155C2000FF1FA /* EmailHelper.swift in Sources */,
 				B8922F7E2782D2A500153B4A /* SignInViewController.swift in Sources */,
 				B8922F7A2782218500153B4A /* UserModel.swift in Sources */,
 				B8922F8827832AE200153B4A /* MyCollectionViewCell.swift in Sources */,

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Firebase
 struct Comment{
     let username : String
     let dat : String
