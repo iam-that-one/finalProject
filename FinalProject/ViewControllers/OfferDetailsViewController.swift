@@ -16,6 +16,14 @@ class OfferDetailsViewController: UIViewController {
     var isOnline = false
     var phoneNumber = ""
     let db = Firestore.firestore()
+    
+    lazy var verfied : UIImageView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = .black
+        return $0
+    }(UIImageView())
+    
+    
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -181,6 +189,8 @@ class OfferDetailsViewController: UIViewController {
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
         stackView.distribution = .fill // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
+       
+            
         
         [offerImage,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
         offerTitle.text = offer!.title
@@ -192,7 +202,7 @@ class OfferDetailsViewController: UIViewController {
         offerDescription.text = offer!.description
         getProfile()
         [offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
-        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments].forEach{container.addSubview($0)}
+        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments,verfied].forEach{container.addSubview($0)}
         
         NSLayoutConstraint.activate([
             
@@ -235,6 +245,9 @@ class OfferDetailsViewController: UIViewController {
             username.firstBaselineAnchor.constraint(equalTo: profilePicture.firstBaselineAnchor),
             username.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             username.trailingAnchor.constraint(equalTo: profilePicture.leadingAnchor,constant: -10),
+            
+            verfied.trailingAnchor.constraint(equalTo: username.leadingAnchor,constant: -10),
+            verfied.centerYAnchor.constraint(equalTo: username.centerYAnchor),
             
             comments.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
             comments.topAnchor.constraint(equalTo: container.topAnchor),
@@ -350,6 +363,9 @@ class OfferDetailsViewController: UIViewController {
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
                             self.phoneNumber = phoneNumber
                             self.offerProviderProfile = User(name: firstName,phoneNumber: phoneNumber, isVerified: isVerified)
+                            if isVerified{
+                                self.verfied.image = UIImage(systemName: "star.circle.fill") ?? UIImage()
+                            }
                         }
                     }
                 }

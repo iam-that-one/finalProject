@@ -84,6 +84,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         return $0
     }(UIButton(type: .system))
     
+    lazy var newLable : UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("تسجيل الدخول", for: .normal)
+        $0.tintColor = .black
+        $0.addTarget(self, action: #selector(moveToSignIn), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
+    
     lazy var signUpBtnVer : UIButton = {
         $0.setTitle("تحقق", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -111,7 +119,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
-        [profilePic,signUpBtn,signUpBtnVer,phoneNumber,verficationCode,firstName,lastName,email,password].forEach{view.addSubview($0)}
+        [profilePic,signUpBtn,signUpBtnVer,phoneNumber,verficationCode,firstName,lastName,email,password,newLable].forEach{view.addSubview($0)}
         
         NSLayoutConstraint.activate([
             
@@ -154,10 +162,15 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             signUpBtnVer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signUpBtnVer.widthAnchor.constraint(equalToConstant: 200),
             signUpBtnVer.heightAnchor.constraint(equalToConstant: 50),
+            
+            newLable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -5),
+            newLable.centerXAnchor.constraint(equalTo: signUpBtn.centerXAnchor)
         ])
       
     }
-    
+    @objc func moveToSignIn(){
+        self.navigationController?.popViewController(animated: true)
+    }
     @objc func selectImage(_ sender : UIButton){
         self.profilePic.setTitleColor(UIColor.white, for: .normal)
            self.profilePic.isUserInteractionEnabled = true

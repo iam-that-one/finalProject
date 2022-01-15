@@ -10,6 +10,13 @@ import UIKit
 
 class ChatTableViewCell: UITableViewCell {
 
+    lazy var verfied : UIImageView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = .black
+        return $0
+    }(UIImageView())
+    
+    
     lazy var username : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -67,12 +74,15 @@ class ChatTableViewCell: UITableViewCell {
       //  contentView.backgroundColor = UIColor.systemGray6
         self.backgroundColor = .clear
         contentView.layer.cornerRadius = 10
-        [username,date,content].forEach{contentView.addSubview($0)}
+        [username,date,content,verfied].forEach{contentView.addSubview($0)}
         
         NSLayoutConstraint.activate([
           
             username.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 20),
            username.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
+            
+            verfied.trailingAnchor.constraint(equalTo: username.leadingAnchor),
+            verfied.centerYAnchor.constraint(equalTo: username.centerYAnchor),
             
             content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 10),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),

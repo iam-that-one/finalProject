@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 class ChatViewController: UIViewController {
 var myName = ""
+    var v = false
     var userInfo : [User] = []
     var messages : [Message] = []
     var name = ""
@@ -18,6 +19,8 @@ var myName = ""
     let db = Firestore.firestore()
     var offerProvider : Offer? = nil
     var offerProviderPofile : User? = nil
+    
+
     lazy var chatTableView : UITableView = {
         $0.register(ChatTableViewCell.self, forCellReuseIdentifier: "cell")
         $0.rowHeight = UITableView.automaticDimension
@@ -139,6 +142,7 @@ var myName = ""
                     self.db.collection("offers_users").document(self.offerProviderId)
             .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
                     
+                    self.db.collection("RecentMessages").document(Auth.auth().currentUser!.uid).setData(["senderId" : Auth.auth().currentUser!.uid, "reciverId": self.offerProviderId, "content": self.messageTf.text!, "date": Date()] as [String: Any])
                 }
             }
         fetchMesssages()
@@ -187,6 +191,7 @@ var myName = ""
                                     let date = data["date"] as? String,
                                     let name = data["Name"] as? String
                                 {
+                                    
                                     let finalDate = self.dateFormatter.date(from: date)
                                     let fetchedMessage = Message(name: name, date: finalDate ?? Date(), userID: id, content: msg)
                                     self.messages.append(fetchedMessage)
@@ -213,11 +218,11 @@ var myName = ""
                             let data = doc.data()
                             let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
-                            let isVerified = data["isVerified"] as! Bool
+                            let isVerified = data["isVerified"] as? Bool ?? false
                            // let profilePic = data["image"] as! Data
                             self.userInfo.append(User(name: firstName, phoneNumber: phone, isVerified: isVerified))
                             self.newLable.text = firstName
-                            
+                          
                             
                         }
                     }
@@ -246,6 +251,7 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
         cell.username.text = messages.sorted{$0.date < $1.date}[indexPath.row].name
         cell.content.text = messages.sorted{$0.date < $1.date}[indexPath.row].content
         cell.date.text = dateFormatter.string(from:messages.sorted{$0.date < $1.date}[indexPath.row].date )
+     
         return cell
     }
     

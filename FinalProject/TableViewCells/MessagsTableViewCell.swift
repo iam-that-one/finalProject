@@ -24,7 +24,7 @@ class MessagsTableViewCell: UITableViewCell {
     lazy var date : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "01/Jan/2022"
+        $0.text = ""
         $0.textColor = .black
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
