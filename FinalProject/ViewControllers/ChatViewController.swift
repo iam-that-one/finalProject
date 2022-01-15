@@ -48,8 +48,8 @@ var myName = ""
     lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "أحمد"
-        $0.backgroundColor = UIColor.systemGray6
+        $0.text = ""
+        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.textColor = .black
@@ -79,7 +79,8 @@ var myName = ""
         messageTf.text = initialMessage
         view.backgroundColor = .white
        // newLable.text! = offerProviderPofile!.name
-        setBackgroundImage(imageName: "chatBackG")
+        view.backgroundColor = .darkGray
+        setBackgroundImage(imageName: "chatBac")
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
       //  print("Offer provider id \(offerProvider!.userID)")
         getProfile(offerProviderId)
@@ -96,7 +97,7 @@ var myName = ""
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-            newLable.heightAnchor.constraint(equalToConstant: 100),
+            newLable.heightAnchor.constraint(equalToConstant: 120),
             backToOfferViewBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
             backToOfferViewBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             

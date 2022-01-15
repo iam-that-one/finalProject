@@ -83,6 +83,7 @@ class MessagesViewController: UIViewController {
                 for doc in querySnapshot!.documents{
                     let data = doc.data()
                     let date = data["date"] as? Date ?? Date()
+                    print(date)
                     let reciverId = data["reciverId"] as? String ?? ""
                     print("reciver",reciverId)
                     let senderId = data["senderId"] as? String ?? ""
@@ -101,6 +102,7 @@ class MessagesViewController: UIViewController {
                                    // let date = data["date"] as? Date ?? Date()
                                     let profilePic = data["image"] as? Data ?? Data()
                                     let name = data["firstName"] as? String ?? ""
+                                    
                                     print(self.ids)
                                     if self.ids.contains(id){
                                         print("Nof",name)
@@ -141,11 +143,12 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = messagesTableView.dequeueReusableCell(withIdentifier: "cell") as! MessagsTableViewCell
-        cell.progilePic.image = UIImage(data: filterdResult.sorted{$0.date > $1.date}[indexPath.row].profilePic)
-        let stringDate = dateFormatter.string(from: filterdResult.sorted{$0.date > $1.date}[indexPath.row].date)
+        cell.progilePic.image = UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
+        let stringDate = dateFormatter.string(from: filterdResult.sorted{$0.date < $1.date}[indexPath.row].date)
         cell.date.text = stringDate
-        cell.username.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].name
-        cell.progilePic.image =  UIImage(data: filterdResult.sorted{$0.date > $1.date}[indexPath.row].profilePic)
+        cell.username.text = filterdResult.sorted{$0.date < $1.date}[indexPath.row].name
+
+        cell.progilePic.image =   UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
         return cell
     }
     

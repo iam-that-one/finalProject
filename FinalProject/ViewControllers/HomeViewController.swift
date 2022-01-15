@@ -147,6 +147,9 @@ var categoery = ""
         stackView.addArrangedSubview(logo3)
         stackView.addArrangedSubview(logo4)
         
+        let newData = ["image" : uploadImage(UIImage(named: "imac")!)]
+        db.collection("offers_users").document("6Bo1Akjv2LmUto1Y66jE").setData(newData , merge: true)
+        
         getOffers()
       //  filterdResult = offers
         temp = offers
@@ -181,8 +184,9 @@ var categoery = ""
         ])
     }
     func move(){
-        let mapView = MapViewController()
-        self.navigationController?.pushViewController(mapView, animated: true)
+        print("AAAAAAAAAAAAAAAAA")
+      //  let mapView = MapViewController()
+        //self.navigationController?.pushViewController(mapView, animated: true)
     }
     func getOffers(){
         
@@ -326,6 +330,11 @@ var categoery = ""
           formatter.timeStyle = .medium
           return formatter
       }()
+    
+    func uploadImage(_ image : UIImage) -> Data{
+          guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
+          return imageData
+      }
 }
 
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
@@ -345,6 +354,8 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.delegate = self
         if indexPath.row % 2 == 0{
             cell.contentView.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        }else{
+            cell.contentView.backgroundColor = UIColor.systemGray5
         }
         return cell
     

@@ -143,7 +143,7 @@ class OffersTableViewCell: UITableViewCell {
             pin.heightAnchor.constraint(equalToConstant: 20),
             
         ])
-        pin.isEnabled = false
+       // pin.isEnabled = false
     }
     required init?(coder: NSCoder) {
         fatalError("")
@@ -151,8 +151,9 @@ class OffersTableViewCell: UITableViewCell {
     @objc func moveToMapView(_ sender : UIButton){
         if let offers = offers,
              let _ = delegate {
-            self.delegate?.myHomeTableViewCell(self, move: offers)
+            self.delegate!.myHomeTableViewCell(self, move: offers)
           }
+        print("AAA")
     }
 }
 

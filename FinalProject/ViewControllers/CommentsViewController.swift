@@ -137,6 +137,7 @@ class CommentsViewController: UIViewController {
                             let date = data["date"] as? String ?? ""
                             self.comments.append(Comment(username: username, dat: date, comment: comment))
                             self.commentsTableView.reloadData()
+                            self.newLable.text! = "التعليقات \n\n\(self.comments.count)"
                         }
                         
                     }

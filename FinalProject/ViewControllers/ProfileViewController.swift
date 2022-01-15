@@ -36,7 +36,7 @@ class ProfileViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "حسابي"
-        $0.backgroundColor = UIColor.systemGray6
+        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.textColor = .black

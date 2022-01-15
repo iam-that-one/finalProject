@@ -43,11 +43,11 @@ class ChatTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.backgroundColor = UIColor.systemIndigo
+        $0.backgroundColor = .darkGray
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 15
         $0.textColor = .white
-        $0.textAlignment = .left
+        $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingLeft = 10
         $0.paddingRight = 10
@@ -86,6 +86,7 @@ class ChatTableViewCell: UITableViewCell {
             
             content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 10),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
+            content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
           content.heightAnchor.constraint(equalToConstant: 40),
             
            date.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 5),

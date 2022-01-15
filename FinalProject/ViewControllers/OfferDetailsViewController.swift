@@ -357,7 +357,7 @@ class OfferDetailsViewController: UIViewController {
                             let data = doc.data()
                             let firstName = data["firstName"] as! String
                             self.username.text = firstName
-                            let isVerified = data["isVerified"] as! Bool
+                            let isVerified = data["isVerified"] as? Bool ?? false
                             let profilePic = data["image"] as! Data
                             self.profilePicture.image = profilePic != Data() ? UIImage(data: profilePic) : UIImage(systemName: "person.fill")
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
