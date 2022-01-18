@@ -11,6 +11,7 @@ class SignInViewController: UIViewController {
     var message = ""
     let userRef = Database.database().reference(withPath: "online")
 
+    var status = false
     var alert = UIAlertController()
     lazy var logo : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +67,16 @@ class SignInViewController: UIViewController {
     }(UIButton(type: .system))
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+            status = UserDefaults.standard.bool(forKey: "isDarkMode")
+            
+            if status{
+                overrideUserInterfaceStyle = .dark
+                
+            }else{
+                overrideUserInterfaceStyle = .light
+            }
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()

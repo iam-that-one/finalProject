@@ -13,10 +13,11 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     var user : [User]?
     var identityIsSelected = false
     var cerIsSelected = false
+    var status = false
     lazy var identity : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "photo.fill")
-        $0.tintColor = .lightGray
+        $0.tintColor = .darkGray
         $0.contentMode = .scaleAspectFit
         return $0
     }(UIImageView())
@@ -24,6 +25,7 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     lazy var chooseId : UIButton = {
         $0.setTitle("ارفق صورة الهوية الوطنية بالضغط هنا", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = .darkGray
         $0.addTarget(self, action: #selector(chooseIdBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
@@ -31,7 +33,7 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     lazy var certificate : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "photo.fill")
-        $0.tintColor = .lightGray
+        $0.tintColor = .darkGray
         $0.contentMode = .scaleAspectFit
         return $0
     }(UIImageView())
@@ -39,12 +41,15 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     lazy var chooseCert : UIButton = {
         $0.setTitle("ارفق شهادة توثيقك من معروف بالضغط هنا", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = .darkGray
         $0.addTarget(self, action: #selector(chooseCertBtnCLick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
     
     lazy var sendReq : UIButton = {
         $0.setTitle("إرسال طلب التوثيق", for: .normal)
+        $0.tintColor = .white
+        $0.setBackgroundImage(UIImage(named: "grayBtn"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(sendRequestBtnCLick), for: .touchDown)
         return $0
@@ -54,16 +59,23 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "طلب توثيق"
         $0.paddingTop = 20
-        $00.textAlignment = .center
-        $0.backgroundColor = UIColor.systemGray4
+        $0.textAlignment = .center
+        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(PaddingLabel())
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
         
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.lightGray
         imagePicker.delegate = self
         [identity,certificate,chooseId,chooseCert,sendReq,header].forEach{view.addSubview($0)}
         
@@ -90,7 +102,9 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
             chooseCert.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             sendReq.topAnchor.constraint(equalTo: chooseCert.bottomAnchor,constant: 20),
-            sendReq.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            sendReq.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sendReq.widthAnchor.constraint(equalToConstant: 200),
+            sendReq.heightAnchor.constraint(equalToConstant: 40)
             
             
         ])

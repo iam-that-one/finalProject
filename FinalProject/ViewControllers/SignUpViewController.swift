@@ -12,6 +12,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
     var imagePicker = UIImagePickerController()
     let userRef = Database.database().reference(withPath: "online")
     var toBeUploaded = UIImage()
+    var message = ""
+    var alert = UIAlertController()
+    var status = false
     lazy var profilePic : UIButton = {
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 50
@@ -104,6 +107,16 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
     }(UIButton(type: .system))
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
+       
+            status = UserDefaults.standard.bool(forKey: "isDarkMode")
+            
+            if status{
+                overrideUserInterfaceStyle = .dark
+                
+            }else{
+                overrideUserInterfaceStyle = .light
+            }
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -230,7 +243,17 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         signUp()
     }
     
+    
     func signUp(){
+        let error = loginFieldsValidation()
+        if error != nil{
+            message = fieldsValidation()!
+            alert = UIAlertController(title: "رسالة", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { _ in
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.text!, uiDelegate: nil) { (verificationID, error) in
             if let error = error {
                 print("------------------------------")
@@ -329,5 +352,34 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
           guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
           return imageData
       }
-      
+    func fieldsValidation() -> String?{
+        if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+            return "الرجاء ملء جميع الحقول "
+        }
+        if emailValidation(email.text!.trimmingCharacters(in: .whitespaces)) == false{
+            return "صيغة هذا البريد الإكتروني غير صالحة"
+        }
+        if passwordValidation(password.text!.trimmingCharacters(in: .whitespacesAndNewlines)) == false{
+            return "تأكد من أن كلمة المرور تتكون من ثمانية أحرف أو أكثر وأن تحتوي أحرف خاصة وأرقام"
+        }
+        return nil
+    }
+    func emailValidation(_ email : String) -> Bool{
+        let checkedEmail = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
+        return checkedEmail.evaluate(with: email.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    func passwordValidation(_ password : String) -> Bool{
+        let checkedPassword = NSPredicate(format: "SELF MATCHES %@","^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-a\\d$@$#!%*?&]{8,}")
+        return checkedPassword.evaluate(with: password.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    func loginFieldsValidation() -> String?{
+        if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            return "الرجاء ملء جميع الحقول "
+        }
+        if emailValidation(email.text!.trimmingCharacters(in: .whitespaces)) == false{
+            return "صيغة هذا البريد الإكتروني غير صالحة"
+        }
+        return nil
+    }
+    
 }

@@ -43,7 +43,7 @@ class ChatTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.backgroundColor = .darkGray
+        $0.backgroundColor = UIColor.lightGray
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 15
         $0.textColor = .white
@@ -79,18 +79,18 @@ class ChatTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
           
             username.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 20),
-           username.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
+            username.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
             
             verfied.trailingAnchor.constraint(equalTo: username.leadingAnchor),
             verfied.centerYAnchor.constraint(equalTo: username.centerYAnchor),
             
             content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 10),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-            content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-          content.heightAnchor.constraint(equalToConstant: 40),
+           // content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            content.heightAnchor.constraint(equalToConstant: 40),
             
-           date.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 5),
-          date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
+            date.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 5),
+           date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
         
         ])
     }

@@ -14,6 +14,7 @@ class MessagesViewController: UIViewController {
     var filterdResult : [RecentChat] = []
     var offers : [Offer] = []
     var userId = ""
+    var status = false
     lazy var searchBar : UISearchBar = {
         $0.placeholder = "بحث"
         $0.delegate = self
@@ -48,6 +49,14 @@ class MessagesViewController: UIViewController {
     }(PaddingLabel())
     override func viewWillAppear(_ animated: Bool) {
        // getProfile()
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,6 +158,13 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
         cell.username.text = filterdResult.sorted{$0.date < $1.date}[indexPath.row].name
 
         cell.progilePic.image =   UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
+        
+        if indexPath.row % 2 == 0{
+            cell.contentView.backgroundColor = .lightGray //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        }else{
+            cell.contentView.backgroundColor = UIColor.systemGray5
+        }
+  
         return cell
     }
     

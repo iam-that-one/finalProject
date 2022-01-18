@@ -13,7 +13,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     var lat = 0.0
     var log = 0.0
     var isUpdating = false
-    
+    var status = false
     var row : String?
     var toBeSavedImage1 : UIImage?
     var toBeSavedImage2 : UIImage?
@@ -136,6 +136,17 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.addTarget(self, action: #selector(postOfferBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
+    
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -235,7 +246,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         let id = UUID().uuidString
         let db = Firestore.firestore()
         db.collection("Offers")
-            .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": self.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": self.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": self.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": self.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": dateFormatter.string(from: Date()).self, "lat": self.lat, "log":self.log])
+            .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": self.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": self.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": self.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": self.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": self.dateFormatter.string(from: Date()), "lat": self.lat, "log":self.log])
         self.tabBarController!.selectedIndex = 0
     }
     

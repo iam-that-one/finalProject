@@ -12,6 +12,8 @@
 		B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */; };
 		B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E26278CD4D7000FF1FA /* CommentsModel.swift */; };
 		B8109E2B279155C2000FF1FA /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2A279155C1000FF1FA /* EmailHelper.swift */; };
+		B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */; };
+		B8109E2F2795C5B5000FF1FA /* BookmarksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */; };
 		B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC199277DA3BB00342B70 /* AppDelegate.swift */; };
 		B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */; };
 		B83FC19E277DA3BB00342B70 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19D277DA3BB00342B70 /* HomeViewController.swift */; };
@@ -53,6 +55,8 @@
 		B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
 		B8109E26278CD4D7000FF1FA /* CommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsModel.swift; sourceTree = "<group>"; };
 		B8109E2A279155C1000FF1FA /* EmailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelper.swift; sourceTree = "<group>"; };
+		B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
+		B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTableViewCell.swift; sourceTree = "<group>"; };
 		B83FC196277DA3BB00342B70 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83FC199277DA3BB00342B70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				B8922F832782D39D00153B4A /* UpdateViewController.swift */,
 				B8922F852782D3DA00153B4A /* VerefyingRequestViewController.swift */,
 				B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */,
+				B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 				B8922F8727832AE200153B4A /* MyCollectionViewCell.swift */,
 				B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */,
 				B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */,
+				B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -290,6 +296,7 @@
 				B83FC19E277DA3BB00342B70 /* HomeViewController.swift in Sources */,
 				B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */,
 				B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */,
+				B8109E2F2795C5B5000FF1FA /* BookmarksTableViewCell.swift in Sources */,
 				B8922F802782D2E700153B4A /* MapViewController.swift in Sources */,
 				B8922F7827821EA400153B4A /* MessageMdoel.swift in Sources */,
 				B8922F842782D39D00153B4A /* UpdateViewController.swift in Sources */,
@@ -299,6 +306,7 @@
 				B8922F7C2782D29200153B4A /* SignUpViewController.swift in Sources */,
 				B8922F6B277FA84600153B4A /* OfferDetailsViewController.swift in Sources */,
 				B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */,
+				B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */,
 				B8109E212789C71F000FF1FA /* RecentChatModel.swift in Sources */,
 				B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */,
 				B8109E2B279155C2000FF1FA /* EmailHelper.swift in Sources */,

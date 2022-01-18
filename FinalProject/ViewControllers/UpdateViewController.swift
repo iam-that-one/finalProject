@@ -13,6 +13,7 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var lat = 0.0
     var log = 0.0
+    var status = false
     var toBeUpdateOffer : Offer?
     var row : String?
     var toBeSavedImage1 : UIImage?
@@ -140,6 +141,17 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
         $0.addTarget(self, action: #selector( updateOfferBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
+    
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // // // // // Initiate update fields// // // // //

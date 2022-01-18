@@ -12,9 +12,10 @@ class OfferDetailsViewController: UIViewController {
     var offer : Offer? = nil
     var offerProviderProfile : User? = nil
     var viewControllerSourceIndicator = false
-    
+    var status = false
     var isOnline = false
     var phoneNumber = ""
+    var bookBtnToggl = false
     let db = Firestore.firestore()
     
     lazy var verfied : UIImageView = {
@@ -22,7 +23,13 @@ class OfferDetailsViewController: UIViewController {
         $0.tintColor = .black
         return $0
     }(UIImageView())
-    
+    lazy var book : UIButton = {
+        $0.setBackgroundImage(UIImage(systemName: "bookmark"), for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(bookBtnClick), for: .touchDown)
+        $0.tintColor = .black
+        return $0
+    }(UIButton(type: .system))
     
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
@@ -150,7 +157,7 @@ class OfferDetailsViewController: UIViewController {
     }(UIButton(type: .system))
     
     lazy var comments : UIButton = {
-        $0.setTitle("التعليقات", for: .normal)
+        $0.setTitle("التعليقات 📨", for: .normal)
         $0.tintColor = .black
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(showCommentsBtnCkick), for: .touchDown)
@@ -159,8 +166,9 @@ class OfferDetailsViewController: UIViewController {
     
     lazy var phoneCall : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setBackgroundImage(UIImage(systemName: "phone.bubble.left.fill"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "phone.fill"), for: .normal)
         $0.tintColor = .black
+        $0.transform = $0.transform.rotated(by: -90)
         $0.addTarget(self, action: #selector(phoneCallBtnClic), for: .touchDown)
         return $0
     }(UIButton(type: .system))
@@ -170,8 +178,11 @@ class OfferDetailsViewController: UIViewController {
         $0.addTarget(self, action: #selector(backToOfferViewBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         isUserOnline()
         if isOnline == true{
             appearance.text = "متصل"
@@ -184,7 +195,7 @@ class OfferDetailsViewController: UIViewController {
           }
     func uiSettings(){
         view.backgroundColor = .white
-        container.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        container.backgroundColor = UIColor.lightGray
         offerTitle.backgroundColor  = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
@@ -201,8 +212,9 @@ class OfferDetailsViewController: UIViewController {
         
         offerDescription.text = offer!.description
         getProfile()
+        getBookmarks()
         [offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
-        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments,verfied].forEach{container.addSubview($0)}
+        [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments,verfied,book].forEach{container.addSubview($0)}
         
         NSLayoutConstraint.activate([
             
@@ -265,13 +277,19 @@ class OfferDetailsViewController: UIViewController {
             
             phoneCall.leadingAnchor.constraint(equalTo: sendMessage.trailingAnchor,constant: 10),
             phoneCall.bottomAnchor.constraint(equalTo: sendMessage.bottomAnchor),
-            phoneCall.widthAnchor.constraint(equalToConstant: 40),
-            phoneCall.heightAnchor.constraint(equalToConstant: 40),
+            phoneCall.widthAnchor.constraint(equalToConstant: 30),
+            phoneCall.heightAnchor.constraint(equalToConstant: 30),
             
             pin.trailingAnchor.constraint(equalTo: sendMessage.leadingAnchor,constant: -10),
             pin.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -30),
             pin.widthAnchor.constraint(equalToConstant: 30),
             pin.heightAnchor.constraint(equalToConstant: 30),
+            
+            book.trailingAnchor.constraint(equalTo: pin.leadingAnchor,constant: -10),
+            book.centerYAnchor.constraint(equalTo: pin.centerYAnchor),
+            book.widthAnchor.constraint(equalToConstant: 30),
+            book.heightAnchor.constraint(equalToConstant: 30),
+            
             
         ])
     }
@@ -284,7 +302,27 @@ class OfferDetailsViewController: UIViewController {
         self.present(mapView, animated: true, completion: nil)
     }
     
-    
+    @objc func bookBtnClick(){
+        bookBtnToggl.toggle()
+        if bookBtnToggl{
+            book.setBackgroundImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            db.collection("Bookmarks").document(offer!.offerID).setData(["id" : Auth.auth().currentUser!.uid, "offerID" : offer!.offerID])
+        }else{
+            book.setBackgroundImage(UIImage(systemName: "bookmark"), for: .normal)
+            db.collection("Bookmarks").document(offer!.offerID).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
+            }
+        //  bookBtnToggl = false
+            
+        }
+        
+        
+        
+    }
     @objc func showCommentsBtnCkick(){
         let commentView = CommentsViewController()
         commentView.offerID = offer!.offerID
@@ -346,6 +384,24 @@ class OfferDetailsViewController: UIViewController {
            }
        
        }
+    func getBookmarks(){
+        db.collection("Bookmarks").addSnapshotListener { querySnapshot, error in
+            if let error = error{
+                print(error)
+            }else{
+                for doc in querySnapshot!.documents{
+                    let data = doc.data()
+                    let id = data["id"] as? String ?? ""
+                    let offerID = data["offerID"] as? String ?? ""
+                    
+                    if id == Auth.auth().currentUser!.uid && offerID == self.offer!.offerID{
+                        self.book.setBackgroundImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                        break
+                    }
+                }
+            }
+        }
+    }
     func getProfile(){
         db.collection("offers_users").whereField("uid", isEqualTo: offer!.userID)
             .addSnapshotListener { (querySnapshot, error) in

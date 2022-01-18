@@ -14,7 +14,7 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     }
     
    
-   
+    var status = false
     var filterdResult : [Offer] = []
     lazy var myColletionView : UICollectionView? = nil
     var offers : [Offer] = []
@@ -127,10 +127,20 @@ var categoery = ""
        // Offer.example = temp
         offersTableView.reloadData()
         navigationController?.setNavigationBarHidden(true, animated: animated)
-
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    
         
         myColletionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myColletionView!.backgroundColor = UIColor.white
@@ -213,9 +223,9 @@ var categoery = ""
                             let lat = data["lat"] as? Double ?? 0.0
                             let log = data["log"] as? Double ?? 0.0
                             
-                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             
-                            self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             
                         }
                        
@@ -252,8 +262,8 @@ var categoery = ""
                             let log = data["log"] as? Double ?? 0.0
                             
                             if cat == categoery{
-                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
-                                self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                                self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date() ,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                                self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             }
                            
                           
@@ -344,16 +354,16 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = offersTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! OffersTableViewCell
-        cell.offerImage.image = UIImage(data:filterdResult[indexPath.row].image1) ?? UIImage()
-        cell.title.text = filterdResult[indexPath.row].title
-        let date = dateFormatter.date(from: filterdResult[indexPath.row].date)
-        cell.price.text = filterdResult[indexPath.row].price + "ريال سعودي" + " "
-        cell.date.text = date?.timeAgoDisplay()
-        cell.categoery.text = "#" + filterdResult[indexPath.row].categoery
-        cell.city.text = filterdResult[indexPath.row].city
+        cell.offerImage.image = UIImage(data:filterdResult.sorted{$0.date > $1.date}[indexPath.row].image1) ?? UIImage()
+        cell.title.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].title
+        //let date = dateFormatter.string(from: filterdResult[indexPath.row].date)
+        cell.price.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].price + "ريال سعودي" + " "
+        cell.date.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].date.timeAgoDisplay()
+        cell.categoery.text = "#" + filterdResult.sorted{$0.date > $1.date}[indexPath.row].categoery
+        cell.city.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].city
         cell.delegate = self
         if indexPath.row % 2 == 0{
-            cell.contentView.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+            cell.contentView.backgroundColor = UIColor.lightGray //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         }else{
             cell.contentView.backgroundColor = UIColor.systemGray5
         }
@@ -365,7 +375,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = OfferDetailsViewController()
-        vc.offer = filterdResult[indexPath.row]
+        vc.offer = filterdResult.sorted{$0.date > $1.date}[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

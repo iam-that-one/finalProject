@@ -12,6 +12,13 @@ class ProfileViewController: UIViewController {
     var myOffers : [Offer] = []
     var myInfo : [User] = []
     let db1 = Firestore.firestore()
+    var status = false
+    lazy var darkmode : UISwitch = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isOn = false
+        $0.addTarget(self, action: #selector(changeMode), for: .valueChanged)
+        return $0
+    }(UISwitch())
     
     lazy var sendAuthReqBtn : UIButton = {
         $0.setTitle("طلب توثيق", for: .normal)
@@ -91,10 +98,21 @@ class ProfileViewController: UIViewController {
         $0.tintColor = .black
         return $0
     }(UIImageView())
+    
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(container)
-        [email,username,profPic,verfied].forEach{container.addSubview($0)}
+        [email,username,profPic,verfied,darkmode].forEach{container.addSubview($0)}
         
         view.addSubview(profileOffersTableView)
         
@@ -103,6 +121,14 @@ class ProfileViewController: UIViewController {
         view.addSubview(sendAuthReqBtn)
         getProfile()
         getMyOffers()
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        darkmode.isOn = status
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
         NSLayoutConstraint.activate([
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -135,6 +161,9 @@ class ProfileViewController: UIViewController {
             verfied.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             verfied.widthAnchor.constraint(equalToConstant: 20),
             verfied.heightAnchor.constraint(equalToConstant: 20),
+            
+            darkmode.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            darkmode.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 20),
             profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
@@ -218,7 +247,7 @@ class ProfileViewController: UIViewController {
                             let lat = data["lat"] as? Double ?? 0.0
                             let log = data["log"] as? Double ?? 0.0
                             
-                            self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: date,lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                         }
                         self.profileOffersTableView.reloadData()
                         
@@ -237,8 +266,14 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    @objc func editBtnClick(){
-        
+    @objc func changeMode(){
+        status.toggle()
+        UserDefaults.standard.set(status, forKey: "isDarkMode")
+        if status{
+            overrideUserInterfaceStyle = .dark
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
     }
     func uploadImage(_ image : UIImage) -> Data{
           guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
@@ -264,8 +299,8 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
         cell.price.text! = myOffers[indexPath.row].price
         cell.categoery.text = "#" + myOffers[indexPath.row].categoery
         cell.title.text = myOffers[indexPath.row].title
-        let date = dateFormatter.date(from: myOffers[indexPath.row].date)
-        cell.date.text = date?.timeAgoDisplay()
+      //  let date = dateFormatter.date(from: myOffers[indexPath.row].date)
+        cell.date.text = myOffers[indexPath.row].date.timeAgoDisplay()
         cell.offers = myOffers[indexPath.row]
         cell.delegate = self
         //cell.deleteBtn.tag = indexPath.row

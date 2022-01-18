@@ -12,6 +12,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var offer : Offer? = nil
     var count = 0
     let map = MKMapView()
+    var status = false
     var cordinat = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     lazy var dismissMapView : UIButton = {
         $0.setTitle("إخفاء", for: .normal)
@@ -23,6 +24,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         $0.addTarget(self, action: #selector(dismissBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
+    
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         cordinat =  CLLocationCoordinate2D(latitude: offer!.lat, longitude: offer!.log)

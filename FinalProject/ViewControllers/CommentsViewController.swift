@@ -12,7 +12,7 @@ class CommentsViewController: UIViewController {
     var comments : [Comment] = []
     var name = ""
     var offerID = ""
-
+    var status = false
     lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -52,18 +52,30 @@ class CommentsViewController: UIViewController {
         $0.delegate = self
         $0.dataSource = self
         $0.layer.cornerRadius = 10
-        $0.backgroundColor = .clear
+        $0.backgroundColor = UIColor.lightGray
         $0.separatorStyle = .none
         return $0
     }(UITableView())
     
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.lightGray
         view.addSubview(commentsTableView)
         view.addSubview(sendComment)
         view.addSubview(sendButton)
         view.addSubview(newLable)
-        view.backgroundColor = .white
+       // view.backgroundColor = .white
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -173,6 +185,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
             dateFormatter.date(from: d1.dat) ?? Date()  < dateFormatter.date(from: d2.dat) ?? Date()
         })[indexPath.row].dat
         cell.date.text = stringDate
+        cell.backgroundColor = UIColor.lightGray
         return cell
     }
     

@@ -23,6 +23,7 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
         let item2 = MessagesViewController()
         let item3 = AddOfferViewController()
         let item4 = ProfileViewController()
+        let item5 = BookmarksViewController()
        
         
         let icon1 = UITabBarItem(title: "الرئيسية", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
@@ -36,8 +37,12 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
 
         let icon4 = UITabBarItem(title: "حسابي", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         item4.tabBarItem = icon4
-       
-        let controllers = [item1,item2,item3,item4]
+        
+        let icon5 = UITabBarItem(title: "مفضلتي", image: UIImage(systemName: "bookmark"), selectedImage: UIImage(systemName: "bookmark.fill"))
+        item5.tabBarItem = icon5
+        
+        self.tabBar.tintColor = .darkGray
+        let controllers = [item1,item5,item3,item2,item4]
         self.viewControllers = controllers
     
     }

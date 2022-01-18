@@ -12,14 +12,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     let userRef = Database.database().reference(withPath: "online")
 
-
+    var status = false
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: .selected)
         
-        UITabBar.appearance().backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+      
+        
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        
+        
+        
+        UITabBar.appearance().backgroundColor =  .white//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         var rootViewController : UIViewController?
         if Auth.auth().currentUser?.uid == nil{
              rootViewController = SignInViewController()
@@ -39,6 +44,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            window?.overrideUserInterfaceStyle = .dark
+            
+        }else{
+            window?.overrideUserInterfaceStyle = .light
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

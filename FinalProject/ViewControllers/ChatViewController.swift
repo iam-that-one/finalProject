@@ -13,6 +13,7 @@ var myName = ""
     var userInfo : [User] = []
     var messages : [Message] = []
     var name = ""
+    var status = false
     var offerProviderId = ""
     var initialMessage = ""
     var pic = Data()
@@ -73,14 +74,25 @@ var myName = ""
         $0.addTarget(self, action: #selector(backToDetailsViewBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
+    
+    override func viewWillAppear(_ animated: Bool) {
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        
+        if status{
+            overrideUserInterfaceStyle = .dark
+            
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchMesssages()
         messageTf.text = initialMessage
         view.backgroundColor = .white
        // newLable.text! = offerProviderPofile!.name
-        view.backgroundColor = .darkGray
-        setBackgroundImage(imageName: "chatBac")
+        view.backgroundColor = UIColor.systemGray5
+      //  setBackgroundImage(imageName: "chatBac")
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
       //  print("Offer provider id \(offerProvider!.userID)")
         getProfile(offerProviderId)

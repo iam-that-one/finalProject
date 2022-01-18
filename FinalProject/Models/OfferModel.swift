@@ -13,7 +13,7 @@ struct Offer{
     let price : String
     let userID : String
     let offerID : String
-    let date : String
+    let date : Date
     let lat : Double
     let log : Double
     let city : String
