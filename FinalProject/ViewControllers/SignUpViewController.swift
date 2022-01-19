@@ -19,49 +19,74 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 50
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.tintColor = .black
+        $0.tintColor = .darkGray
         $0.setBackgroundImage(UIImage(systemName: "person.circle.fill"), for: .normal)
         $0.addTarget(self, action: #selector(selectImage), for: .touchDown)
         return $0
     }(UIButton(type: .system))
     
     lazy var phoneNumber : UITextField = {
-        $0.placeholder = "دخل رقم جوالك"
+        $0.backgroundColor = .darkGray
+        $0.textColor = UIColor.lightGray
+        $0.tintColor = UIColor.lightGray
+        $0.attributedPlaceholder = NSAttributedString(
+            string: "رقم الجوال",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            )
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.keyboardType = .phonePad
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(UITextField())
     
         lazy var email : UITextField = {
-        $0.placeholder = "الايميل"
+            $0.backgroundColor = .darkGray
+            $0.textColor = UIColor.lightGray
+            $0.tintColor = UIColor.lightGray
+            $0.attributedPlaceholder = NSAttributedString(
+                string: "الايميل",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+                )
         $0.borderStyle = .roundedRect
        // $0.transform = $0.transform.rotated(by: 45)
-            $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
     
     lazy var password : UITextField = {
-        $0.placeholder = "كلمة المرور"
+        $0.backgroundColor = .darkGray
+        $0.textColor = UIColor.lightGray
+        $0.tintColor = UIColor.lightGray
+        $0.attributedPlaceholder = NSAttributedString(
+            string:"كلمة المرور",
+            attributes: [NSAttributedString.Key.foregroundColor:UIColor.lightGray]
+            )
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
     
     lazy var firstName : UITextField = {
-        $0.placeholder = "الاسم الأول"
+        $0.backgroundColor = .darkGray
+        $0.textColor = UIColor.lightGray
+        $0.tintColor = UIColor.lightGray
+        $0.attributedPlaceholder = NSAttributedString(
+            string: "الاسم الأول",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            )
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
     
     lazy var lastName : UITextField = {
-        $0.placeholder = "الاسم الأخير"
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .darkGray
+        $0.textColor = UIColor.lightGray
+        $0.tintColor = UIColor.lightGray
+        $0.attributedPlaceholder = NSAttributedString(
+            string: "الاسم الأخير",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            )
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -70,7 +95,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
     lazy var verficationCode : UITextField = {
         $0.placeholder = "تدخل رقم التحقق هنا"
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.isHidden = true
         return $0
@@ -80,10 +105,12 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
     lazy var signUpBtn : UIButton = {
         $0.setTitle("تسجيل حساب", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.tintColor = .black
+        $0.tintColor = .yellow
+        $0.setBackgroundImage(UIImage(named: "grayBtn"), for: .normal)
         $0.layer.cornerRadius = 10
         $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.addTarget(self, action: #selector(signUpBtnClick), for: .touchDown)
+      //  $0.transform = $0.transform.rotated(by: 90)
         return $0
     }(UIButton(type: .system))
     
@@ -122,7 +149,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         super.viewDidLoad()
         imagePicker.delegate = self
         view.backgroundColor = .white
-        setBackgroundImage(imageName: "w2")
+        setBackgroundImage(imageName: "w3")
 
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -136,13 +163,13 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         
         NSLayoutConstraint.activate([
             
-            profilePic.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 100),
-            profilePic.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -30),
-            profilePic.widthAnchor.constraint(equalToConstant: 100),
-            profilePic.heightAnchor.constraint(equalToConstant: 100),
+            profilePic.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 50),
+            profilePic.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profilePic.widthAnchor.constraint(equalToConstant: 150),
+            profilePic.heightAnchor.constraint(equalToConstant: 150),
             
-            phoneNumber.topAnchor.constraint(equalTo: profilePic.bottomAnchor,constant: 100),
-            phoneNumber.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            phoneNumber.topAnchor.constraint(equalTo: profilePic.bottomAnchor,constant: 50),
+            phoneNumber.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             phoneNumber.widthAnchor.constraint(equalToConstant: 200),
                                                
             firstName.topAnchor.constraint(equalTo: phoneNumber.bottomAnchor,constant: 20),
@@ -150,7 +177,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             firstName.widthAnchor.constraint(equalToConstant: 200),
             
             lastName.topAnchor.constraint(equalTo: firstName.bottomAnchor,constant: 20),
-            lastName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            lastName.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             lastName.widthAnchor.constraint(equalToConstant: 200),
             
             email.topAnchor.constraint(equalTo: lastName.bottomAnchor,constant: 20),
@@ -158,14 +185,13 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             email.widthAnchor.constraint(equalToConstant: 200),
             
             password.topAnchor.constraint(equalTo: email.bottomAnchor,constant: 20),
-            password.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            password.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
             password.widthAnchor.constraint(equalToConstant: 200),
             
             
             signUpBtn.topAnchor.constraint(equalTo: password.bottomAnchor,constant: 20),
             signUpBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signUpBtn.widthAnchor.constraint(equalToConstant: 350),
-            signUpBtn.widthAnchor.constraint(equalToConstant: 300),
+            signUpBtn.widthAnchor.constraint(equalToConstant: 200),
             signUpBtn.heightAnchor.constraint(equalToConstant: 50),
             verficationCode.topAnchor.constraint(equalTo: signUpBtn.bottomAnchor,constant: 20),
             verficationCode.centerXAnchor.constraint(equalTo: view.centerXAnchor),

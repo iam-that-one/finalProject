@@ -176,6 +176,7 @@ var myName = ""
           self.view.sendSubviewToBack(imageView)
       }
     func fetchMesssages(){
+        
         let name = db.collection("offers_users").document(Auth.auth().currentUser!.uid)
             name.getDocument { user, error in
                 if let error = error{
@@ -188,6 +189,7 @@ var myName = ""
                     print(self.myName)
                 }
             }
+        
             db.collection("offers_users").document(Auth.auth().currentUser!.uid)
             .collection("Message").document(offerProviderId).collection("msg")
                 .order(by: "date")

@@ -23,7 +23,13 @@ class SignInViewController: UIViewController {
     lazy var email : UITextField = {
         $0.placeholder = "ايميلك لو سمحت"
         $0.text = "n@nn.com"
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .darkGray
+        $0.textColor = UIColor.lightGray
+        $0.tintColor = UIColor.lightGray
+        $0.attributedPlaceholder = NSAttributedString(
+            string: "الاسم الأول",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            )
         $0.tintColor = .black
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -34,15 +40,21 @@ class SignInViewController: UIViewController {
         $0.placeholder = "كلمة المرور"
         $0.text = "Aa123456789&"
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .darkGray
+        $0.textColor = UIColor.lightGray
+        $0.tintColor = UIColor.lightGray
+        $0.attributedPlaceholder = NSAttributedString(
+            string: "الاسم الأول",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            )
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
     
     lazy var signInBtn : UIButton = {
         $0.setTitle("تسجيل الدخول", for: .normal)
-        $0.setBackgroundImage(UIImage(named: "btn"), for: .normal)
-        $0.tintColor = .black
+        $0.setBackgroundImage(UIImage(named: "grayBtn"), for: .normal)
+        $0.tintColor = .yellow
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(signInBtnClick), for: .touchDown)
         return $0
@@ -52,7 +64,7 @@ class SignInViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "جديد؟"
-        $0.textColor = .black
+        $0.textColor = .darkGray
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -61,6 +73,7 @@ class SignInViewController: UIViewController {
     
     lazy var moveToSignUpBtn : UIButton = {
         $0.setTitle("قم بتسجيل حساب", for: .normal)
+        $0.tintColor = .black
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(moveToSignUpBtnClick), for: .touchDown)
         return $0
@@ -81,7 +94,7 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0.3, alpha: 1)
-        setBackgroundImage(imageName: "w2")
+        setBackgroundImage(imageName: "w3")
         uiSettings()
     }
     
@@ -100,7 +113,7 @@ class SignInViewController: UIViewController {
         NSLayoutConstraint.activate([
         
             
-            email.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 450),
+            email.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 200),
             email.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             email.widthAnchor.constraint(equalToConstant: 200),
             
@@ -112,7 +125,7 @@ class SignInViewController: UIViewController {
             signInBtn.topAnchor.constraint(equalTo: passwprd.bottomAnchor,constant: 30),
             signInBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             signInBtn.widthAnchor.constraint(equalToConstant: 200),
-            signInBtn.heightAnchor.constraint(equalToConstant: 100),
+            signInBtn.heightAnchor.constraint(equalToConstant: 50),
             
             newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -130),
             newLable.topAnchor.constraint(equalTo: signInBtn.bottomAnchor,constant: 20),

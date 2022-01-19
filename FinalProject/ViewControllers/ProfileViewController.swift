@@ -80,6 +80,7 @@ class ProfileViewController: UIViewController {
     lazy var signOut : UIButton = {
         $0.setTitle("تسجيل الخروج", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = .black
         $0.addTarget(self, action: #selector(signOutBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
