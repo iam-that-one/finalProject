@@ -120,10 +120,10 @@ var myName = ""
                                                     
             messageTf.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: 5),
             messageTf.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            messageTf.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-70),
+            messageTf.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-100),
             messageTf.heightAnchor.constraint(equalToConstant: 40),
             
-            sendButton.leadingAnchor.constraint(equalTo: messageTf.trailingAnchor,constant: 5),
+            sendButton.leadingAnchor.constraint(equalTo: messageTf.trailingAnchor,constant: 10),
             sendButton.centerYAnchor.constraint(equalTo: messageTf.centerYAnchor),
             sendButton.widthAnchor.constraint(equalToConstant: 30),
             sendButton.heightAnchor.constraint(equalToConstant: 30),
@@ -146,7 +146,7 @@ var myName = ""
                 
            
         
-                    let msg = ["content": self.messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : self.dateFormatter.string(from: Date()), "Name" : self.name] as [String : Any]
+                    let msg = ["content": self.messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : SharedInstanceManager.shared.dateFormatter.string(from: Date()),"time":Timestamp() ,"Name" : self.name] as [String : Any]
            
                     self.db.collection("offers_users").document(Auth.auth().currentUser!.uid)
                         .collection("Message").document(self.offerProviderId).collection("msg").document().setData(msg as [String : Any])
@@ -192,7 +192,7 @@ var myName = ""
         
             db.collection("offers_users").document(Auth.auth().currentUser!.uid)
             .collection("Message").document(offerProviderId).collection("msg")
-                .order(by: "date")
+                .order(by: "time")
                 .addSnapshotListener { (querySnapshot, error) in
                     self.messages = []
                     if let e = error {
@@ -207,7 +207,7 @@ var myName = ""
                                     let name = data["Name"] as? String
                                 {
                                     
-                                    let finalDate = self.dateFormatter.date(from: date)
+                                    let finalDate = SharedInstanceManager.shared.dateFormatter.date(from: date)
                                     let fetchedMessage = Message(name: name, date: finalDate ?? Date(), userID: id, content: msg)
                                     self.messages.append(fetchedMessage)
                                     DispatchQueue.main.async {
@@ -245,13 +245,7 @@ var myName = ""
             }
 
     }
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
+  
 }
 
 extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
@@ -265,7 +259,7 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
        // let date = dateFormatter.date(from: messages[indexPath.row].date)
         cell.username.text = messages.sorted{$0.date < $1.date}[indexPath.row].name
         cell.content.text = messages.sorted{$0.date < $1.date}[indexPath.row].content
-        cell.date.text = dateFormatter.string(from:messages.sorted{$0.date < $1.date}[indexPath.row].date )
+        cell.date.text = SharedInstanceManager.shared.dateFormatter.string(from:messages.sorted{$0.date < $1.date}[indexPath.row].date )
      
         return cell
     }
@@ -275,12 +269,13 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
     }
     // Move lofin view 300 points upward
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -300
+        SharedInstanceManager.shared.keyboardWillShow(view,-300)
     }
 
+   
     // Move login view to original position
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0
+        SharedInstanceManager.shared.keyboardWillHide(view)
     }
     @objc func dismissKeyboard() {
         view.endEditing(true)

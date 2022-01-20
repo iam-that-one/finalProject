@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    var imagePicker = UIImagePickerController()
+   // var imagePicker = UIImagePickerController()
     let userRef = Database.database().reference(withPath: "online")
     var toBeUploaded = UIImage()
     var message = ""
@@ -147,9 +147,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker.delegate = self
+        SharedInstanceManager.shared.imagePicker.delegate = self
         view.backgroundColor = .white
-        setBackgroundImage(imageName: "w3")
+        SharedInstanceManager.shared.setBackgroundImage(imageName: "w3", view: view)
 
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -214,16 +214,16 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         self.profilePic.setTitleColor(UIColor.white, for: .normal)
            self.profilePic.isUserInteractionEnabled = true
            
-           let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-           alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-               self.openCamera()
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openCamera(viewController: self)
            }))
            
-           alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
-               self.openGallary()
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openGallary(viewController: self)
            }))
            
-           alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+           alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
            
            /*If you want work actionsheet on ipad
            then you have to use popoverPresentationController to present the actionsheet,
@@ -239,31 +239,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
            
            self.present(alert, animated: true, completion: nil)
        }
-    
-    func openCamera()
-        {
-            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
-            {
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            else
-            {
-                let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-
-        func openGallary()
-        {
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-
 
     @objc func signUpBtnClick(){
         signUp()
@@ -271,22 +246,42 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
     
     
     func signUp(){
-        let error = loginFieldsValidation()
+        let error = SharedInstanceManager.shared.loginFieldsValidation(email, password)
         if error != nil{
-            message = fieldsValidation()!
+            SharedInstanceManager.shared.playAudioAsset("error")
+            message =  SharedInstanceManager.shared.fieldsValidation(email, password)!
             alert = UIAlertController(title: "رسالة", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { _ in
                 
             }))
             self.present(alert, animated: true, completion: nil)
+          
         }
+        else {
+            message = ""
+            self.message = SharedInstanceManager.shared.fieldsValidation(self.email, self.password) ?? ""
+            if message != "" {
+            self.alert = UIAlertController(title: "رسالة", message: self.message, preferredStyle: .alert)
+            self.alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { _ in
+                SharedInstanceManager.shared.playAudioAsset("error")
+            }))
+            self.present(self.alert, animated: true, completion: nil)
+            return
+            }
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber.text!, uiDelegate: nil) { (verificationID, error) in
             if let error = error {
                 print("------------------------------")
                 print(error)
+                SharedInstanceManager.shared.playAudioAsset("error")
+                self.message = "تأكد من صيفة رقم الهاتف المدخل"
+                self.alert = UIAlertController(title: "رسالة", message: self.message, preferredStyle: .alert)
+                self.alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { _ in
+                    
+                }))
+                self.present(self.alert, animated: true, completion: nil)
                 return
             }
-            else{
+            else {
                 // Sign in using the verificationID and the code sent to the user
                 // ...
                 UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
@@ -295,6 +290,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
                 self.verficationCode.isHidden = false
                 self.signUpBtnVer.isHidden = false
             }
+        }
         }
     }
     
@@ -322,7 +318,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
                      }
                      else{
                          let db = Firestore.firestore()
-                         db.collection("offers_users").addDocument(data: ["firstName" : self.firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"lastName":self.lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"email":self.email.text!.trimmingCharacters(in: .whitespacesAndNewlines),"uid":result!.user.uid,"image": self.uploadImage((self.toBeUploaded)),"phoneNumnber": self.phoneNumber.text!, "isVerified":false] as [String: Any])
+                         db.collection("offers_users").addDocument(data: ["firstName" : self.firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"lastName":self.lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"email":self.email.text!.trimmingCharacters(in: .whitespacesAndNewlines),"uid":result!.user.uid,"image": SharedInstanceManager.shared.uploadImage((self.toBeUploaded)),"phoneNumnber": self.phoneNumber.text!, "isVerified":false] as [String: Any])
 
                              if let user = Auth.auth().currentUser{
                                  let currentUserRef = self.userRef.child(user.uid)
@@ -342,25 +338,15 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
              }
          }
     }
-    func setBackgroundImage(imageName: String){
-        let background = UIImage(named: imageName)
-        var imageView : UIImageView!
-        imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode =  .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = background
-        imageView.center = view.center
-        view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-    }
+
     // Move signUp view 300 points upward
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -300
+        SharedInstanceManager.shared.keyboardWillShow(view, -100)
     }
 
     // Move login view to original position
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0
+        SharedInstanceManager.shared.keyboardWillHide(view)
     }
     @objc func dismissKeyboard() {
         view.endEditing(true)
@@ -374,38 +360,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         self.profilePic.setBackgroundImage(image, for: .normal)
         self.toBeUploaded = image
     }
-    func uploadImage(_ image : UIImage) -> Data{
-          guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
-          return imageData
-      }
-    func fieldsValidation() -> String?{
-        if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-            return "الرجاء ملء جميع الحقول "
-        }
-        if emailValidation(email.text!.trimmingCharacters(in: .whitespaces)) == false{
-            return "صيغة هذا البريد الإكتروني غير صالحة"
-        }
-        if passwordValidation(password.text!.trimmingCharacters(in: .whitespacesAndNewlines)) == false{
-            return "تأكد من أن كلمة المرور تتكون من ثمانية أحرف أو أكثر وأن تحتوي أحرف خاصة وأرقام"
-        }
-        return nil
-    }
-    func emailValidation(_ email : String) -> Bool{
-        let checkedEmail = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
-        return checkedEmail.evaluate(with: email.trimmingCharacters(in: .whitespacesAndNewlines))
-    }
-    func passwordValidation(_ password : String) -> Bool{
-        let checkedPassword = NSPredicate(format: "SELF MATCHES %@","^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-a\\d$@$#!%*?&]{8,}")
-        return checkedPassword.evaluate(with: password.trimmingCharacters(in: .whitespacesAndNewlines))
-    }
-    func loginFieldsValidation() -> String?{
-        if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            return "الرجاء ملء جميع الحقول "
-        }
-        if emailValidation(email.text!.trimmingCharacters(in: .whitespaces)) == false{
-            return "صيغة هذا البريد الإكتروني غير صالحة"
-        }
-        return nil
-    }
-    
+
+   
 }

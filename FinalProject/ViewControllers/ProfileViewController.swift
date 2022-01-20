@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     lazy var darkmode : UISwitch = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.isOn = false
-        $0.addTarget(self, action: #selector(changeMode), for: .valueChanged)
+        $0.addTarget(self, action: #selector(changeModeBtnClicked), for: .valueChanged)
         return $0
     }(UISwitch())
     
@@ -112,14 +112,7 @@ class ProfileViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(container)
-        [email,username,profPic,verfied,darkmode].forEach{container.addSubview($0)}
-        
-        view.addSubview(profileOffersTableView)
-        
-        view.addSubview(newLable)
-        view.addSubview(signOut)
-        view.addSubview(sendAuthReqBtn)
+        uiSettings()
         getProfile()
         getMyOffers()
         status = UserDefaults.standard.bool(forKey: "isDarkMode")
@@ -130,6 +123,13 @@ class ProfileViewController: UIViewController {
         }else{
             overrideUserInterfaceStyle = .light
         }
+     
+    }
+    
+    func uiSettings(){
+        [email,username,profPic,verfied,darkmode].forEach{container.addSubview($0)}
+        [profileOffersTableView,newLable,signOut,sendAuthReqBtn,container].forEach{view.addSubview($0)}
+
         NSLayoutConstraint.activate([
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -182,6 +182,9 @@ class ProfileViewController: UIViewController {
        
     }
     @objc func signOutBtnClick(){
+        logOut()
+    }
+    func logOut(){
         do{
             try Auth.auth().signOut()
             let signIn = SignInViewController()
@@ -248,7 +251,7 @@ class ProfileViewController: UIViewController {
                             let lat = data["lat"] as? Double ?? 0.0
                             let log = data["log"] as? Double ?? 0.0
                             
-                            self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.myOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: SharedInstanceManager.shared.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                         }
                         self.profileOffersTableView.reloadData()
                         
@@ -267,7 +270,11 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    @objc func changeMode(){
+    @objc func changeModeBtnClicked(){
+        changeMode()
+    }
+
+    func changeMode(){
         status.toggle()
         UserDefaults.standard.set(status, forKey: "isDarkMode")
         if status{
@@ -276,17 +283,6 @@ class ProfileViewController: UIViewController {
             overrideUserInterfaceStyle = .light
         }
     }
-    func uploadImage(_ image : UIImage) -> Data{
-          guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
-          return imageData
-      }
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
 }
 
 extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
@@ -300,13 +296,10 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
         cell.price.text! = myOffers[indexPath.row].price
         cell.categoery.text = "#" + myOffers[indexPath.row].categoery
         cell.title.text = myOffers[indexPath.row].title
-      //  let date = dateFormatter.date(from: myOffers[indexPath.row].date)
         cell.date.text = myOffers[indexPath.row].date.timeAgoDisplay()
         cell.offers = myOffers[indexPath.row]
         cell.delegate = self
-        //cell.deleteBtn.tag = indexPath.row
         return cell
-    
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150

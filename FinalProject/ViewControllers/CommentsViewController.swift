@@ -117,13 +117,13 @@ class CommentsViewController: UIViewController {
         send()
     }
     func send(){
-        db.collection("Comments").document().setData(["comment" : sendComment.text!, "date": dateFormatter.string(from: Date()),"id" : offerID, "username":self.name] as [String:Any])
+        db.collection("Comments").document().setData(["comment" : sendComment.text!, "date": SharedInstanceManager.shared.dateFormatter.string(from: Date()),"id" : offerID, "username":self.name, "time": Timestamp()] as [String:Any])
         getComments()
     }
     func getComments(){
      
         db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
-    
+            
             .addSnapshotListener { querySnapshot, error in
                 if let error = error{
                     print(error)
@@ -135,6 +135,7 @@ class CommentsViewController: UIViewController {
                     }
                     
                     self.db.collection("Comments")
+                        .order(by: "time")
                         .whereField("id", isEqualTo: self.offerID)
             .addSnapshotListener { (querySnapshot, error) in
                 self.comments = []
@@ -151,6 +152,8 @@ class CommentsViewController: UIViewController {
                             self.commentsTableView.reloadData()
                             self.newLable.text! = "التعليقات \n\n\(self.comments.count)"
                         }
+                        let indexPath = IndexPath(row: self.comments.count - 1, section: 0)
+                        self.commentsTableView.scrollToRow(at: indexPath, at: .top, animated: true)
                         
                     }
                     
@@ -159,13 +162,7 @@ class CommentsViewController: UIViewController {
             }
     }
     
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
+   
 }
 
 extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
@@ -175,14 +172,10 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = commentsTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! CommentsTableViewCell
-        cell.username.text = comments.sorted(by: { d1, d2 in
-            dateFormatter.date(from: d1.dat) ?? Date() < dateFormatter.date(from: d2.dat) ?? Date()
-        })[indexPath.row].username
-        cell.content.text = comments.sorted(by: { d1, d2 in
-            dateFormatter.date(from: d1.dat) ?? Date()  < dateFormatter.date(from: d2.dat) ?? Date()
-        })[indexPath.row].comment
+        cell.username.text = comments[indexPath.row].username
+        cell.content.text = comments[indexPath.row].comment
         let stringDate = comments.sorted(by: { d1, d2 in
-            dateFormatter.date(from: d1.dat) ?? Date()  < dateFormatter.date(from: d2.dat) ?? Date()
+            SharedInstanceManager.shared.dateFormatter.date(from: d1.dat) ?? Date()  < SharedInstanceManager.shared.dateFormatter.date(from: d2.dat) ?? Date()
         })[indexPath.row].dat
         cell.date.text = stringDate
         cell.backgroundColor = UIColor.lightGray

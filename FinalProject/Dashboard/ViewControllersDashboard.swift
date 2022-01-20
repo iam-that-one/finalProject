@@ -38,7 +38,7 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
         let icon4 = UITabBarItem(title: "حسابي", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
         item4.tabBarItem = icon4
         
-        let icon5 = UITabBarItem(title: "مفضلتي", image: UIImage(systemName: "bookmark"), selectedImage: UIImage(systemName: "bookmark.fill"))
+        let icon5 = UITabBarItem(title: "تفضيلاتي", image: UIImage(systemName: "bookmark"), selectedImage: UIImage(systemName: "bookmark.fill"))
         item5.tabBarItem = icon5
         
         self.tabBar.tintColor = .darkGray

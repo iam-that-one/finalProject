@@ -85,7 +85,7 @@ class BookmarksViewController: UIViewController {
                                     let lat = data["lat"] as? Double ?? 0.0
                                     let log = data["log"] as? Double ?? 0.0
                                   //  if id == Auth.auth().currentUser!.uid{
-                                    self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                                    self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: SharedInstanceManager.shared.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                                // }
                                 self.offersTableView.reloadData()
                                 
@@ -97,13 +97,7 @@ class BookmarksViewController: UIViewController {
             }
         }
     }
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
+   
 }
 
 extension BookmarksViewController : UITableViewDelegate, UITableViewDataSource{

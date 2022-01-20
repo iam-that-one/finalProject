@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     func myHomeTableViewCell(_ HomeTableViewCel: OffersTableViewCell, move offer: Offer) {
-        move()
     }
     
    
@@ -65,7 +64,7 @@ var categoery = ""
         $0.addTarget(self, action: #selector(cars), for: .touchDown)
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.layer.borderWidth = 3
+        $0.layer.borderWidth = 1
         $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
@@ -137,10 +136,22 @@ var categoery = ""
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+       // offers = []
+       // filterdResult = []
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
+      //  let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+      //  view.addGestureRecognizer(tap)
+        
+        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         
         myColletionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myColletionView!.backgroundColor = UIColor.white
@@ -148,20 +159,17 @@ var categoery = ""
         myColletionView!.delegate = self
         myColletionView!.backgroundColor = .darkGray
         myColletionView!.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: "coleectionViewCell")
-        //self.navigationController?.navigationBar.tintColor = .clear
+        
         animateTableView()
+        
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
         stackView.distribution = .fill // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
         stackView.addArrangedSubview(logo)
         stackView.addArrangedSubview(logo2)
         stackView.addArrangedSubview(logo3)
         stackView.addArrangedSubview(logo4)
-        
-        let newData = ["image" : uploadImage(UIImage(named: "imac")!)]
-        db.collection("offers_users").document("6Bo1Akjv2LmUto1Y66jE").setData(newData , merge: true)
-        
+      
         getOffers()
-      //  filterdResult = offers
         temp = offers
         [newLable, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
@@ -193,18 +201,16 @@ var categoery = ""
             offersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
         ])
     }
-    func move(){
-        print("AAAAAAAAAAAAAAAAA")
-      //  let mapView = MapViewController()
-        //self.navigationController?.pushViewController(mapView, animated: true)
-    }
     func getOffers(){
         
         db.collection("Offers")
-            .addSnapshotListener { (querySnapshot, error) in
+            .order(by: "time",descending: true)
+            .addSnapshotListener { [self] (querySnapshot, error) in
                 if let error = error {
                     print("Error while fetching profile\(error)")
                 } else {
+                    filterdResult = []
+                    offers = []
                     if let snapshotDocuments = querySnapshot?.documents {
                         for doc in snapshotDocuments {
                             let data = doc.data()
@@ -223,9 +229,9 @@ var categoery = ""
                             let lat = data["lat"] as? Double ?? 0.0
                             let log = data["log"] as? Double ?? 0.0
                             
-                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date:  self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             
-                            self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date:  self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             
                         }
                        
@@ -262,7 +268,7 @@ var categoery = ""
                             let log = data["log"] as? Double ?? 0.0
                             
                             if cat == categoery{
-                                self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date() ,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                                self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date:  self.dateFormatter.date(from: date) ?? Date() ,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                                 self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             }
                            
@@ -278,10 +284,10 @@ var categoery = ""
     @objc func moveBtnClick(){
     }
     @objc func devices(){
-          logo2.tintColor = .black
-          logo.tintColor = .darkGray
-          logo3.tintColor = .darkGray
-          logo4.tintColor = .darkGray
+          logo2.tintColor = .darkGray
+          logo.tintColor = .lightGray
+          logo3.tintColor = .lightGray
+          logo4.tintColor = .lightGray
           categoery = "أجهزة"
         filterdResult = []
         filterOffers(categoery)
@@ -289,10 +295,10 @@ var categoery = ""
       }
       @objc func cars(){
           animateTableView()
-          logo3.tintColor = .black
-          logo.tintColor = .darkGray
-          logo2.tintColor = .darkGray
-          logo4.tintColor = .darkGray
+          logo3.tintColor = .darkGray
+          logo.tintColor = .lightGray
+          logo2.tintColor = .lightGray
+          logo4.tintColor = .lightGray
           categoery = "سيارات"
           filterdResult = []
           filterOffers(categoery)
@@ -300,12 +306,12 @@ var categoery = ""
       }
     @objc func other(){
         animateTableView()
-        logo3.tintColor = .black
-        logo.tintColor = .darkGray
-        logo2.tintColor = .darkGray
+        logo3.tintColor = .darkGray
+        logo.tintColor = .lightGray
+        logo2.tintColor = .lightGray
     
-        logo4.tintColor = .black
         logo4.tintColor = .darkGray
+        logo4.tintColor = .lightGray
         categoery = "خدمات عامة"
         filterdResult = []
         filterOffers(categoery)
@@ -314,10 +320,10 @@ var categoery = ""
     
       @objc func all(){
           animateTableView()
-          logo.tintColor = .black
-          logo3.tintColor = .darkGray
-          logo2.tintColor = .darkGray
-          logo4.tintColor = .darkGray
+          logo.tintColor = .darkGray
+          logo3.tintColor = .lightGray
+          logo2.tintColor = .lightGray
+          logo4.tintColor = .lightGray
           filterdResult = []
           offers = []
           getOffers()
@@ -332,7 +338,6 @@ var categoery = ""
             
         })
     }
-    
     var dateFormatter: DateFormatter = {
           let formatter = DateFormatter()
           formatter.dateFormat = "HH:mm E, d MMM y"
@@ -340,11 +345,19 @@ var categoery = ""
           formatter.timeStyle = .medium
           return formatter
       }()
-    
-    func uploadImage(_ image : UIImage) -> Data{
-          guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
-          return imageData
-      }
+    // Move lofin view 300 points upward
+    @objc func keyboardWillShow(sender: NSNotification) {
+        SharedInstanceManager.shared.keyboardWillShow(view, -50)
+    }
+
+    // Move login view to original position
+    @objc func keyboardWillHide(sender: NSNotification) {
+        SharedInstanceManager.shared.keyboardWillHide(view)
+    }
+    @objc func dismissKeyboard() {
+        SharedInstanceManager.shared.dismissKeyboard(view)
+    }
+
 }
 
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
@@ -354,13 +367,13 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = offersTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! OffersTableViewCell
-        cell.offerImage.image = UIImage(data:filterdResult.sorted{$0.date > $1.date}[indexPath.row].image1) ?? UIImage()
-        cell.title.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].title
+        cell.offerImage.image = UIImage(data:filterdResult[indexPath.row].image1) ?? UIImage()
+        cell.title.text = filterdResult[indexPath.row].title
         //let date = dateFormatter.string(from: filterdResult[indexPath.row].date)
-        cell.price.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].price + "ريال سعودي" + " "
-        cell.date.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].date.timeAgoDisplay()
-        cell.categoery.text = "#" + filterdResult.sorted{$0.date > $1.date}[indexPath.row].categoery
-        cell.city.text = filterdResult.sorted{$0.date > $1.date}[indexPath.row].city
+        cell.price.text = filterdResult[indexPath.row].price + "ريال سعودي" + " "
+        cell.date.text = filterdResult[indexPath.row].date.timeAgoDisplay()
+        cell.categoery.text = "#" + filterdResult[indexPath.row].categoery
+        cell.city.text = filterdResult[indexPath.row].city
         cell.delegate = self
         if indexPath.row % 2 == 0{
             cell.contentView.backgroundColor = UIColor.lightGray //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
@@ -409,7 +422,6 @@ extension HomeViewController : UISearchBarDelegate{
             }
         }
     }
-       // getOffers()
        offersTableView.reloadData()
     }
     

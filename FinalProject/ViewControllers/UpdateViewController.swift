@@ -193,7 +193,6 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
         // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        print(dateFormatter.string(from: Date()))
         [pageTitle,offerTitle,offerDes,segment,price,picker,stackView,postOfferBtn].forEach{view.addSubview($0)}
         [image1,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
         
@@ -333,13 +332,7 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
         }
     
   
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
@@ -404,14 +397,14 @@ extension UpdateViewController : UINavigationControllerDelegate, UIImagePickerCo
       }
     // Move lofin view 300 points upward
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -100
+        SharedInstanceManager.shared.keyboardWillShow(view, -100)
     }
 
     // Move login view to original position
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0
+        SharedInstanceManager.shared.keyboardWillHide(view)
     }
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        SharedInstanceManager.shared.dismissKeyboard(view)
     }
 }

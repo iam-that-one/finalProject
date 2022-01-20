@@ -37,7 +37,7 @@ class MessagesViewController: UIViewController {
     lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "محادثاتي"
+        $0.text = "رسائلي"
         $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
@@ -60,6 +60,16 @@ class MessagesViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+//        view.addGestureRecognizer(tap)
+        
+        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         getProfile()
         [messagesTableView,newLable,searchBar].forEach{view.addSubview($0)}
         filterdResult = recntChates
@@ -132,13 +142,19 @@ class MessagesViewController: UIViewController {
             }
         }
     }
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
+ 
+    // Move lofin view 300 points upward
+    @objc func keyboardWillShow(sender: NSNotification) {
+        SharedInstanceManager.shared.keyboardWillShow(view, 0)
+    }
+
+    // Move login view to original position
+    @objc func keyboardWillHide(sender: NSNotification) {
+        SharedInstanceManager.shared.keyboardWillHide(view)
+    }
+    @objc func dismissKeyboard() {
+        SharedInstanceManager.shared.dismissKeyboard(view)
+    }
 }
 
     
@@ -153,7 +169,7 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = messagesTableView.dequeueReusableCell(withIdentifier: "cell") as! MessagsTableViewCell
         cell.progilePic.image = UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
-        let stringDate = dateFormatter.string(from: filterdResult.sorted{$0.date < $1.date}[indexPath.row].date)
+        let stringDate = SharedInstanceManager.shared.dateFormatter.string(from: filterdResult.sorted{$0.date < $1.date}[indexPath.row].date)
         cell.date.text = stringDate
         cell.username.text = filterdResult.sorted{$0.date < $1.date}[indexPath.row].name
 

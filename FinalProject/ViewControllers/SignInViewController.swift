@@ -94,7 +94,7 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0.3, alpha: 1)
-        setBackgroundImage(imageName: "w3")
+        SharedInstanceManager.shared.setBackgroundImage(imageName: "w3", view: view)
         uiSettings()
     }
     
@@ -137,17 +137,7 @@ class SignInViewController: UIViewController {
         
     }
     
-    func setBackgroundImage(imageName: String){
-        let background = UIImage(named: imageName)
-        var imageView : UIImageView!
-        imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode =  .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = background
-        imageView.center = view.center
-        view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-    }
+
     @objc func signInBtnClick(sender :UIButton){
         signIn()
     }
@@ -155,9 +145,10 @@ class SignInViewController: UIViewController {
         moveToSignUp()
     }
     func signIn(){
-        let error = loginFieldsValidation()
+        let error = SharedInstanceManager.shared.loginFieldsValidation(email, passwprd)
         if error != nil{
-            message = fieldsValidation()!
+            SharedInstanceManager.shared.playAudioAsset("error")
+            message = SharedInstanceManager.shared.fieldsValidation(email, passwprd)!
             alert = UIAlertController(title: "رسالة", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { _ in
                 
@@ -166,8 +157,9 @@ class SignInViewController: UIViewController {
         }    else{
             Auth.auth().signIn(withEmail:email.text!.trimmingCharacters(in: .whitespacesAndNewlines), password: passwprd.text!) { [self](result, error) in
                 if error != nil{
+                    SharedInstanceManager.shared.playAudioAsset("error")
                     self.message = error!.localizedDescription
-                    self.message = self.fieldsValidation() ?? "هذا المستخدم غير موجود"
+                    self.message = SharedInstanceManager.shared.fieldsValidation(email, passwprd) ?? "هذا المستخدم غير موجود"
                     self.alert = UIAlertController(title: "رسالة", message: message, preferredStyle: .alert)
                     self.alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { _ in
                         
@@ -194,47 +186,18 @@ class SignInViewController: UIViewController {
         self.navigationController?.pushViewController(sigunUp, animated: true)
     }
     
-    func fieldsValidation() -> String?{
-        if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwprd.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-            return "الرجاء ملء جميع الحقول "
-        }
-        if emailValidation(email.text!.trimmingCharacters(in: .whitespaces)) == false{
-            return "صيغة هذا البريد الإكتروني غير صالحة"
-        }
-        if passwordValidation(passwprd.text!.trimmingCharacters(in: .whitespacesAndNewlines)) == false{
-            return "تأكد من أن كلمة المرور تتكون من ثمانية أحرف أو أكثر وأن تحتوي أحرف خاصة وأرقام"
-        }
-        return nil
-    }
-    func emailValidation(_ email : String) -> Bool{
-        let checkedEmail = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")
-        return checkedEmail.evaluate(with: email.trimmingCharacters(in: .whitespacesAndNewlines))
-    }
-    func passwordValidation(_ password : String) -> Bool{
-        let checkedPassword = NSPredicate(format: "SELF MATCHES %@","^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-a\\d$@$#!%*?&]{8,}")
-        return checkedPassword.evaluate(with: password.trimmingCharacters(in: .whitespacesAndNewlines))
-    }
-    func loginFieldsValidation() -> String?{
-        if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwprd.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            return "الرجاء ملء جميع الحقول "
-        }
-        if emailValidation(email.text!.trimmingCharacters(in: .whitespaces)) == false{
-            return "صيغة هذا البريد الإكتروني غير صالحة"
-        }
-        return nil
-    }
-    
     // Move lofin view 300 points upward
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -300
+        
+        SharedInstanceManager.shared.keyboardWillShow(view, -100)
     }
 
     // Move login view to original position
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0
+        SharedInstanceManager.shared.keyboardWillHide(view)
     }
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        SharedInstanceManager.shared.dismissKeyboard(view)
     }
-
+  
 }

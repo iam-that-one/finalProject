@@ -7,8 +7,10 @@
 
 import UIKit
 import MapKit
+import AVFAudio
 import Firebase
 class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
+    var audioPlayer: AVAudioPlayer!
     let locationManager = CLLocationManager()
     var lat = 0.0
     var log = 0.0
@@ -35,6 +37,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     var categories = ["أجهزة","سيارات","خدمات", "غير مصنف"]
     
    
+    
     lazy var pageTitle : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +49,30 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.paddingTop = 20
         return $0
     }(PaddingLabel())
+    
+    lazy var cityLable : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "اختر اسم المدينة"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    lazy var imagesLable : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "اختر صورك الأربعة للمنتج * "
+        $0.textColor = .red
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    
     lazy var offerTitle : UITextField = {
         $0.placeholder = "عنوان المنتج"
         $0.borderStyle = .roundedRect
@@ -150,6 +177,21 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationSettings()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        uiSettings()
+       
+    }
+    func locationSettings(){
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
 
@@ -162,65 +204,71 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
             locationManager.startUpdatingLocation()
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+    }
+    func uiSettings(){
         
-        // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
-        // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        print(dateFormatter.string(from: Date()))
-        [pageTitle,offerTitle,offerDes,segment,price,picker,stackView,postOfferBtn].forEach{view.addSubview($0)}
-        [image1,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
-        
-        NSLayoutConstraint.activate([
-            pageTitle.topAnchor.constraint(equalTo: view.topAnchor),
-            pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageTitle.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-            pageTitle.heightAnchor.constraint(equalToConstant: 120),
-            
-            offerTitle.topAnchor.constraint(equalTo: pageTitle.bottomAnchor,constant: 20),
-            offerTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            offerTitle.widthAnchor.constraint(equalToConstant: 300),
-            
-            offerDes.topAnchor.constraint(equalTo: offerTitle.bottomAnchor,constant: 20),
-            offerDes.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            offerDes.widthAnchor.constraint(equalToConstant: 300),
-            offerDes.heightAnchor.constraint(equalToConstant: 100),
-            
-            price.topAnchor.constraint(equalTo: offerDes.bottomAnchor,constant: 20),
-            price.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            price.widthAnchor.constraint(equalToConstant: 300),
-            
-            segment.topAnchor.constraint(equalTo: price.bottomAnchor,constant: 20),
-            segment.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            segment.widthAnchor.constraint(equalToConstant: 300),
-            
-            picker.topAnchor.constraint(equalTo: segment.bottomAnchor,constant: 20),
-            picker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            picker.heightAnchor.constraint(equalToConstant: 100),
-            
-            stackView.topAnchor.constraint(equalTo: picker.bottomAnchor,constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            image1.widthAnchor.constraint(equalToConstant: 85),
-            image1.heightAnchor.constraint(equalToConstant: 85),
-            image2.widthAnchor.constraint(equalToConstant: 85),
-            image2.heightAnchor.constraint(equalToConstant: 85),
-            image3.widthAnchor.constraint(equalToConstant: 85),
-            image3.heightAnchor.constraint(equalToConstant: 85),
-            image4.widthAnchor.constraint(equalToConstant: 85),
-            image4.heightAnchor.constraint(equalToConstant: 85),
-            
-            postOfferBtn.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: 20),
-            postOfferBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            postOfferBtn.widthAnchor.constraint(equalToConstant: 200),
-            postOfferBtn.heightAnchor.constraint(equalToConstant: 50)
-        ])
+         [pageTitle,offerTitle,offerDes,segment,price,picker,stackView,postOfferBtn,cityLable,imagesLable].forEach{view.addSubview($0)}
+         [image1,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
+        stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
+        stackView.distribution = .fillEqually // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
+         NSLayoutConstraint.activate([
+             pageTitle.topAnchor.constraint(equalTo: view.topAnchor),
+             pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             pageTitle.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+             pageTitle.heightAnchor.constraint(equalToConstant: 120),
+             
+             offerTitle.topAnchor.constraint(equalTo: pageTitle.bottomAnchor,constant: 20),
+             offerTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             offerTitle.widthAnchor.constraint(equalToConstant: 300),
+             
+             offerDes.topAnchor.constraint(equalTo: offerTitle.bottomAnchor,constant: 20),
+             offerDes.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             offerDes.widthAnchor.constraint(equalToConstant: 300),
+             offerDes.heightAnchor.constraint(equalToConstant: 100),
+             
+             price.topAnchor.constraint(equalTo: offerDes.bottomAnchor,constant: 20),
+             price.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             price.widthAnchor.constraint(equalToConstant: 300),
+             
+             segment.topAnchor.constraint(equalTo: price.bottomAnchor,constant: 20),
+             segment.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             segment.widthAnchor.constraint(equalToConstant: 300),
+             
+             picker.topAnchor.constraint(equalTo: segment.bottomAnchor,constant: 20),
+//             picker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             picker.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+             picker.widthAnchor.constraint(equalToConstant: 190),
+             picker.heightAnchor.constraint(equalToConstant: 100),
+             
+             cityLable.leadingAnchor.constraint(equalTo: picker.trailingAnchor,constant: 50),
+             cityLable.centerYAnchor.constraint(equalTo: picker.centerYAnchor),
+             
+             stackView.topAnchor.constraint(equalTo: picker.bottomAnchor,constant: 20),
+             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+             
+             imagesLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+             imagesLable.bottomAnchor.constraint(equalTo: stackView.topAnchor),
+             
+             image1.widthAnchor.constraint(equalToConstant: 50),
+             image1.heightAnchor.constraint(equalToConstant: 60),
+             image2.widthAnchor.constraint(equalToConstant: 50),
+             image2.heightAnchor.constraint(equalToConstant: 60),
+             image3.widthAnchor.constraint(equalToConstant: 50),
+             image3.heightAnchor.constraint(equalToConstant: 60),
+             image4.widthAnchor.constraint(equalToConstant: 50),
+             image4.heightAnchor.constraint(equalToConstant: 60),
+             
+             postOfferBtn.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: 20),
+             postOfferBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             postOfferBtn.widthAnchor.constraint(equalToConstant: 200),
+             postOfferBtn.heightAnchor.constraint(equalToConstant: 50)
+         ])
     }
     @objc func segmentClicked(){
+        getSelectedSegment()
+    }
+    func getSelectedSegment(){
         if segment.selectedSegmentIndex == 0{
             selectedCat = categories[0]
             print(selectedCat)
@@ -243,79 +291,159 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     }
    
     func addOffer(){
-        let id = UUID().uuidString
-        let db = Firestore.firestore()
-        db.collection("Offers")
-            .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": self.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": self.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": self.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": self.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": self.dateFormatter.string(from: Date()), "lat": self.lat, "log":self.log])
-        self.tabBarController!.selectedIndex = 0
+        if toBeSavedImage1 == nil || toBeSavedImage2 == nil || toBeSavedImage3 == nil || toBeSavedImage4 == nil || offerTitle.text == "" || offerDes.text == "" || price.text == "" || selectedCat == ""{
+            let alert = UIAlertController(title: "تنبيه!", message: "يجب ملء جميع الحقول بما في ذلك الصور", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: { (_) in
+               // return
+            }))
+            self.present(alert, animated: true, completion: nil)
+            SharedInstanceManager.shared.playAudioAsset("error")
+            return
+        }
+        SharedInstanceManager.shared.playAudioAsset("warning")
+        let alert = UIAlertController(title: "إقرار", message: "أتعههد أنا صاحب هذا الإعلان بدفع عمولة بقيمة 1% من سعر المنتج المعلن عنه في حال تمت عملية الشراء والتواصل عن طريق هذا التطبيق", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "أقر بذلك", style: .default, handler: { [self] (_) in
+           
+            
+            let id = UUID().uuidString
+            let db = Firestore.firestore()
+            db.collection("Offers")
+                .document(id).setData(["offerTitle": offerTitle.text!,"offerDes":self.offerDes.text!,"price":price.text!,"cate":selectedCat,"userID" : Auth.auth().currentUser!.uid,"offerID": id,"image1": SharedInstanceManager.shared.uploadImage(self.toBeSavedImage1 ?? UIImage()),"city":self.selectedCity,"image2": SharedInstanceManager.shared.uploadImage(self.toBeSavedImage2 ?? UIImage()),"image3": SharedInstanceManager.shared.uploadImage(self.toBeSavedImage3 ?? UIImage()),"image4": SharedInstanceManager.shared.uploadImage(self.toBeSavedImage4 ?? UIImage()), "date": SharedInstanceManager.shared.dateFormatter.string(from: Date()), "lat": self.lat, "log":self.log, "time": Timestamp()])
+            self.tabBarController!.selectedIndex = 0
+        }))
+        alert.addAction(UIAlertAction(title: "إلغاء", style: .default, handler: { (_) in
+            
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
+    
+    // TO take the 1st image for the will be uploaded offer
     
     @objc func image1BtnClick(_ sender : UIButton){
         toBeSavedImage1Stete = false
-        let cameraController = UIImagePickerController()
-        cameraController.sourceType = .photoLibrary
-        cameraController.allowsEditing = true
-        cameraController.delegate = self
-        present(cameraController, animated: true)
+        SharedInstanceManager.shared.imagePicker.delegate = self
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openCamera(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openGallary(viewController: self)
+           }))
+         alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
+           
+           /*If you want work actionsheet on ipad
+           then you have to use popoverPresentationController to present the actionsheet,
+           otherwise app will crash on iPad */
+           switch UIDevice.current.userInterfaceIdiom {
+           case .pad:
+               alert.popoverPresentationController?.sourceView = sender
+               alert.popoverPresentationController?.sourceRect = sender.bounds
+               alert.popoverPresentationController?.permittedArrowDirections = .up
+           default:
+               break
+           }
+           self.present(alert, animated: true, completion: nil)
         
     }
-    @objc func image2BtnClick(){
+    
+    // TO take the 2nd image for the will be uploaded offer
+    
+    @objc func image2BtnClick(_ sender : UIButton){
         toBeSavedImage2Stete = false
-        let cameraController = UIImagePickerController()
-        cameraController.sourceType = .photoLibrary
-        cameraController.allowsEditing = true
-        cameraController.delegate = self
-        present(cameraController, animated: true)
+        SharedInstanceManager.shared.imagePicker.delegate = self
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openCamera(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openGallary(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
+           
+           /*If you want work actionsheet on ipad
+           then you have to use popoverPresentationController to present the actionsheet,
+           otherwise app will crash on iPad */
+        
+           switch UIDevice.current.userInterfaceIdiom {
+           case .pad:
+               alert.popoverPresentationController?.sourceView = sender
+               alert.popoverPresentationController?.sourceRect = sender.bounds
+               alert.popoverPresentationController?.permittedArrowDirections = .up
+           default:
+               break
+           }
+           
+           self.present(alert, animated: true, completion: nil)
     }
-
-    @objc func image3BtnClick(){
+    
+    // TO take the 3rd image for the will be uploaded offer
+    
+    @objc func image3BtnClick(_ sender : UIButton){
         toBeSavedImage3Stete = false
-        let cameraController = UIImagePickerController()
-        cameraController.sourceType = .photoLibrary
-        cameraController.allowsEditing = true
-        cameraController.delegate = self
-        present(cameraController, animated: true)
+        SharedInstanceManager.shared.imagePicker.delegate = self
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openCamera(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openGallary(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
+           
+           /*If you want work actionsheet on ipad
+           then you have to use popoverPresentationController to present the actionsheet,
+           otherwise app will crash on iPad */
+           switch UIDevice.current.userInterfaceIdiom {
+           case .pad:
+               alert.popoverPresentationController?.sourceView = sender
+               alert.popoverPresentationController?.sourceRect = sender.bounds
+               alert.popoverPresentationController?.permittedArrowDirections = .up
+           default:
+               break
+           }
+           
+           self.present(alert, animated: true, completion: nil)
     }
-    @objc func image4BtnClick(){
+    
+    // TO take the 4th image for the will be uploaded offer
+    
+    @objc func image4BtnClick(_ sender : UIButton){
         toBeSavedImage4Stete = false
-        let cameraController = UIImagePickerController()
-        cameraController.sourceType = .photoLibrary
-        cameraController.allowsEditing = true
-        cameraController.delegate = self
-        present(cameraController, animated: true)
+        SharedInstanceManager.shared.imagePicker.delegate = self
+           let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openCamera(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
+               SharedInstanceManager.shared.openGallary(viewController: self)
+           }))
+           
+           alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
+           
+           /*If you want work actionsheet on ipad
+           then you have to use popoverPresentationController to present the actionsheet,
+           otherwise app will crash on iPad */
+        
+           switch UIDevice.current.userInterfaceIdiom {
+           case .pad:
+               alert.popoverPresentationController?.sourceView = sender
+               alert.popoverPresentationController?.sourceRect = sender.bounds
+               alert.popoverPresentationController?.permittedArrowDirections = .up
+           default:
+               break
+           }
+           
+           self.present(alert, animated: true, completion: nil)
     }
  
-    func openCamera()
-        {
-            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
-            {
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            else
-            {
-                let alert  = UIAlertController(title: "تحذير", message: "الوصول إلى الكاميرا غير متاح", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-
-        func openGallary()
-        {
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
+    // To take latitude and longitude of the users' current locatiion
     
-  
-    var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
@@ -325,6 +453,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
 
 }
 
+    // An extension for Pickeing city Picker View
 extension AddOfferViewController : UIPickerViewDelegate, UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -343,6 +472,8 @@ extension AddOfferViewController : UIPickerViewDelegate, UIPickerViewDataSource{
     }
 }
 
+// An extension for Pickeing images from camera or photo library.
+
 extension AddOfferViewController : UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     // Image Picker controller
     
@@ -352,6 +483,9 @@ extension AddOfferViewController : UINavigationControllerDelegate, UIImagePicker
             print("No image found")
             return
         }
+        
+        // To assign each picked image to the correct variable.
+        
         if toBeSavedImage1Stete != nil{
         image1.setBackgroundImage(image, for: .normal)
             toBeSavedImage1 = image
@@ -374,21 +508,19 @@ extension AddOfferViewController : UINavigationControllerDelegate, UIImagePicker
         }
     }
     
-    func uploadImage(_ image : UIImage) -> Data{
-          guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
-          return imageData
-      }
-    // Move lofin view 300 points upward
+  
+    // Move addOfferView 100 points upward.
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -100
+        SharedInstanceManager.shared.keyboardWillShow(view, -100)
     }
 
-    // Move login view to original position
+    // Move addOfferView to original position (0).
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0
+        SharedInstanceManager.shared.keyboardWillHide(view)
     }
+    // TO dismiss Keyboard when user just tapped on the specific view.
     @objc func dismissKeyboard() {
-        view.endEditing(true)
+        SharedInstanceManager.shared.dismissKeyboard(view)
     }
 }
 

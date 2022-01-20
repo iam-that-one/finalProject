@@ -76,7 +76,7 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.lightGray
-        imagePicker.delegate = self
+       // imagePicker.delegate = self
         [identity,certificate,chooseId,chooseCert,sendReq,header].forEach{view.addSubview($0)}
         
         NSLayoutConstraint.activate([
@@ -113,14 +113,15 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     @objc func chooseIdBtnClick(_ sender : UIButton){
         identityIsSelected = true
         cerIsSelected = false
+        SharedInstanceManager.shared.imagePicker.delegate = self
            self.identity.isUserInteractionEnabled = true
            let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
            alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
-               self.openCamera()
+               SharedInstanceManager.shared.openCamera(viewController: self)
            }))
            
            alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
-               self.openGallary()
+               SharedInstanceManager.shared.openGallary(viewController: self)
            }))
            
            alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
@@ -139,14 +140,15 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     @objc func chooseCertBtnCLick(_ sender : UIButton){
         identityIsSelected = false
         cerIsSelected = true
+        SharedInstanceManager.shared.imagePicker.delegate = self
            self.identity.isUserInteractionEnabled = true
            let alert = UIAlertController(title: "اختر صورة", message: nil, preferredStyle: .actionSheet)
            alert.addAction(UIAlertAction(title: "الكاميرا", style: .default, handler: { _ in
-               self.openCamera()
+               SharedInstanceManager.shared.openCamera(viewController: self)
            }))
            
            alert.addAction(UIAlertAction(title: "ألبوم الصور", style: .default, handler: { _ in
-               self.openGallary()
+               SharedInstanceManager.shared.openGallary(viewController: self)
            }))
            
            alert.addAction(UIAlertAction.init(title: "إلغاء", style: .cancel, handler: nil))
@@ -201,28 +203,7 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
                 }
         self.dismiss(animated: true, completion: nil)
     }
-    func openCamera()
-        {
-            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
-            {
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            else
-            {
-                let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-
-        func openGallary()
-        {
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
+  
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         guard let image = info[.editedImage] as? UIImage else {

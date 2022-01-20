@@ -11,7 +11,6 @@
 		B8109E23278CBA9D000FF1FA /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */; };
 		B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */; };
 		B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E26278CD4D7000FF1FA /* CommentsModel.swift */; };
-		B8109E2B279155C2000FF1FA /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2A279155C1000FF1FA /* EmailHelper.swift */; };
 		B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */; };
 		B8109E2F2795C5B5000FF1FA /* BookmarksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */; };
 		B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC199277DA3BB00342B70 /* AppDelegate.swift */; };
@@ -54,7 +53,6 @@
 		B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsTableViewCell.swift; sourceTree = "<group>"; };
 		B8109E26278CD4D7000FF1FA /* CommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsModel.swift; sourceTree = "<group>"; };
-		B8109E2A279155C1000FF1FA /* EmailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelper.swift; sourceTree = "<group>"; };
 		B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTableViewCell.swift; sourceTree = "<group>"; };
 		B83FC196277DA3BB00342B70 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,11 +125,11 @@
 				B8922F47277F767200153B4A /* CollectionViewsCells */,
 				B83FC1BA277F255800342B70 /* Dashboard */,
 				B83FC1B9277F240E00342B70 /* ViewControllers */,
-				B8922F44277F6B0600153B4A /* TableViewCells */,
 				B83FC1B8277F23F700342B70 /* Models */,
 				B8922F6E2780AC5B00153B4A /* Extensions */,
 				B83FC199277DA3BB00342B70 /* AppDelegate.swift */,
 				B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */,
+				B8922F44277F6B0600153B4A /* TableViewCells */,
 				B83FC1A2277DA3BF00342B70 /* Assets.xcassets */,
 				B83FC1A4277DA3BF00342B70 /* LaunchScreen.storyboard */,
 				B83FC1A7277DA3BF00342B70 /* Info.plist */,
@@ -149,7 +147,13 @@
 				B8D5BA772786D657009C1340 /* Extensions01.swift */,
 				B8109E202789C71F000FF1FA /* RecentChatModel.swift */,
 				B8109E26278CD4D7000FF1FA /* CommentsModel.swift */,
-				B8109E2A279155C1000FF1FA /* EmailHelper.swift */,
+				B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */,
+				B8922F712780AF6700153B4A /* MessagsTableViewCell.swift */,
+				B8922F752780D39900153B4A /* ChatTableViewCell.swift */,
+				B8922F8727832AE200153B4A /* MyCollectionViewCell.swift */,
+				B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */,
+				B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */,
+				B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,13 +189,6 @@
 		B8922F44277F6B0600153B4A /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */,
-				B8922F712780AF6700153B4A /* MessagsTableViewCell.swift */,
-				B8922F752780D39900153B4A /* ChatTableViewCell.swift */,
-				B8922F8727832AE200153B4A /* MyCollectionViewCell.swift */,
-				B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */,
-				B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */,
-				B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -309,7 +306,6 @@
 				B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */,
 				B8109E212789C71F000FF1FA /* RecentChatModel.swift in Sources */,
 				B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */,
-				B8109E2B279155C2000FF1FA /* EmailHelper.swift in Sources */,
 				B8922F7E2782D2A500153B4A /* SignInViewController.swift in Sources */,
 				B8922F7A2782218500153B4A /* UserModel.swift in Sources */,
 				B8922F8827832AE200153B4A /* MyCollectionViewCell.swift in Sources */,
