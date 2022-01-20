@@ -293,7 +293,7 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = profileOffersTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! profileTableViewCell
         cell.offerImage.image = UIImage(data: myOffers[indexPath.row].image1)
-        cell.price.text! = myOffers[indexPath.row].price
+        cell.price.text! = myOffers[indexPath.row].price + " ريال سعودي"
         cell.categoery.text = "#" + myOffers[indexPath.row].categoery
         cell.title.text = myOffers[indexPath.row].title
         cell.date.text = myOffers[indexPath.row].date.timeAgoDisplay()

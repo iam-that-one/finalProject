@@ -110,47 +110,30 @@ class CommentsViewController: UIViewController {
             
         ]
         )
-        // Do any additional setup after loading the view.
     }
     
     @objc func sentBtnClick(){
         send()
     }
     func send(){
-        //db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid).addSnapshotListener { [self] querySnapshot, error in
-          //  if let error = error{
-            //    print(error)
-           // }else{
-            //    for doc in querySnapshot!.documents{
-             //       let data = doc.data()
-                //    let name = data["firstName"] as? String ?? ""//
-                
-         
-                    self.db.collection("Comments").document().setData(["comment" : sendComment.text!, "date": SharedInstanceManager.shared.dateFormatter.string(from: Date()),"id" : self.offerID, "username":self.name, "time": Timestamp(), "name": name] as [String:Any])
-               // }
-       //     }
-      //  }
+        self.db.collection("Comments").document().setData(["comment" : sendComment.text!, "date": SharedInstanceManager.shared.dateFormatter.string(from: Date()),"id" : self.offerID, "username":self.name, "time": Timestamp(), "name": name] as [String:Any])
         getComments()
     }
     func getComments(){
-     
         db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
             .addSnapshotListener { querySnapshot, error in
                 if let error = error{
                     print(error)
                 }else{
-                   
                     for doc in querySnapshot!.documents{
                          let data = doc.data()
                         self.name = data["firstName"] as? String ?? ""
                     }
                     
                     self.db.collection("Comments")
-                        .order(by: "time")
                         .whereField("id", isEqualTo: self.offerID)
                        
             .addSnapshotListener { (querySnapshot, error) in
-              //
                 self.comments = []
                 if let error = error {
                     print("Error while fetching profile\(error)")
@@ -168,17 +151,13 @@ class CommentsViewController: UIViewController {
                         if self.comments.count > 0{
                         let indexPath = IndexPath(row: self.comments.count - 1, section: 0)
                         self.commentsTableView.scrollToRow(at: indexPath, at: .top, animated: true)
-                        }
+                       }
                     }
-                    
                 }
-            }
-                    
-                }
-            }
+             }
+         }
+       }
     }
-    
-   
 }
 
 extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
@@ -188,8 +167,9 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = commentsTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! CommentsTableViewCell
-        cell.username.text = comments[indexPath.row].username
-        cell.content.text = comments[indexPath.row].comment
+        
+        cell.username.text = comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].username
+        cell.content.text = comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].comment
         let stringDate = comments[indexPath.row].dat
         cell.date.text = stringDate
         cell.backgroundColor = UIColor.lightGray
