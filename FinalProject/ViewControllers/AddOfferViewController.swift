@@ -115,7 +115,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     // // // //
     
     lazy var image1 : UIButton = {
-        $0.tintColor = UIColor.systemGray4
+        $0.tintColor = UIColor.darkGray
         $0.setBackgroundImage(UIImage(systemName: "photo.fill"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(image1BtnClick), for: .touchDown)
@@ -123,7 +123,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     }(UIButton(type: .system))
     
     lazy var image2 : UIButton = {
-        $0.tintColor = UIColor.systemGray4
+        $0.tintColor = UIColor.darkGray
         $0.setBackgroundImage(UIImage(systemName: "photo.fill"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(image2BtnClick), for: .touchDown)
@@ -132,7 +132,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     
     
     lazy var image3 : UIButton = {
-        $0.tintColor = UIColor.systemGray4
+        $0.tintColor = UIColor.darkGray
         $0.setBackgroundImage(UIImage(systemName: "photo.fill"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(image3BtnClick), for: .touchDown)
@@ -141,7 +141,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     
     
     lazy var image4 : UIButton = {
-        $0.tintColor = UIColor.systemGray4
+        $0.tintColor = UIColor.darkGray
         $0.setBackgroundImage(UIImage(systemName: "photo.fill"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(image4BtnClick), for: .touchDown)
@@ -160,6 +160,8 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     lazy var postOfferBtn : UIButton = {
         $0.setTitle("أنشر", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setBackgroundImage(UIImage(named: "grayBtn"), for: .normal)
+        $0.tintColor = .yellow
         $0.addTarget(self, action: #selector(postOfferBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
@@ -261,7 +263,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
              
              postOfferBtn.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: 20),
              postOfferBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-             postOfferBtn.widthAnchor.constraint(equalToConstant: 200),
+             postOfferBtn.widthAnchor.constraint(equalToConstant: 100),
              postOfferBtn.heightAnchor.constraint(equalToConstant: 50)
          ])
     }
@@ -303,8 +305,6 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         SharedInstanceManager.shared.playAudioAsset("warning")
         let alert = UIAlertController(title: "إقرار", message: "أتعههد أنا صاحب هذا الإعلان بدفع عمولة بقيمة 1% من سعر المنتج المعلن عنه في حال تمت عملية الشراء والتواصل عن طريق هذا التطبيق", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "أقر بذلك", style: .default, handler: { [self] (_) in
-           
-            
             let id = UUID().uuidString
             let db = Firestore.firestore()
             db.collection("Offers")

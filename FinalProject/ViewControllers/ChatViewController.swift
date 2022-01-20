@@ -155,7 +155,7 @@ var myName = ""
                     self.db.collection("offers_users").document(self.offerProviderId)
             .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
                     
-                    self.db.collection("RecentMessages").document(Auth.auth().currentUser!.uid).setData(["senderId" : Auth.auth().currentUser!.uid, "reciverId": self.offerProviderId, "content": self.messageTf.text!, "date": Date()] as [String: Any])
+                    self.db.collection("RecentMessages").document(Auth.auth().currentUser!.uid).setData(["senderId" : Auth.auth().currentUser!.uid, "reciverId": self.offerProviderId, "content": self.messageTf.text!, "date": Date(),"time":Timestamp()] as [String: Any])
                 }
             }
         fetchMesssages()
