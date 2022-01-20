@@ -90,11 +90,8 @@ var myName = ""
         fetchMesssages()
         messageTf.text = initialMessage
         view.backgroundColor = .white
-       // newLable.text! = offerProviderPofile!.name
         view.backgroundColor = UIColor.systemGray5
-      //  setBackgroundImage(imageName: "chatBac")
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
-      //  print("Offer provider id \(offerProvider!.userID)")
         getProfile(offerProviderId)
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)

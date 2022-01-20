@@ -123,7 +123,6 @@ var categoery = ""
         return $0
     }(UIButton(type: .system))
     override func viewWillAppear(_ animated: Bool) {
-       // Offer.example = temp
         offersTableView.reloadData()
         navigationController?.setNavigationBarHidden(true, animated: animated)
         status = UserDefaults.standard.bool(forKey: "isDarkMode")

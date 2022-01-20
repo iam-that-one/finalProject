@@ -332,13 +332,20 @@ class OfferDetailsViewController: UIViewController {
     
     // To make image bigger for the user
     @objc func image2BtnClick(){
+        let vc = MaketItViewController()
+        vc.image = offer!.image2
+        self.present(vc, animated: true, completion: nil)
     }
 
     @objc func image3BtnClick(){
-        
+        let vc = MaketItViewController()
+        vc.image = offer!.image3
+        self.present(vc, animated: true, completion: nil)
     }
     @objc func image4BtnClick(){
-        
+        let vc = MaketItViewController()
+        vc.image = offer!.image4
+        self.present(vc, animated: true, completion: nil)
     }
     
     // TO move to chat view controller
