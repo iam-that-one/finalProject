@@ -13,7 +13,11 @@ class MaketItViewController: UIViewController {
     lazy var imageVIew : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clipsToBounds = true
-       // $0.contentMode = .scaleToFill
+        $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 5
+        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = .white
         return $0
     }(UIImageView())
     override func viewDidLoad() {
