@@ -56,9 +56,9 @@ class profileTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = .gray
         $0.textAlignment = .left
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         
         return $0
     }(UILabel())

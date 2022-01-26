@@ -61,8 +61,9 @@ class MessagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-//        view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: newLable
+                                         , action: #selector(UIInputViewController.dismissKeyboard))
+        newLable.addGestureRecognizer(tap)
         
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -74,8 +75,6 @@ class MessagesViewController: UIViewController {
         [messagesTableView,newLable,searchBar].forEach{view.addSubview($0)}
         filterdResult = recntChates
         NSLayoutConstraint.activate([
-            
-            
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
             newLable.heightAnchor.constraint(equalToConstant: 120),
@@ -92,20 +91,21 @@ class MessagesViewController: UIViewController {
     }
     
     func getProfile(){
-        
         db.collection("RecentMessages").addSnapshotListener { querySnapshot, error in
             if let error = error{
                 print(error)
             }else{
+                var content = ""
                 self.recntChates = []
                 self.filterdResult = []
                 for doc in querySnapshot!.documents{
                     let data = doc.data()
                     let date = data["date"] as? Date ?? Date()
-                    print(date)
+                    let time = data["time"] as? Timestamp ?? Timestamp()
                     let reciverId = data["reciverId"] as? String ?? ""
                     print("reciver",reciverId)
                     let senderId = data["senderId"] as? String ?? ""
+                    content = data["content"] as? String ?? ""
                     print("sender", senderId)
                     
                     if reciverId == Auth.auth().currentUser!.uid{
@@ -118,27 +118,20 @@ class MessagesViewController: UIViewController {
                                     print("idddddddddddddddd",doc.documentID)
                                     let data = doc.data()
                                     let id = data["uid"] as? String ?? ""
-                                   // let date = data["date"] as? Date ?? Date()
                                     let profilePic = data["image"] as? Data ?? Data()
                                     let name = data["firstName"] as? String ?? ""
-                                    
-                                    print(self.ids)
                                     if self.ids.contains(id){
                                         print("Nof",name)
-                                        self.recntChates.append(RecentChat(name: name, id: id, date: date, profilePic: profilePic))
+                                        self.recntChates.append(RecentChat(name: name, id: id, date: date, profilePic: profilePic,time: time, content: content))
                                         self.filterdResult = self.recntChates
-                                       // self.ids.removeAll{$0 == senderId}
                                         self.ids.removeAll{$0 == id}
                                         self.messagesTableView.reloadData()
                                     }
                                 }
                             }
                         }
-                        
                     }
                 }
-              
-                print(self.ids)
             }
         }
     }
@@ -157,10 +150,6 @@ class MessagesViewController: UIViewController {
     }
 }
 
-    
-   
-
-
 extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filterdResult.count
@@ -169,14 +158,14 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = messagesTableView.dequeueReusableCell(withIdentifier: "cell") as! MessagsTableViewCell
         cell.progilePic.image = UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
-        let stringDate = SharedInstanceManager.shared.dateFormatter.string(from: filterdResult.sorted{$0.date < $1.date}[indexPath.row].date)
-        cell.date.text = stringDate
+    //   let stringDate = SharedInstanceManager.shared.dateFormatter.string(from: filterdResult.sorted{$0.date < $1.date}[indexPath.row].date)
+    //    cell.date.text = stringDate
         cell.username.text = filterdResult.sorted{$0.date < $1.date}[indexPath.row].name
 
         cell.progilePic.image =   UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
         
         if indexPath.row % 2 == 0{
-            cell.contentView.backgroundColor = .lightGray //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+            cell.contentView.backgroundColor = .lightGray
         }else{
             cell.contentView.backgroundColor = UIColor.systemGray5
         }
@@ -191,7 +180,6 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     }
     
 }
-
 
 extension MessagesViewController : UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

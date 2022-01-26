@@ -6,13 +6,13 @@
 //
 
 import UIKit
-
+import Firebase
 struct Message{
     let name : String
     let date : Date
     let userID : String
     let content : String
-    
+   
     
     static var example = [
     ""

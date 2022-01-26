@@ -11,4 +11,6 @@ struct Comment{
     let username : String
     let dat : String
     let comment : String
+    let id : String
+    let uid : String
 }

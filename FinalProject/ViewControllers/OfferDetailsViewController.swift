@@ -328,6 +328,7 @@ class OfferDetailsViewController: UIViewController {
         commentView.offerID = offer!.offerID
         
         self.present(commentView, animated: true, completion: nil)
+        
     }
     
     // To make image bigger for the user
@@ -350,10 +351,12 @@ class OfferDetailsViewController: UIViewController {
     
     // TO move to chat view controller
     @objc func sendMessageBtnClick(){
+        isUserOnline()
         let chatView = ChatViewController()
         chatView.offerProvider = offer
         chatView.offerProviderId = offer!.userID
         chatView.initialMessage =  "حاب اسألك بخصوص عرضك بعنوان: " + offer!.title
+        chatView.isOnline = isOnline
         chatView.offerProviderPofile = offerProviderProfile
         
         if viewControllerSourceIndicator == false{
@@ -390,10 +393,12 @@ class OfferDetailsViewController: UIViewController {
                if snapshot.hasChild(self.offer!.userID){
                    self.appearance.text = "متصل"
                    self.dote.tintColor = .green
+                   self.isOnline = true
                }
                else{
                    self.appearance.text = "غير متصل"
                    self.dote.tintColor = .red
+                   self.isOnline = false
                }
                
            }

@@ -16,6 +16,7 @@ var myName = ""
     var status = false
     var offerProviderId = ""
     var initialMessage = ""
+    var isOnline = false
     var pic = Data()
     let db = Firestore.firestore()
     var offerProvider : Offer? = nil
@@ -37,7 +38,7 @@ var myName = ""
     
     lazy var messageTf : UITextField = {
         $0.placeholder = ""
-        $0.text = "Hi"
+        $0.text = ""
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .white
         $0.clipsToBounds = true
@@ -139,9 +140,6 @@ var myName = ""
                         self.name = data["firstName"] as? String ?? ""
                         self.pic = data["image"] as? Data ?? Data()
                     }
-                    
-                
-           
         
                     let msg = ["content": self.messageTf.text!, "id": Auth.auth().currentUser!.uid, "date" : SharedInstanceManager.shared.dateFormatter.string(from: Date()),"time":Timestamp() ,"Name" : self.name] as [String : Any]
            
@@ -150,28 +148,17 @@ var myName = ""
                
                
                     self.db.collection("offers_users").document(self.offerProviderId)
-            .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
-                    
+                    .collection("Message").document(Auth.auth().currentUser!.uid).collection("msg").document().setData(msg as [String : Any])
                     self.db.collection("RecentMessages").document(Auth.auth().currentUser!.uid).setData(["senderId" : Auth.auth().currentUser!.uid, "reciverId": self.offerProviderId, "content": self.messageTf.text!, "date": Date(),"time":Timestamp()] as [String: Any])
                 }
             }
         fetchMesssages()
-      
+       // messageTf.text = ""
     }
     @objc func backToDetailsViewBtnClick(){
         self.navigationController?.popViewController(animated: true)
     }
-    func setBackgroundImage(imageName: String){
-          let background = UIImage(named: imageName)
-          var imageView : UIImageView!
-          imageView = UIImageView(frame: view.bounds)
-          imageView.contentMode =  .scaleAspectFill
-          imageView.clipsToBounds = true
-          imageView.image = background
-          imageView.center = view.center
-          view.addSubview(imageView)
-          self.view.sendSubviewToBack(imageView)
-      }
+  
     func fetchMesssages(){
         
         let name = db.collection("offers_users").document(Auth.auth().currentUser!.uid)
@@ -203,7 +190,6 @@ var myName = ""
                                     let date = data["date"] as? String,
                                     let name = data["Name"] as? String
                                 {
-                                    
                                     let finalDate = SharedInstanceManager.shared.dateFormatter.date(from: date)
                                     let fetchedMessage = Message(name: name, date: finalDate ?? Date(), userID: id, content: msg)
                                     self.messages.append(fetchedMessage)
@@ -231,18 +217,13 @@ var myName = ""
                             let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
                             let isVerified = data["isVerified"] as? Bool ?? false
-                           // let profilePic = data["image"] as! Data
                             self.userInfo.append(User(name: firstName, phoneNumber: phone, isVerified: isVerified))
-                            self.newLable.text = firstName
-                          
-                            
-                        }
+                            self.newLable.text = firstName + "\n" + (self.isOnline == true ? "متصل الآن" : "")
                     }
                 }
             }
-
+        }
     }
-  
 }
 
 extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
@@ -252,12 +233,55 @@ extension ChatViewController : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatTableView.dequeueReusableCell(withIdentifier: "cell",for: indexPath) as! ChatTableViewCell
-   
        // let date = dateFormatter.date(from: messages[indexPath.row].date)
         cell.username.text = messages.sorted{$0.date < $1.date}[indexPath.row].name
         cell.content.text = messages.sorted{$0.date < $1.date}[indexPath.row].content
+        if messages.sorted(by: {$0.date < $1.date})[indexPath.row].userID == Auth.auth().currentUser!.uid {
+              cell.content.backgroundColor = .darkGray
+           
+//            cell.username.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20).isActive = false
+//            cell.username.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20).isActive = true
+//            cell.username.textAlignment = .right
+//
+            //(by: )
+//            cell.content.topAnchor.constraint(equalTo:cell.username.bottomAnchor,constant: 10).isActive = true
+//            cell.content.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 10).isActive = false
+//            cell.content.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -10).isActive = true
+//            cell.content.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//            cell.content.textAlignment = .right
+//
+//            cell.date.topAnchor.constraint(equalTo: cell.content.bottomAnchor,constant: 5).isActive = true
+//            cell.date.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20).isActive = false
+//            cell.date.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: 20).isActive = true
+//            cell.date.textAlignment = .right
+            
+             // // //
+            
+            
+        }else{
+            cell.content.backgroundColor = .lightGray
+            
+//            cell.username.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -20).isActive = false
+//            cell.username.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 20).isActive = true
+//            cell.username.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20).isActive = true
+//
+//
+//
+//
+//            cell.content.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: -10).isActive = false
+//            cell.content.topAnchor.constraint(equalTo:cell.username.bottomAnchor,constant: 10).isActive = true
+//            cell.content.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 10).isActive = true
+//            cell.content.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//
+//
+//            cell.date.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor,constant: 20).isActive = false
+//            cell.date.topAnchor.constraint(equalTo: cell.content.bottomAnchor,constant: 5).isActive = true
+//            cell.date.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 20).isActive = true
+//
+
+            
+        }
         cell.date.text = SharedInstanceManager.shared.dateFormatter.string(from:messages.sorted{$0.date < $1.date}[indexPath.row].date )
-     
         return cell
     }
     

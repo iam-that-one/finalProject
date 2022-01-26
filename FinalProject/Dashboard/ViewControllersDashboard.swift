@@ -13,7 +13,6 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-      
     }
 
     override func viewWillAppear(_ animated: Bool) {

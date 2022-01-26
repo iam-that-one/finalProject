@@ -28,7 +28,6 @@ class MaketItViewController: UIViewController {
         imageVIew.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         imageVIew.heightAnchor.constraint(equalToConstant: 300).isActive = true
         imageVIew.widthAnchor.constraint(equalToConstant: 350).isActive = true
-       // imageVIew.contentMode = .scaleAspectFit
     }
     
 

@@ -166,10 +166,9 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
     }
     
     @objc func sendRequestBtnCLick(){
-      
         self.sendMail( self.identity,  self.certificate)
-    
     }
+    
     func sendMail(_ imageView1 : UIImageView,_ imageView2 : UIImageView) {
       if MFMailComposeViewController.canSendMail() {
         let mail = MFMailComposeViewController()
@@ -183,8 +182,7 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
           let imageData2: NSData = imageView2.image!.pngData()! as NSData
         mail.addAttachmentData(imageData as Data, mimeType: "image/png", fileName: "identity.png")
           mail.addAttachmentData(imageData2 as Data, mimeType: "image/png", fileName: "certificate.png")
-        //  self.navigationController?.pushViewController(mail, animated: true)
-        //  mail.modalPresentationStyle = .formSheet
+        
           self.present(mail, animated: true, completion: nil)
       }
     }

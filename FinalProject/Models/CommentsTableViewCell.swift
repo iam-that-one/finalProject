@@ -6,9 +6,24 @@
 //
 
 import UIKit
+import Foundation
 
+protocol CommetntTableViewCellDelegate: AnyObject {
+  func CommetntTableViewCell(_ CommetntTableViewCel: CommentsTableViewCell, delete comment: Comment)
+}
 class CommentsTableViewCell: UITableViewCell {
 
+    var comments : Comment?
+    weak var delegate : CommetntTableViewCellDelegate?
+    
+    lazy var deleteBtn : UIButton = {
+        $0.tintColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setBackgroundImage(UIImage(systemName: "trash.fill"), for: .normal)
+        $0.addTarget(self, action: #selector(deleteBtnClick), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
+    
     lazy var username : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +87,7 @@ class CommentsTableViewCell: UITableViewCell {
         contentView.layer.shadowOpacity = 1.0
         contentView.layer.shadowColor = CGColor.init(gray: 0.50, alpha: 1)
         contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
-        [username,date,content].forEach{contentView.addSubview($0)}
+        [username,date,content,deleteBtn].forEach{contentView.addSubview($0)}
         
         NSLayoutConstraint.activate([
           
@@ -86,12 +101,24 @@ class CommentsTableViewCell: UITableViewCell {
             
           //  date.topAnchor.constraint(equalTo: content.bottomAnchor),
             date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
-            date.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        
+            date.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            deleteBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 5),
+            deleteBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -5),
+            deleteBtn.heightAnchor.constraint(equalToConstant: 20),
+            deleteBtn.widthAnchor.constraint(equalToConstant: 20),
+            
         ])
     }
     required init?(coder: NSCoder) {
         fatalError("")
+    }
+    @objc func deleteBtnClick(_ sender : UIButton){
+        if let comments = comments,
+             let _ = delegate {
+            self.delegate?.CommetntTableViewCell(self, delete: comments)
+          }
+        
     }
 }
  

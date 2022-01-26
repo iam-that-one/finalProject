@@ -24,6 +24,8 @@
 		B83FC1BE277F2ED100342B70 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC1BD277F2ED100342B70 /* MessagesViewController.swift */; };
 		B83FC1C0277F2F6800342B70 /* AddOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC1BF277F2F6800342B70 /* AddOfferViewController.swift */; };
 		B83FC1C2277F2FE800342B70 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC1C1277F2FE800342B70 /* ProfileViewController.swift */; };
+		B87263B0279EE492002388CC /* ReemKufi-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */; };
+		B87263B2279EE648002388CC /* ReemKufi-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */; };
 		B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */; };
 		B8922F49277F769900153B4A /* IconsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F48277F769900153B4A /* IconsCollectionViewCell.swift */; };
 		B8922F6B277FA84600153B4A /* OfferDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F6A277FA84600153B4A /* OfferDetailsViewController.swift */; };
@@ -45,7 +47,6 @@
 		B8922F8F2784D0E100153B4A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = B8922F8E2784D0E100153B4A /* FirebaseDatabase */; };
 		B8922F912784D0E100153B4A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B8922F902784D0E100153B4A /* FirebaseFirestore */; };
 		B8922F932784D0E100153B4A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B8922F922784D0E100153B4A /* FirebaseStorage */; };
-		B8D5BA782786D657009C1340 /* Extensions01.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5BA772786D657009C1340 /* Extensions01.swift */; };
 		B8D5BA7A27873E56009C1340 /* profileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,8 @@
 		B83FC1BD277F2ED100342B70 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		B83FC1BF277F2F6800342B70 /* AddOfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOfferViewController.swift; sourceTree = "<group>"; };
 		B83FC1C1277F2FE800342B70 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReemKufi-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReemKufi-Bold.ttf"; sourceTree = "<group>"; };
 		B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersTableViewCell.swift; sourceTree = "<group>"; };
 		B8922F48277F769900153B4A /* IconsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8922F6A277FA84600153B4A /* OfferDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferDetailsViewController.swift; sourceTree = "<group>"; };
@@ -85,7 +88,6 @@
 		B8922F832782D39D00153B4A /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		B8922F852782D3DA00153B4A /* VerefyingRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerefyingRequestViewController.swift; sourceTree = "<group>"; };
 		B8922F8727832AE200153B4A /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
-		B8D5BA772786D657009C1340 /* Extensions01.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions01.swift; sourceTree = "<group>"; };
 		B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 				B83FC1BA277F255800342B70 /* Dashboard */,
 				B83FC1B9277F240E00342B70 /* ViewControllers */,
 				B83FC1B8277F23F700342B70 /* Models */,
+				B87263AE279EE43E002388CC /* Fonts */,
 				B8922F6E2780AC5B00153B4A /* Extensions */,
 				B83FC199277DA3BB00342B70 /* AppDelegate.swift */,
 				B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */,
@@ -146,7 +149,6 @@
 				B8922F6C277FA8B700153B4A /* OfferModel.swift */,
 				B8922F7727821EA400153B4A /* MessageMdoel.swift */,
 				B8922F792782218500153B4A /* UserModel.swift */,
-				B8D5BA772786D657009C1340 /* Extensions01.swift */,
 				B8109E202789C71F000FF1FA /* RecentChatModel.swift */,
 				B8109E26278CD4D7000FF1FA /* CommentsModel.swift */,
 				B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */,
@@ -187,6 +189,15 @@
 				B83FC1BB277F25A800342B70 /* ViewControllersDashboard.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		B87263AE279EE43E002388CC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */,
+				B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		B8922F44277F6B0600153B4A /* TableViewCells */ = {
@@ -280,7 +291,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B87263B2279EE648002388CC /* ReemKufi-Bold.ttf in Resources */,
 				B83FC1A6277DA3BF00342B70 /* LaunchScreen.storyboard in Resources */,
+				B87263B0279EE492002388CC /* ReemKufi-VariableFont_wght.ttf in Resources */,
 				B83FC1A3277DA3BF00342B70 /* Assets.xcassets in Resources */,
 				B83FC1B7277DA52800342B70 /* GoogleService-Info.plist in Resources */,
 			);
@@ -319,7 +332,6 @@
 				B83FC1BC277F25A800342B70 /* ViewControllersDashboard.swift in Sources */,
 				B8922F862782D3DA00153B4A /* VerefyingRequestViewController.swift in Sources */,
 				B8922F742780D2AB00153B4A /* ChatViewController.swift in Sources */,
-				B8D5BA782786D657009C1340 /* Extensions01.swift in Sources */,
 				B8922F49277F769900153B4A /* IconsCollectionViewCell.swift in Sources */,
 				B8922F762780D39900153B4A /* ChatTableViewCell.swift in Sources */,
 				B8922F722780AF6700153B4A /* MessagsTableViewCell.swift in Sources */,
@@ -393,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -448,7 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -472,7 +484,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -500,7 +512,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

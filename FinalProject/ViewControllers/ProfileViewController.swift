@@ -305,9 +305,10 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
         return 150
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+    let details = OfferDetailsViewController()
+        details.offer = myOffers[indexPath.row]
+        self.navigationController?.pushViewController(details, animated: true)
     }
-    
 }
 
 extension ProfileViewController : OfferTableViewCellDelegate{

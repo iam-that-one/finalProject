@@ -18,7 +18,7 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     lazy var myColletionView : UICollectionView? = nil
     var offers : [Offer] = []
     let db = Firestore.firestore()
-var categoery = ""
+    var categoery = ""
     var temp : [Offer] = []
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
@@ -36,8 +36,9 @@ var categoery = ""
         $0.layer.borderWidth = 3
         $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
        // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
         return $0
     }(UIButton())
     
@@ -50,8 +51,9 @@ var categoery = ""
         $0.layer.borderWidth = 3
         $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
      //   $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
         return $0
     }(UIButton())
     
@@ -67,7 +69,8 @@ var categoery = ""
         $0.layer.borderWidth = 1
         $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
+        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
         return $0
     }(UIButton())
     
@@ -80,7 +83,8 @@ var categoery = ""
         $0.layer.borderWidth = 3
         $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setBackgroundImage(UIImage(systemName: "squareshape.fill"), for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIButton())
@@ -107,12 +111,13 @@ var categoery = ""
     lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "مستودع"
+        $0.text = "تشتري؟"
         $0.textColor = .black
         $0.textAlignment = .center
         $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 20
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.font = UIFont(name: "ReemKufi-Bold", size: 30)
+      //  $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
         return $0
     }(PaddingLabel())
@@ -142,6 +147,7 @@ var categoery = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
       //  let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
       //  view.addGestureRecognizer(tap)
         
@@ -244,6 +250,7 @@ var categoery = ""
     func filterOffers(_ categoery : String){
         
         db.collection("Offers")
+            .order(by: "time",descending: true)
             .addSnapshotListener { (querySnapshot, error) in
                 if let error = error {
                     print("Error while fetching profile\(error)")
@@ -305,13 +312,13 @@ var categoery = ""
       }
     @objc func other(){
         animateTableView()
-        logo3.tintColor = .darkGray
+        logo3.tintColor = .lightGray
         logo.tintColor = .lightGray
         logo2.tintColor = .lightGray
     
-        logo4.tintColor = .darkGray
         logo4.tintColor = .lightGray
-        categoery = "خدمات عامة"
+        logo4.tintColor = .darkGray
+        categoery = "خدمات"
         filterdResult = []
         filterOffers(categoery)
         
@@ -369,7 +376,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.offerImage.image = UIImage(data:filterdResult[indexPath.row].image1) ?? UIImage()
         cell.title.text = filterdResult[indexPath.row].title
         //let date = dateFormatter.string(from: filterdResult[indexPath.row].date)
-        cell.price.text = filterdResult[indexPath.row].price + "ريال سعودي" + " "
+        cell.price.text = filterdResult[indexPath.row].price + " ريال سعودي"
         cell.date.text = filterdResult[indexPath.row].date.timeAgoDisplay()
         cell.categoery.text = "#" + filterdResult[indexPath.row].categoery
         cell.city.text = filterdResult[indexPath.row].city
@@ -387,7 +394,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = OfferDetailsViewController()
-        vc.offer = filterdResult.sorted{$0.date > $1.date}[indexPath.row]
+        vc.offer = filterdResult[indexPath.row]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

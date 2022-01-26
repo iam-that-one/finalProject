@@ -87,6 +87,9 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
           $0.layer.borderColor = .init(gray: 0.90, alpha: 1)
           $0.layer.borderWidth = 1
           $0.backgroundColor = .white
+          $0.textColor = UIColor.lightGray
+          $0.text = "وصف المنتج"
+          $0.delegate = self
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextView())
@@ -178,7 +181,17 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let db =  Firestore.firestore()
+        let newData = ["image" : SharedInstanceManager.shared.uploadImage(UIImage(named: "1168742") ?? UIImage())]
+         db.collection("offers_users").whereField("uid", isEqualTo:"QEZ0nuX4tNX1pX1kTHuKfmkKtOm1")
+            .getDocuments { (result, error) in
+                            if error == nil{
+                                for document in result!.documents{
+                                    //document.setValue("1", forKey: "isolationDate")
+                                    db.collection("offers_users").document(document.documentID).setData(newData , merge: true)
+                                }
+                            }
+                        }
         locationSettings()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -450,7 +463,6 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         self.lat = locValue.latitude
         self.log = locValue.longitude
     }
-
 }
 
     // An extension for Pickeing city Picker View
@@ -469,6 +481,23 @@ extension AddOfferViewController : UIPickerViewDelegate, UIPickerViewDataSource{
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selectedCity = cities[row]
         print(selectedCity)
+    }
+}
+
+
+extension AddOfferViewController : UITextViewDelegate{
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "وصف المنتج"
+            textView.textColor = UIColor.lightGray
+        }
     }
 }
 
@@ -508,7 +537,6 @@ extension AddOfferViewController : UINavigationControllerDelegate, UIImagePicker
         }
     }
     
-  
     // Move addOfferView 100 points upward.
     @objc func keyboardWillShow(sender: NSNotification) {
         SharedInstanceManager.shared.keyboardWillShow(view, -100)

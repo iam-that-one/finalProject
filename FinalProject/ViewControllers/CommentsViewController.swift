@@ -7,7 +7,12 @@
 
 import UIKit
 import Firebase
-class CommentsViewController: UIViewController {
+
+class CommentsViewController: UIViewController , CommetntTableViewCellDelegate{
+    func CommetntTableViewCell(_ CommetntTableViewCel: CommentsTableViewCell, delete comment: Comment) {
+        print("AAA",comment.username)
+    }
+
     let db = Firestore.firestore()
     var comments : [Comment] = []
     var name = ""
@@ -30,7 +35,7 @@ class CommentsViewController: UIViewController {
     }(UIView())
     lazy var sendComment : UITextField = {
         $0.placeholder = ""
-        $0.text = "Hi"
+        $0.text = ""
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -116,7 +121,7 @@ class CommentsViewController: UIViewController {
         send()
     }
     func send(){
-        self.db.collection("Comments").document().setData(["comment" : sendComment.text!, "date": SharedInstanceManager.shared.dateFormatter.string(from: Date()),"id" : self.offerID, "username":self.name, "time": Timestamp(), "name": name] as [String:Any])
+        self.db.collection("Comments").document().setData(["comment" : sendComment.text!, "date": SharedInstanceManager.shared.dateFormatter.string(from: Date()),"id" : self.offerID, "username":self.name, "time": Timestamp(), "name": name, "uid" : Auth.auth().currentUser!.uid] as [String:Any])
         getComments()
     }
     func getComments(){
@@ -131,12 +136,13 @@ class CommentsViewController: UIViewController {
                     }
                     
                     self.db.collection("Comments")
+                    
                         .whereField("id", isEqualTo: self.offerID)
                        
             .addSnapshotListener { (querySnapshot, error) in
                 self.comments = []
                 if let error = error {
-                    print("Error while fetching profile\(error)")
+                    print("Error while fetching comments\(error)")
                 } else {
                     if let snapshotDocuments = querySnapshot?.documents {
                         for doc in snapshotDocuments {
@@ -144,14 +150,15 @@ class CommentsViewController: UIViewController {
                             let username = data["username"] as? String ?? ""
                             let comment = data["comment"] as? String ?? ""
                             let date = data["date"] as? String ?? ""
-                            self.comments.append(Comment(username: username, dat: date, comment: comment))
+                            let id = data["id"] as? String ?? ""
+                            let uid = data["uid"] as? String ?? ""
+                            self.comments.append(Comment(username: username, dat: date, comment: comment, id: id, uid: uid))
                             self.commentsTableView.reloadData()
                             self.newLable.text! = "التعليقات \n\n\(self.comments.count)"
                         }
-                        if self.comments.count > 0{
-                        let indexPath = IndexPath(row: self.comments.count - 1, section: 0)
-                        self.commentsTableView.scrollToRow(at: indexPath, at: .top, animated: true)
-                       }
+                       // let indexPath = IndexPath(row: self.comments.count - 1, section: 0)
+                       // self.commentsTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                       
                     }
                 }
              }
@@ -170,9 +177,15 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
         
         cell.username.text = comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].username
         cell.content.text = comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].comment
-        let stringDate = comments[indexPath.row].dat
-        cell.date.text = stringDate
+        cell.date.text = SharedInstanceManager.shared.dateFormatter.date(from: comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].dat)?.timeAgoDisplay()
         cell.backgroundColor = UIColor.lightGray
+        
+        if comments.sorted(by: {SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() })[indexPath.row].uid != Auth.auth().currentUser!.uid{
+            cell.deleteBtn.isHidden = true
+        }else{
+            cell.deleteBtn.isHidden = false
+        }
+        cell.delegate = self
         return cell
     }
     
