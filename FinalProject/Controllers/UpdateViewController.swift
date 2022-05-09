@@ -42,7 +42,7 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
         $0.text = "تحديث"
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 20
         return $0
@@ -75,7 +75,7 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
     lazy var segment : UISegmentedControl = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(segmentClicked), for: .valueChanged)
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(UISegmentedControl(items: categories))
   
@@ -127,13 +127,6 @@ class UpdateViewController: UIViewController, CLLocationManagerDelegate {
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIStackView())
-    
-  
-    // // // //
-    
-    
-  
-    // // // //
     
     lazy var postOfferBtn : UIButton = {
         $0.setTitle("تحديث", for: .normal)

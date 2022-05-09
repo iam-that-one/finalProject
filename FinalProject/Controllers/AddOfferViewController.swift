@@ -44,7 +44,9 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.text = "إضافة إعلان جديد"
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.cornerRadius = 25
+        $0.clipsToBounds = true
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 20
         return $0
@@ -104,7 +106,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     lazy var segment : UISegmentedControl = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(segmentClicked), for: .valueChanged)
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(UISegmentedControl(items: categories))
   

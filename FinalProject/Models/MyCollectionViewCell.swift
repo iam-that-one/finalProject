@@ -26,7 +26,6 @@ class MyCollectionViewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
         layer.cornerRadius = 10
-       // layer.masksToBounds = false
         
         layer.shadowRadius = 10
         layer.shadowColor = UIColor.black.cgColor

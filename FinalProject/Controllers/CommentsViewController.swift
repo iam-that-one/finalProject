@@ -179,7 +179,7 @@ extension CommentsViewController : UITableViewDelegate, UITableViewDataSource{
         cell.content.text = comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].comment
         cell.date.text = SharedInstanceManager.shared.dateFormatter.date(from: comments.sorted{SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() }[indexPath.row].dat)?.timeAgoDisplay()
         cell.backgroundColor = UIColor.lightGray
-        
+        cell.delegate = self
         if comments.sorted(by: {SharedInstanceManager.shared.dateFormatter.date(from: $0.dat) ?? Date() < SharedInstanceManager.shared.dateFormatter.date(from: $1.dat) ?? Date() })[indexPath.row].uid != Auth.auth().currentUser!.uid{
             cell.deleteBtn.isHidden = true
         }else{

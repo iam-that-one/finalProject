@@ -9,23 +9,23 @@ import UIKit
 import Foundation
 import Firebase
 import AVFAudio
+
 class SharedInstanceManager{
-    static var shared : SharedInstanceManager = SharedInstanceManager()
     
+    static var shared : SharedInstanceManager = SharedInstanceManager()
     var audioPlayer: AVAudioPlayer!
     var imagePicker = UIImagePickerController()
-    
-    
+
     var dateFormatter: DateFormatter = {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "HH:mm E, d MMM y"
-          formatter.dateStyle = .medium
-          formatter.timeStyle = .medium
-          return formatter
-      }()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm E, d MMM y"
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter
+    }()
     
     func keyboardWillShow(_ view : UIView, _ constant : CGFloat){
-       view.frame.origin.y = constant
+        view.frame.origin.y = constant
     }
     
     func keyboardWillHide(_ view : UIView){
@@ -37,9 +37,9 @@ class SharedInstanceManager{
     }
     
     func uploadImage(_ image : UIImage) -> Data{
-          guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
-          return imageData
-      }
+        guard let imageData = image.jpegData(compressionQuality: 0.1) else {return Data()}
+        return imageData
+    }
     
     func fieldsValidation(_ email : UITextField, _ password : UITextField ) -> String?{
         if email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" || password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
@@ -72,26 +72,26 @@ class SharedInstanceManager{
     }
     
     func openCamera(viewController : UIViewController){
-            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
-            {
-                imagePicker.sourceType = UIImagePickerController.SourceType.camera
-                imagePicker.allowsEditing = true
-                viewController.present(imagePicker, animated: true, completion: nil)
-            }
-            else
-            {
-                let alert  = UIAlertController(title: "تحذير", message: "الوصول إلى الكاميرا غير متاح", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: nil))
-                viewController.present(alert, animated: true, completion: nil)
-            }
-        }
-
-        func openGallary(viewController : UIViewController)
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
         {
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            imagePicker.sourceType = UIImagePickerController.SourceType.camera
             imagePicker.allowsEditing = true
             viewController.present(imagePicker, animated: true, completion: nil)
         }
+        else
+        {
+            let alert  = UIAlertController(title: "تحذير", message: "الوصول إلى الكاميرا غير متاح", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "حسناً", style: .default, handler: nil))
+            viewController.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallary(viewController : UIViewController)
+    {
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePicker.allowsEditing = true
+        viewController.present(imagePicker, animated: true, completion: nil)
+    }
     
     func setBackgroundImage(imageName: String, view : UIView){
         let background = UIImage(named: imageName)
@@ -105,18 +105,16 @@ class SharedInstanceManager{
         view.sendSubviewToBack(imageView)
     }
     
-    
     func playAudioAsset(_ assetName : String) {
-       guard let audioData = NSDataAsset(name: assetName)?.data else {
-          fatalError("Unable to find asset \(assetName)")
-       }
-
-       do {
-          audioPlayer = try AVAudioPlayer(data: audioData)
-          audioPlayer.play()
-       } catch {
-          fatalError(error.localizedDescription)
-     }
+        guard let audioData = NSDataAsset(name: assetName)?.data else {
+            fatalError("Unable to find asset \(assetName)")
+        }
+        do {
+            audioPlayer = try AVAudioPlayer(data: audioData)
+            audioPlayer.play()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 }
 
@@ -128,7 +126,9 @@ extension Date {
         let hour = 60 * minute
         let day = 24 * hour
         let week = 7 * day
-    
+        let month = 4 * week
+        let year = 12 * month
+        
         if secondsAgo < minute {
             return"قبل \(secondsAgo) ثانية"
         } else if secondsAgo < hour {
@@ -137,7 +137,11 @@ extension Date {
             return "قبل \(secondsAgo / hour) ساعة"
         } else if secondsAgo < week {
             return "قبل \(secondsAgo / day) يوم"
+        }else if secondsAgo < month{
+            return "قبل \(secondsAgo / week) أسبوع"
+        }else if secondsAgo < year{
+            return "قبل \(secondsAgo / month) شهر"
         }
-        return "قبل \(secondsAgo / week) أسبوع"
+            return "قبل \(secondsAgo / year) سنة"
     }
 }

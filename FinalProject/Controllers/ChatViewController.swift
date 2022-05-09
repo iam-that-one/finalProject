@@ -51,8 +51,8 @@ var myName = ""
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.layer.cornerRadius = 10
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.cornerRadius = 25
         $0.clipsToBounds = true
         $0.textColor = .black
         $0.textAlignment = .center
@@ -70,6 +70,7 @@ var myName = ""
     }(UIButton(type: .system))
     
     lazy var backToOfferViewBtn : UIButton = {
+        $0.tintColor = .black
         $0.setBackgroundImage(UIImage(systemName: "chevron.left"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(backToDetailsViewBtnClick), for: .touchDown)
@@ -126,7 +127,6 @@ var myName = ""
             sendButton.widthAnchor.constraint(equalToConstant: 30),
             sendButton.heightAnchor.constraint(equalToConstant: 30),
         ])
-        print("AAAAAAAAAAAAAAAAAA",offerProviderId)
     }
     @objc func sentBtnClick(){
         db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
@@ -134,7 +134,6 @@ var myName = ""
                 if let error = error{
                     print(error)
                 }else{
-                   
                     for doc in querySnapshot!.documents{
                          let data = doc.data()
                         self.name = data["firstName"] as? String ?? ""
@@ -153,27 +152,12 @@ var myName = ""
                 }
             }
         fetchMesssages()
-       // messageTf.text = ""
     }
     @objc func backToDetailsViewBtnClick(){
         self.navigationController?.popViewController(animated: true)
     }
   
     func fetchMesssages(){
-        
-        let name = db.collection("offers_users").document(Auth.auth().currentUser!.uid)
-            name.getDocument { user, error in
-                if let error = error{
-                    print(error)
-                }else{
-                    if Auth.auth().currentUser?.uid == user?.get("ID") as? String{
-                    self.myName = user?.get("Name") as! String
-                    }
-                    print("###########")
-                    print(self.myName)
-                }
-            }
-        
             db.collection("offers_users").document(Auth.auth().currentUser!.uid)
             .collection("Message").document(offerProviderId).collection("msg")
                 .order(by: "time")

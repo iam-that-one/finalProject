@@ -43,8 +43,8 @@ class ProfileViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "حسابي"
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.layer.cornerRadius = 10
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.cornerRadius = 25
         $0.clipsToBounds = true
         $0.textColor = .black
         $0.textAlignment = .center
@@ -166,10 +166,10 @@ class ProfileViewController: UIViewController {
             darkmode.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             darkmode.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             
-            profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 20),
-            profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
-            profileOffersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
-            profileOffersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 5),
+            profileOffersTableView.widthAnchor.constraint(equalToConstant: 380),
+            profileOffersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileOffersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
             
             signOut.trailingAnchor.constraint(equalTo: newLable.trailingAnchor,constant: -20),
             signOut.centerYAnchor.constraint(equalTo: newLable.centerYAnchor,constant: 20)
@@ -179,7 +179,6 @@ class ProfileViewController: UIViewController {
         let authVC = VerefyingRequestViewController()
         authVC.user = myInfo
         self.present(authVC, animated: true)
-       
     }
     @objc func signOutBtnClick(){
         logOut()
@@ -227,6 +226,7 @@ class ProfileViewController: UIViewController {
     }
     
     func getMyOffers(){
+        
         db.collection("Offers").whereField("userID", isEqualTo:Auth.auth().currentUser!.uid)
             .addSnapshotListener { (querySnapshot, error) in
                 if let error = error {

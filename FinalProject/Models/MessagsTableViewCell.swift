@@ -36,6 +36,8 @@ class MessagsTableViewCell: UITableViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "person.circle.fill")
         $0.tintColor = .darkGray
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 40
         return $0
     }(UIImageView())
     override func awakeFromNib() {
@@ -60,7 +62,7 @@ class MessagsTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             progilePic.topAnchor.constraint(equalTo: contentView.topAnchor),
-            progilePic.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
+            progilePic.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
             progilePic.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             progilePic.widthAnchor.constraint(equalToConstant: 80),
             progilePic.heightAnchor.constraint(equalToConstant: 90),

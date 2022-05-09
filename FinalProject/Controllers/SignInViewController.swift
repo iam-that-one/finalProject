@@ -23,8 +23,8 @@ class SignInViewController: UIViewController {
     lazy var email : UITextField = {
         $0.placeholder = "ايميلك لو سمحت"
         $0.text = "n@nn.com"
-        $0.backgroundColor = .darkGray
-        $0.textColor = UIColor.lightGray
+        $0.backgroundColor = .white
+        $0.textColor = UIColor.black
         $0.tintColor = UIColor.lightGray
         $0.attributedPlaceholder = NSAttributedString(
             string: "الاسم الأول",
@@ -40,8 +40,8 @@ class SignInViewController: UIViewController {
         $0.placeholder = "كلمة المرور"
         $0.text = "Aa123456789&"
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = .darkGray
-        $0.textColor = UIColor.lightGray
+        $0.backgroundColor = .white
+        $0.textColor = UIColor.black
         $0.tintColor = UIColor.lightGray
         $0.attributedPlaceholder = NSAttributedString(
             string: "الاسم الأول",
@@ -54,7 +54,7 @@ class SignInViewController: UIViewController {
     lazy var signInBtn : UIButton = {
         $0.setTitle("تسجيل الدخول", for: .normal)
         $0.setBackgroundImage(UIImage(named: "grayBtn"), for: .normal)
-        $0.tintColor = .yellow
+        $0.tintColor = .white
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(signInBtnClick), for: .touchDown)
         return $0
@@ -64,9 +64,9 @@ class SignInViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "جديد؟"
-        $0.textColor = .darkGray
+        $0.textColor = .black
         $0.textAlignment = .left
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+      
         
         return $0
     }(UILabel())
@@ -76,6 +76,7 @@ class SignInViewController: UIViewController {
         $0.tintColor = .black
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(moveToSignUpBtnClick), for: .touchDown)
+        $0.titleLabel?.font =  UIFont.systemFont(ofSize: 14, weight: .bold)
         return $0
     }(UIButton(type: .system))
     override func viewWillAppear(_ animated: Bool) {
@@ -93,14 +94,59 @@ class SignInViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0.3, alpha: 1)
-        SharedInstanceManager.shared.setBackgroundImage(imageName: "w3", view: view)
+        view.backgroundColor = .systemGray5
+        drawOval()
         uiSettings()
     }
-    
+
+    private func drawOval() {
+            
+        let path = UIBezierPath(ovalIn: CGRect(x: -50 ,y: -50, width: 200, height: 200))
+
+            let shapeLayer = CAShapeLayer()
+            shapeLayer.path = path.cgPath
+            shapeLayer.fillColor = UIColor.systemTeal.cgColor
+            shapeLayer.lineWidth = 3
+            shapeLayer.strokeColor = UIColor.systemTeal.cgColor
+        shapeLayer.shadowColor = .init(gray: 0.50, alpha: 1)
+        shapeLayer.shadowOffset = .init(width: 5, height: 5)
+        shapeLayer.shadowOpacity = .pi
+
+            view.layer.addSublayer(shapeLayer)
+        
+        let path2 = UIBezierPath(ovalIn: CGRect(x: UIScreen.main.bounds.width - 100  ,y:  UIScreen.main.bounds.height - 100 , width: 200, height: 200))
+            
+            let shapeLayer2 = CAShapeLayer()
+        shapeLayer2.path = path2.cgPath
+        shapeLayer2.fillColor = UIColor.systemTeal.cgColor
+        shapeLayer2.lineWidth = 3
+        shapeLayer2.strokeColor = UIColor.systemTeal.cgColor
+        shapeLayer2.shadowColor = .init(gray: 0.50, alpha: 1)
+        shapeLayer2.shadowOffset = .init(width: -5, height: -5)
+        shapeLayer2.shadowOpacity = .pi
+            
+            view.layer.addSublayer(shapeLayer2)
+        
+        let path3 = UIBezierPath(rect: CGRect(x: view.center.x - 150, y: view.center.y - 130
+                                              , width: 300, height: 300))
+
+            let shapeLayer3 = CAShapeLayer()
+        shapeLayer3.path = path3.cgPath
+        shapeLayer3.fillColor = UIColor.white.cgColor
+        shapeLayer3.lineWidth = 3
+        shapeLayer3.strokeColor = UIColor.systemTeal.cgColor
+        shapeLayer3.shadowColor = .init(gray: 0.50, alpha: 1)
+        shapeLayer3.shadowOffset = .init(width: 5, height: 5)
+        shapeLayer3.shadowOpacity = .pi
+
+            view.layer.addSublayer(shapeLayer3)
+        
+        }
     
     func uiSettings(){
         [signInBtn,newLable,moveToSignUpBtn,passwprd,email].forEach{view.addSubview($0)}
+        
+        
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -113,7 +159,7 @@ class SignInViewController: UIViewController {
         NSLayoutConstraint.activate([
         
             
-            email.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 200),
+            email.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -50),
             email.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             email.widthAnchor.constraint(equalToConstant: 200),
             
@@ -127,7 +173,7 @@ class SignInViewController: UIViewController {
             signInBtn.widthAnchor.constraint(equalToConstant: 200),
             signInBtn.heightAnchor.constraint(equalToConstant: 50),
             
-            newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -130),
+            newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -110),
             newLable.topAnchor.constraint(equalTo: signInBtn.bottomAnchor,constant: 20),
             
             moveToSignUpBtn.trailingAnchor.constraint(equalTo: newLable.leadingAnchor,constant: -5),
@@ -201,3 +247,4 @@ class SignInViewController: UIViewController {
     }
   
 }
+

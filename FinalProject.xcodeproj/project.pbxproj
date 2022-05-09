@@ -13,6 +13,7 @@
 		B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E26278CD4D7000FF1FA /* CommentsModel.swift */; };
 		B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */; };
 		B8109E2F2795C5B5000FF1FA /* BookmarksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */; };
+		B8214F8C2829CA37000C05AA /* CustomUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8214F8B2829CA37000C05AA /* CustomUILabel.swift */; };
 		B834B39C2799F782004790D5 /* MaketItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B834B39B2799F782004790D5 /* MaketItViewController.swift */; };
 		B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC199277DA3BB00342B70 /* AppDelegate.swift */; };
 		B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */; };
@@ -57,6 +58,7 @@
 		B8109E26278CD4D7000FF1FA /* CommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsModel.swift; sourceTree = "<group>"; };
 		B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTableViewCell.swift; sourceTree = "<group>"; };
+		B8214F8B2829CA37000C05AA /* CustomUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUILabel.swift; sourceTree = "<group>"; };
 		B834B39B2799F782004790D5 /* MaketItViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaketItViewController.swift; sourceTree = "<group>"; };
 		B83FC196277DA3BB00342B70 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83FC199277DA3BB00342B70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,7 +130,7 @@
 			children = (
 				B8922F47277F767200153B4A /* CollectionViewsCells */,
 				B83FC1BA277F255800342B70 /* Dashboard */,
-				B83FC1B9277F240E00342B70 /* ViewControllers */,
+				B83FC1B9277F240E00342B70 /* Controllers */,
 				B83FC1B8277F23F700342B70 /* Models */,
 				B87263AE279EE43E002388CC /* Fonts */,
 				B8922F6E2780AC5B00153B4A /* Extensions */,
@@ -162,7 +164,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		B83FC1B9277F240E00342B70 /* ViewControllers */ = {
+		B83FC1B9277F240E00342B70 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				B83FC19D277DA3BB00342B70 /* HomeViewController.swift */,
@@ -180,7 +182,7 @@
 				B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */,
 				B834B39B2799F782004790D5 /* MaketItViewController.swift */,
 			);
-			path = ViewControllers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		B83FC1BA277F255800342B70 /* Dashboard */ = {
@@ -219,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				B8922F6F2780AC8B00153B4A /* Extensions.swift */,
+				B8214F8B2829CA37000C05AA /* CustomUILabel.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				B834B39C2799F782004790D5 /* MaketItViewController.swift in Sources */,
 				B8922F802782D2E700153B4A /* MapViewController.swift in Sources */,
 				B8922F7827821EA400153B4A /* MessageMdoel.swift in Sources */,
+				B8214F8C2829CA37000C05AA /* CustomUILabel.swift in Sources */,
 				B8922F842782D39D00153B4A /* UpdateViewController.swift in Sources */,
 				B8922F6D277FA8B700153B4A /* OfferModel.swift in Sources */,
 				B83FC1BE277F2ED100342B70 /* MessagesViewController.swift in Sources */,

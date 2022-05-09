@@ -107,14 +107,17 @@ class profileTableViewCell: UITableViewCell {
     
     func cellSettings(){
         contentView.backgroundColor = UIColor.systemGray6
-        contentView.layer.cornerRadius = 10
+        contentView.layer.cornerRadius = 5
+        contentView.layer.shadowRadius = 3.0
+        contentView.layer.shadowOpacity = 1.0
+        contentView.layer.shadowColor = CGColor.init(gray: 0.50, alpha: 1)
+        contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
         [offerImage,title,categoery,price,deleteBtn,updateBtn,date].forEach{contentView.addSubview($0)}
         
         NSLayoutConstraint.activate([
             offerImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             offerImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             offerImage.widthAnchor.constraint(equalToConstant: 110),
-            offerImage.heightAnchor.constraint(equalToConstant: 120),
             offerImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             title.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 5),
@@ -136,7 +139,7 @@ class profileTableViewCell: UITableViewCell {
             updateBtn.centerYAnchor.constraint(equalTo: deleteBtn.centerYAnchor),
             updateBtn.heightAnchor.constraint(equalToConstant: 20),
             updateBtn.widthAnchor.constraint(equalToConstant: 20),
-            
+            updateBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
             date.bottomAnchor.constraint(equalTo: price.topAnchor,constant: -5),
             date.trailingAnchor.constraint(equalTo: offerImage.leadingAnchor,constant: -10)
         ])

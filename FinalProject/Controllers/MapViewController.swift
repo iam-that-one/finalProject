@@ -89,12 +89,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }else{
             annotationView?.annotation = annotation
         }
-        
-        // // // // // // //
-        
-        
-        // // // // // // //
-        
+      
         let pinImage = UIImage(data: offer!.image1)
         let size = CGSize(width: 100, height: 100
         )

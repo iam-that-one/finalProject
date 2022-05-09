@@ -38,8 +38,8 @@ class MessagesViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "رسائلي"
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.layer.cornerRadius = 10
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.cornerRadius = 25
         $0.clipsToBounds = true
         $0.textColor = .black
         $0.textAlignment = .center
@@ -48,12 +48,9 @@ class MessagesViewController: UIViewController {
         return $0
     }(PaddingLabel())
     override func viewWillAppear(_ animated: Bool) {
-       // getProfile()
         status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
         if status{
             overrideUserInterfaceStyle = .dark
-            
         }else{
             overrideUserInterfaceStyle = .light
         }
@@ -107,7 +104,6 @@ class MessagesViewController: UIViewController {
                     let senderId = data["senderId"] as? String ?? ""
                     content = data["content"] as? String ?? ""
                     print("sender", senderId)
-                    
                     if reciverId == Auth.auth().currentUser!.uid{
                         self.ids.append(senderId)
                         self.db.collection("offers_users").addSnapshotListener { querySnapshot, error in
@@ -121,7 +117,6 @@ class MessagesViewController: UIViewController {
                                     let profilePic = data["image"] as? Data ?? Data()
                                     let name = data["firstName"] as? String ?? ""
                                     if self.ids.contains(id){
-                                        print("Nof",name)
                                         self.recntChates.append(RecentChat(name: name, id: id, date: date, profilePic: profilePic,time: time, content: content))
                                         self.filterdResult = self.recntChates
                                         self.ids.removeAll{$0 == id}

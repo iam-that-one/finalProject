@@ -149,7 +149,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         super.viewDidLoad()
         SharedInstanceManager.shared.imagePicker.delegate = self
         view.backgroundColor = .white
-        SharedInstanceManager.shared.setBackgroundImage(imageName: "w3", view: view)
+        SharedInstanceManager.shared.setBackgroundImage(imageName: "wallpaperflare.com_wallpaper", view: view)
 
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)

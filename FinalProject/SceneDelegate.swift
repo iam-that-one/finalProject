@@ -20,11 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
       
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemTeal], for: .selected)
         
         
         
-        UITabBar.appearance().backgroundColor =  .white//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        
+        UITabBar.appearance().backgroundColor = .white// UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         var rootViewController : UIViewController?
         if Auth.auth().currentUser?.uid == nil{
              rootViewController = SignInViewController()

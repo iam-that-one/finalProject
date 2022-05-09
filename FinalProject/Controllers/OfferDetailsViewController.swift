@@ -18,6 +18,24 @@ class OfferDetailsViewController: UIViewController {
     var bookBtnToggl = false
     let db = Firestore.firestore()
     
+    lazy var newLable : PaddingLabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "تفاصيل أكثر"
+        $0.textColor = .black
+        $0.textAlignment = .center
+        $0.layer.cornerRadius = 25
+        $0.clipsToBounds = true
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.paddingTop = 50
+        $0.paddingBottom = 10
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            
+      //  $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(PaddingLabel())
+    
     lazy var verfied : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = .black
@@ -50,7 +68,7 @@ class OfferDetailsViewController: UIViewController {
         $0.text = ""
         $0.textAlignment = .center
        // $0.layer.cornerRadius = 10
-        $0.backgroundColor = .yellow
+        $0.backgroundColor = .systemTeal
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
             $0.layer.cornerRadius = 5
@@ -93,12 +111,9 @@ class OfferDetailsViewController: UIViewController {
     
     lazy var container : UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        //$0.backgroundColor = UIColor(red: 249, green: 195, blue: 34, alpha: 0)
         $0.backgroundColor = .white
         $0.layer.borderColor = CGColor.init(gray: 0.90, alpha: 1)
         $0.layer.borderWidth = 3
-       // $0.backgroundColor = UIColor.lightGray
-
         return $0
     }(UIView())
     
@@ -143,6 +158,7 @@ class OfferDetailsViewController: UIViewController {
         $0.layer.cornerRadius = 40
         return $0
     }(UIImageView())
+    
     lazy var pin : UIButton = {
         $0.setBackgroundImage(UIImage(named: "pin"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -176,6 +192,7 @@ class OfferDetailsViewController: UIViewController {
         return $0
     }(UIButton(type: .system))
     lazy var backToOfferViewBtn : UIButton = {
+        $0.tintColor = .black
         $0.setBackgroundImage(UIImage(systemName: "chevron.left"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(backToOfferViewBtnClick), for: .touchDown)
@@ -200,7 +217,6 @@ class OfferDetailsViewController: UIViewController {
         view.backgroundColor = .white
         container.backgroundColor = .white
         
-        offerTitle.backgroundColor  = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
         stackView.distribution = .fill // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
@@ -215,15 +231,21 @@ class OfferDetailsViewController: UIViewController {
         offerDescription.text = offer!.description
         getProfile()
         getBookmarks()
-        [offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
+        [newLable,offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
         [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments,verfied,book].forEach{container.addSubview($0)}
         
         NSLayoutConstraint.activate([
             
+            newLable.topAnchor.constraint(equalTo: view.topAnchor),
+            newLable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newLable.heightAnchor.constraint(equalToConstant: 120),
             backToOfferViewBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             backToOfferViewBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
             
-            offerImage.topAnchor.constraint(equalTo: backToOfferViewBtn.bottomAnchor,constant: 20),
+            
+            
+            offerImage.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             offerImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             offerImage.widthAnchor.constraint(equalToConstant: 370),
             offerImage.heightAnchor.constraint(equalToConstant: 300),
@@ -308,7 +330,8 @@ class OfferDetailsViewController: UIViewController {
         makeItBooked()
     }
     func makeItBooked(){
-        bookBtnToggl.toggle()
+       bookBtnToggl.toggle()
+   
         if bookBtnToggl{
             book.setBackgroundImage(UIImage(systemName: "bookmark.fill"), for: .normal)
             db.collection("Bookmarks").document(offer!.offerID).setData(["id" : Auth.auth().currentUser!.uid, "offerID" : offer!.offerID])
@@ -326,7 +349,6 @@ class OfferDetailsViewController: UIViewController {
     @objc func showCommentsBtnCkick(){
         let commentView = CommentsViewController()
         commentView.offerID = offer!.offerID
-        
         self.present(commentView, animated: true, completion: nil)
         
     }
@@ -366,14 +388,13 @@ class OfferDetailsViewController: UIViewController {
         }
     }
     
-    
     @objc func phoneCallBtnClic(){
         call()
     }
     func call(){
         if let url = URL(string: "tel://\(self.phoneNumber)"),
         UIApplication.shared.canOpenURL(url) {
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     }
     @objc func backToOfferViewBtnClick(){
@@ -384,7 +405,6 @@ class OfferDetailsViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
     // To check whether the use of is online or not
     
     func isUserOnline(){

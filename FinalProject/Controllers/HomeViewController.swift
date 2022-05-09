@@ -8,10 +8,8 @@
 
 import UIKit
 import Firebase
-class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
-    func myHomeTableViewCell(_ HomeTableViewCel: OffersTableViewCell, move offer: Offer) {
-    }
-    
+class HomeViewController: UIViewController {
+
    
     var status = false
     var filterdResult : [Offer] = []
@@ -28,63 +26,69 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     }(UIStackView())
     
     lazy var logo : UIButton = {
-        $0.tintColor = .black
+        $0.tintColor = .systemTeal
         $0.setTitle("الكل", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
         $0.addTarget(self, action: #selector(all), for: .touchDown)
-        $0.layer.cornerRadius = 5
-        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+       // $0.layer.cornerRadius = 5
+        $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
+        
         $0.layer.borderWidth = 3
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .systemTeal// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 18)
        // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+      //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
+       
         return $0
     }(UIButton())
     
     lazy var logo2 : UIButton = {
-        $0.tintColor = categoery == "أجهزة" ? .black : .darkGray
+        $0.tintColor = .clear
         $0.setTitle("أجهزة", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
         $0.addTarget(self, action: #selector(devices), for: .touchDown)
         $0.layer.cornerRadius = 5
-        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .white//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
      //   $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        //$0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
         return $0
     }(UIButton())
     
     lazy var logo3 : UIButton = {
-        $0.tintColor = categoery == "سيارات" ? .black : .darkGray
+        $0.tintColor = .clear
+        $0.setTitleColor(.black, for: .normal)
         $0.setTitle("سيارات", for: .normal)
     //    $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20
         $0.addTarget(self, action: #selector(cars), for: .touchDown)
         $0.layer.cornerRadius = 5
-        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
-        $0.layer.borderWidth = 1
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = .white//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
+        //$0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
         return $0
     }(UIButton())
     
     lazy var logo4 : UIButton = {
-        $0.tintColor = categoery == "خدمات\nأخرى" ? .black : .darkGray
+        $0.tintColor = .clear
+        $0.setTitleColor(.black, for: .normal)
         $0.setTitle("خدمات", for: .normal)
         $0.addTarget(self, action: #selector(other), for: .touchDown)
         $0.layer.cornerRadius = 5
-        $0.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .white//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setBackgroundImage(UIImage(systemName: "square.inset.filled"), for: .normal)
-        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 14)
+      //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIButton())
@@ -114,7 +118,11 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
         $0.text = "تشتري؟"
         $0.textColor = .black
         $0.textAlignment = .center
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.layer.cornerRadius = 25
+        $0.clipsToBounds = true
+        $0.shadowColor = .init(cgColor: .init(gray: 0.50, alpha: 1))
+        $0.shadowOffset = .init(width: 2, height: 5)
+        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 20
         $0.font = UIFont(name: "ReemKufi-Bold", size: 30)
       //  $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -146,10 +154,7 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
-      //  let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-      //  view.addGestureRecognizer(tap)
+
         
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -173,7 +178,6 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
         stackView.addArrangedSubview(logo2)
         stackView.addArrangedSubview(logo3)
         stackView.addArrangedSubview(logo4)
-      
         getOffers()
         temp = offers
         [newLable, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
@@ -207,12 +211,11 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
         ])
     }
     func getOffers(){
-        
         db.collection("Offers")
             .order(by: "time",descending: true)
             .addSnapshotListener { [self] (querySnapshot, error) in
                 if let error = error {
-                    print("Error while fetching profile\(error)")
+                    print("Error while fetching offers\(error)")
                 } else {
                     filterdResult = []
                     offers = []
@@ -237,23 +240,18 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
                             self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date:  self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             
                             self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date:  self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
-                            
                         }
-                       
                         self.offersTableView.reloadData()
-                        
-                      
                     }
                 }
             }
     }
     func filterOffers(_ categoery : String){
-        
         db.collection("Offers")
             .order(by: "time",descending: true)
             .addSnapshotListener { (querySnapshot, error) in
                 if let error = error {
-                    print("Error while fetching profile\(error)")
+                    print("Error while fetching offers\(error)")
                 } else {
                     if let snapshotDocuments = querySnapshot?.documents {
                         for doc in snapshotDocuments {
@@ -277,12 +275,8 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
                                 self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date:  self.dateFormatter.date(from: date) ?? Date() ,lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                                 self.filterdResult.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: self.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log,city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
                             }
-                           
-                          
                             self.offersTableView.reloadData()
                         }
-                        
-                      
                     }
                 }
             }
@@ -290,10 +284,11 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     @objc func moveBtnClick(){
     }
     @objc func devices(){
-          logo2.tintColor = .darkGray
-          logo.tintColor = .lightGray
-          logo3.tintColor = .lightGray
-          logo4.tintColor = .lightGray
+        logo2.backgroundColor = .systemTeal
+        logo3.backgroundColor = .white
+        logo4.backgroundColor = .white
+
+        logo.backgroundColor = .white
           categoery = "أجهزة"
         filterdResult = []
         filterOffers(categoery)
@@ -301,10 +296,10 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
       }
       @objc func cars(){
           animateTableView()
-          logo3.tintColor = .darkGray
-          logo.tintColor = .lightGray
-          logo2.tintColor = .lightGray
-          logo4.tintColor = .lightGray
+          logo3.backgroundColor = .systemTeal
+          logo2.backgroundColor = .white
+          logo4.backgroundColor = .white
+          logo.backgroundColor = .white
           categoery = "سيارات"
           filterdResult = []
           filterOffers(categoery)
@@ -312,12 +307,10 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
       }
     @objc func other(){
         animateTableView()
-        logo3.tintColor = .lightGray
-        logo.tintColor = .lightGray
-        logo2.tintColor = .lightGray
-    
-        logo4.tintColor = .lightGray
-        logo4.tintColor = .darkGray
+        logo.backgroundColor = .white
+        logo2.backgroundColor = .white
+        logo4.backgroundColor = .systemTeal
+        logo3.backgroundColor = .white
         categoery = "خدمات"
         filterdResult = []
         filterOffers(categoery)
@@ -326,10 +319,10 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
     
       @objc func all(){
           animateTableView()
-          logo.tintColor = .darkGray
-          logo3.tintColor = .lightGray
-          logo2.tintColor = .lightGray
-          logo4.tintColor = .lightGray
+          logo.backgroundColor = .systemTeal
+          logo3.backgroundColor = .white
+          logo2.backgroundColor = .white
+          logo4.backgroundColor = .white
           filterdResult = []
           offers = []
           getOffers()
@@ -340,8 +333,6 @@ class HomeViewController: UIViewController, OfferTableViewCellMapDelegate {
                           duration: 0.35,
                           options: .transitionCrossDissolve,
                           animations: {
-            //self.offersTableView.reloadData()
-            
         })
     }
     var dateFormatter: DateFormatter = {
@@ -382,9 +373,9 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.city.text = filterdResult[indexPath.row].city
         cell.delegate = self
         if indexPath.row % 2 == 0{
-            cell.contentView.backgroundColor = UIColor.lightGray //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+            cell.contentView.backgroundColor = UIColor.systemGray6 //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         }else{
-            cell.contentView.backgroundColor = UIColor.systemGray5
+            cell.contentView.backgroundColor = UIColor.white
         }
         return cell
     
@@ -431,4 +422,9 @@ extension HomeViewController : UISearchBarDelegate{
        offersTableView.reloadData()
     }
     
+}
+extension HomeViewController : OfferTableViewCellMapDelegate {
+    func myHomeTableViewCell(_ HomeTableViewCel: OffersTableViewCell, move offer: Offer) {
+        print("Delegate")
+    }
 }

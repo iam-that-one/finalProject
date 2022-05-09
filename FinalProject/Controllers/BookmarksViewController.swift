@@ -28,8 +28,10 @@ class BookmarksViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تفضيلاتي 🖤"
         $0.textColor = .black
+        $0.layer.cornerRadius = 25
+        $0.clipsToBounds = true
         $0.textAlignment = .center
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .systemTeal
         $0.paddingTop = 20
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -58,18 +60,13 @@ class BookmarksViewController: UIViewController {
             }else{
                 for doc in querySnapshot!.documents{
                     let data = doc.data()
-                 //   let id = data["id"] as? String ?? ""
                     let offerID = data["offerID"] as? String ?? ""
-                   
                         self.db.collection("Offers").whereField("offerID", isEqualTo:offerID).addSnapshotListener { querySnapshot, error in
                             if let error = error{
                                 print(error)
                             }else{
-                                
                                 for doc in querySnapshot!.documents{
-                                    
                                     let data = doc.data()
-                                    
                                     let userID = data["userID"] as? String ?? ""
                                     let offerID = data["offerID"] as? String ?? ""
                                     let date = data["date"] as? String ?? ""
@@ -84,20 +81,16 @@ class BookmarksViewController: UIViewController {
                                     let image4 = data["image4"] as? Data ?? Data()
                                     let lat = data["lat"] as? Double ?? 0.0
                                     let log = data["log"] as? Double ?? 0.0
-                                  //  if id == Auth.auth().currentUser!.uid{
                                     self.offers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: SharedInstanceManager.shared.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
-                               // }
                                 self.offersTableView.reloadData()
                                 
                             }
                         }
                     }
-                    
                 }
             }
         }
     }
-   
 }
 
 extension BookmarksViewController : UITableViewDelegate, UITableViewDataSource{
@@ -115,7 +108,7 @@ extension BookmarksViewController : UITableViewDelegate, UITableViewDataSource{
         cell.categoery.text = "#" + offers[indexPath.row].categoery
         cell.city.text = offers[indexPath.row].city
         if indexPath.row % 2 == 0{
-            cell.contentView.backgroundColor = UIColor.lightGray //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+            cell.contentView.backgroundColor = UIColor.lightGray
         }else{
             cell.contentView.backgroundColor = UIColor.systemGray5
         }

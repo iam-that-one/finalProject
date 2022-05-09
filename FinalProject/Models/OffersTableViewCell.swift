@@ -101,6 +101,7 @@ class OffersTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         cellSettings()
+        
     }
     
     func cellSettings(){
@@ -108,6 +109,7 @@ class OffersTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 5
       //  contentView.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
       //  contentView.layer.borderWidth = 5
+        pin.isEnabled = false
         contentView.layer.shadowRadius = 3.0
         contentView.layer.shadowOpacity = 1.0
         contentView.layer.shadowColor = CGColor.init(gray: 0.50, alpha: 1)
@@ -118,7 +120,7 @@ class OffersTableViewCell: UITableViewCell {
             offerImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             offerImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             offerImage.widthAnchor.constraint(equalToConstant: 110),
-            offerImage.heightAnchor.constraint(equalToConstant: 120),
+         //   offerImage.heightAnchor.constraint(equalToConstant: 120),
             offerImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             title.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 5),
@@ -151,7 +153,7 @@ class OffersTableViewCell: UITableViewCell {
     @objc func moveToMapView(_ sender : UIButton){
         if let offers = offers,
              let _ = delegate {
-            self.delegate!.myHomeTableViewCell(self, move: offers)
+            self.delegate?.myHomeTableViewCell(self, move: offers)
           }
         print("AAA")
     }
