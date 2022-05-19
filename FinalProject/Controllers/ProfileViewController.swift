@@ -145,7 +145,7 @@ class ProfileViewController: UIViewController {
             
             container.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            container.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40),
+            container.widthAnchor.constraint(equalToConstant: 350),
             container.heightAnchor.constraint(equalToConstant: 120),
             
             profPic.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -5),
@@ -168,8 +168,8 @@ class ProfileViewController: UIViewController {
             darkmode.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 5),
-            profileOffersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
-            profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
+            profileOffersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileOffersTableView.widthAnchor.constraint(equalToConstant: 350),
             profileOffersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
             
             signOut.trailingAnchor.constraint(equalTo: newLable.trailingAnchor,constant: -20),

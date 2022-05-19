@@ -122,23 +122,25 @@ class UserProfileViewController: UIViewController {
             backToOfferViewBtn.widthAnchor.constraint(equalToConstant: 30),
             
             container.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 30),
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             container.heightAnchor.constraint(equalToConstant: 200),
+            container.widthAnchor.constraint(equalToConstant: 350),
             
             profileImage.topAnchor.constraint(equalTo: container.topAnchor,constant: 20),
             profileImage.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -20),
             profileImage.heightAnchor.constraint(equalToConstant: 80),
             profileImage.widthAnchor.constraint(equalToConstant: 80),
             
-            bio.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 30),
+            bio.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 10),
             bio.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -20),
             bio.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 20),
             bio.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -10),
             
             myColletionView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 20),
-            myColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
-            myColletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
+            //myColletionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
+            //myColletionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
+            myColletionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            myColletionView.widthAnchor.constraint(equalToConstant: 350),
             myColletionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height - 120)
             ])
     }

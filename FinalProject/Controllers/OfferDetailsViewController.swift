@@ -295,8 +295,8 @@ class OfferDetailsViewController: UIViewController {
             image4.heightAnchor.constraint(equalToConstant: 100),
             
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            container.heightAnchor.constraint(equalToConstant: 150),
+            container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            container.widthAnchor.constraint(equalToConstant: 350),
             container.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             profilePicture.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),

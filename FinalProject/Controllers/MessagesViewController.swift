@@ -11,7 +11,6 @@ class MessagesViewController: UIViewController {
     let db = Firestore.firestore()
     var ids : [String] = []
     var offerProviderId = ""
-    var isOnline = false
     var recntChates : [RecentChat] = []
     var filterdResult : [RecentChat] = []
     var offers : [Offer] = []
@@ -60,7 +59,6 @@ class MessagesViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        isUserOnline()
         let tap = UITapGestureRecognizer(target: newLable
                                          , action: #selector(UIInputViewController.dismissKeyboard))
         newLable.addGestureRecognizer(tap)
@@ -148,20 +146,6 @@ class MessagesViewController: UIViewController {
         SharedInstanceManager.shared.dismissKeyboard(view)
     }
     
-    func isUserOnline(){
-           let userRef = Database.database().reference(withPath: "online")
-           userRef.observe(.value){ (snapshot) in
-               if snapshot.hasChild(self.offerProviderId){
-                
-                   self.isOnline = true
-               }
-               else{
-                   self.isOnline = false
-               }
-               
-           }
-       
-       }
 }
 
 extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
@@ -190,8 +174,6 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatVC = ChatViewController()
         self.offerProviderId = filterdResult.sorted{$0.date > $1.date}[indexPath.row].id
-        isUserOnline()
-        chatVC.isOnline = isOnline
         chatVC.offerProviderId = filterdResult.sorted{$0.date > $1.date}[indexPath.row].id
         self.navigationController?.pushViewController(chatVC, animated: true)
     }
