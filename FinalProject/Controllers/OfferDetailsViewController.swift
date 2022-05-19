@@ -285,7 +285,7 @@ class OfferDetailsViewController: UIViewController {
             stackView.topAnchor.constraint(equalTo: offerDescription.bottomAnchor,constant: 10),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.widthAnchor.constraint(equalToConstant: 350),
-            stackView.heightAnchor.constraint(equalToConstant: 140),
+            stackView.heightAnchor.constraint(equalToConstant: 100),
             
             image2.widthAnchor.constraint(equalToConstant: 100),
             image2.heightAnchor.constraint(equalToConstant: 100),
@@ -294,10 +294,11 @@ class OfferDetailsViewController: UIViewController {
             image4.widthAnchor.constraint(equalToConstant: 100),
             image4.heightAnchor.constraint(equalToConstant: 100),
             
+            container.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: -10),
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             container.widthAnchor.constraint(equalToConstant: 350),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
             
             profilePicture.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             profilePicture.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -20),
@@ -335,7 +336,7 @@ class OfferDetailsViewController: UIViewController {
             pin.widthAnchor.constraint(equalToConstant: 30),
             pin.heightAnchor.constraint(equalToConstant: 30),
             
-            book.trailingAnchor.constraint(equalTo: pin.leadingAnchor,constant: -10),
+            book.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 5),
             book.centerYAnchor.constraint(equalTo: pin.centerYAnchor),
             book.widthAnchor.constraint(equalToConstant: 30),
             book.heightAnchor.constraint(equalToConstant: 30),
