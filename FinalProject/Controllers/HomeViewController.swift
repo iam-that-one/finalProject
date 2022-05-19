@@ -8,9 +8,45 @@
 
 import UIKit
 import Firebase
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController  {
 
-   
+    lazy var logo0000 : UIButton = {
+        $0.tintColor = .systemTeal
+        $0.setTitle("عقارات", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(realEstate), for: .touchDown)
+       // $0.layer.cornerRadius = 5
+        $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
+        
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = .white// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 18)
+       // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+      //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
+       
+        return $0
+    }(UIButton())
+    
+    lazy var logo1111 : UIButton = {
+        $0.tintColor = .systemTeal
+        $0.setTitle("أزياء", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.addTarget(self, action: #selector(clothes), for: .touchDown)
+       // $0.layer.cornerRadius = 5
+        $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
+        
+        $0.layer.borderWidth = 3
+        $0.backgroundColor = .white// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 18)
+       // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+      //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
+       
+        return $0
+    }(UIButton())
+    
+    let simpleOver = SimpleOver()
     var status = false
     var filterdResult : [Offer] = []
     lazy var myColletionView : UICollectionView? = nil
@@ -77,6 +113,15 @@ class HomeViewController: UIViewController {
         return $0
     }(UIButton())
     
+    lazy var sc : UIScrollView = {
+     //   $0.delegate = self
+        $0.contentSize = CGSize(width: 550, height: 90)
+        $0.showsHorizontalScrollIndicator = true
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        return $0
+    }(UIScrollView())
     lazy var logo4 : UIButton = {
         $0.tintColor = .clear
         $0.setTitleColor(.black, for: .normal)
@@ -119,6 +164,7 @@ class HomeViewController: UIViewController {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.shadowColor = .init(cgColor: .init(gray: 0.50, alpha: 1))
         $0.shadowOffset = .init(width: 2, height: 5)
@@ -134,9 +180,11 @@ class HomeViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(moveBtnClick), for: .touchDown)
         return $0
+        
     }(UIButton(type: .system))
     override func viewWillAppear(_ animated: Bool) {
         offersTableView.reloadData()
+        
         navigationController?.setNavigationBarHidden(true, animated: animated)
         status = UserDefaults.standard.bool(forKey: "isDarkMode")
         
@@ -152,17 +200,28 @@ class HomeViewController: UIViewController {
        // offers = []
        // filterdResult = []
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+        navigationController?.delegate = self
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+       // sc.delegate = self
+      //  offersTableView.showsVerticalScrollIndicator = false
         
-        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .pad:
+            view.backgroundColor = .systemGray3
+            searchBar.layer.cornerRadius = 20
+            searchBar.clipsToBounds = true
+         //   offersTableView.backgroundColor = .systemGray3
+        default:
+            break
+        }
+
         myColletionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         myColletionView!.backgroundColor = UIColor.white
         myColletionView!.dataSource = self
@@ -172,15 +231,19 @@ class HomeViewController: UIViewController {
         
         animateTableView()
         
-        stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
+        stackView.alignment = .leading // .Leading .FirstBaseline .Center .Trailing .LastBaseline
         stackView.distribution = .fill // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
         stackView.addArrangedSubview(logo)
         stackView.addArrangedSubview(logo2)
         stackView.addArrangedSubview(logo3)
         stackView.addArrangedSubview(logo4)
+        stackView.addArrangedSubview(logo0000)
+        stackView.addArrangedSubview(logo1111)
+        sc.addSubview(stackView)
+      
         getOffers()
         temp = offers
-        [newLable, searchBar,stackView,offersTableView].forEach{view.addSubview($0)}
+        [newLable, searchBar,sc,offersTableView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
             newLable.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
@@ -189,9 +252,17 @@ class HomeViewController: UIViewController {
             searchBar.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             searchBar.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
-            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor,constant: 20),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-          
+            
+            sc.topAnchor.constraint(equalTo: searchBar.bottomAnchor,constant: 20),
+            sc.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sc.heightAnchor.constraint(equalToConstant: 90),
+           // sc.bottomAnchor.constraint(equalTo: offersTableView.topAnchor,constant: -20),
+            sc.widthAnchor.constraint(equalToConstant: 350),
+            
+            stackView.leadingAnchor.constraint(equalTo: sc.leadingAnchor),
+           // stackView.trailingAnchor.constraint(equalTo: sc.trailingAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 110),
+            
             logo.widthAnchor.constraint(equalToConstant: 80),
             logo.heightAnchor.constraint(equalToConstant: 80),
             
@@ -204,7 +275,14 @@ class HomeViewController: UIViewController {
             logo4.widthAnchor.constraint(equalToConstant: 80),
             logo4.heightAnchor.constraint(equalToConstant: 80),
             
-            offersTableView.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: 10),
+            logo0000.widthAnchor.constraint(equalToConstant: 80),
+            logo0000.heightAnchor.constraint(equalToConstant: 80),
+            
+            logo1111.widthAnchor.constraint(equalToConstant: 80),
+            logo1111.heightAnchor.constraint(equalToConstant: 80),
+            
+            
+            offersTableView.topAnchor.constraint(equalTo: sc.bottomAnchor,constant: 10),
             offersTableView.widthAnchor.constraint(equalToConstant: 380),
             offersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             offersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20)
@@ -287,20 +365,57 @@ class HomeViewController: UIViewController {
         logo2.backgroundColor = .systemTeal
         logo3.backgroundColor = .white
         logo4.backgroundColor = .white
-
+        logo0000.backgroundColor = .white
         logo.backgroundColor = .white
+        logo1111.backgroundColor = .white
           categoery = "أجهزة"
+        searchBar.text = ""
+        offers.removeAll{$0.categoery == "أجهزة"}
         filterdResult = []
         filterOffers(categoery)
           animateTableView()
       }
+    
+    @objc func realEstate(){
+        logo0000.backgroundColor = .systemTeal
+        logo3.backgroundColor = .white
+        logo4.backgroundColor = .white
+        logo.backgroundColor = .white
+        logo1111.backgroundColor = .white
+          categoery = "عقارات"
+        searchBar.text = ""
+        offers.removeAll{$0.categoery == "عقارات"}
+        filterdResult = []
+        filterOffers(categoery)
+          animateTableView()
+      }
+    
+    @objc func clothes(){
+        logo0000.backgroundColor = .white
+        logo3.backgroundColor = .white
+        logo4.backgroundColor = .white
+        logo.backgroundColor = .white
+        logo1111.backgroundColor = .systemTeal
+          categoery = "أزياء"
+        searchBar.text = ""
+        offers.removeAll{$0.categoery == "أزياء"}
+        filterdResult = []
+        filterOffers(categoery)
+          animateTableView()
+      }
+    
+    
       @objc func cars(){
           animateTableView()
           logo3.backgroundColor = .systemTeal
           logo2.backgroundColor = .white
           logo4.backgroundColor = .white
           logo.backgroundColor = .white
+          logo0000.backgroundColor = .white
+          logo1111.backgroundColor = .white
           categoery = "سيارات"
+          searchBar.text = ""
+          offers.removeAll{$0.categoery == "سيارات"}
           filterdResult = []
           filterOffers(categoery)
           offersTableView.reloadData()
@@ -311,7 +426,12 @@ class HomeViewController: UIViewController {
         logo2.backgroundColor = .white
         logo4.backgroundColor = .systemTeal
         logo3.backgroundColor = .white
+        logo0000.backgroundColor = .white
+        logo1111.backgroundColor = .white
+
         categoery = "خدمات"
+        searchBar.text = ""
+        offers.removeAll{$0.categoery == "خدمات"}
         filterdResult = []
         filterOffers(categoery)
         
@@ -323,6 +443,8 @@ class HomeViewController: UIViewController {
           logo3.backgroundColor = .white
           logo2.backgroundColor = .white
           logo4.backgroundColor = .white
+          logo0000.backgroundColor = .white
+          logo1111.backgroundColor = .white
           filterdResult = []
           offers = []
           getOffers()
@@ -408,7 +530,14 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
 extension HomeViewController : UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterdResult = []
-        
+        let firstIttem = CGPoint(x: 0, y: sc.contentSize.height - sc.bounds.height + sc.contentInset.bottom)
+        sc.setContentOffset(firstIttem, animated: true)
+        logo.backgroundColor = .systemTeal
+        logo3.backgroundColor = .white
+        logo2.backgroundColor = .white
+        logo4.backgroundColor = .white
+        logo0000.backgroundColor = .white
+        logo1111.backgroundColor = .white
         if searchText == ""{
            filterdResult = offers
         }
@@ -428,3 +557,24 @@ extension HomeViewController : OfferTableViewCellMapDelegate {
         print("Delegate")
     }
 }
+
+extension HomeViewController: UIViewControllerTransitioningDelegate, UINavigationControllerDelegate{
+    func navigationController(
+          _ navigationController: UINavigationController,
+          animationControllerFor operation: UINavigationController.Operation,
+          from fromVC: UIViewController,
+          to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+          
+          simpleOver.popStyle = (operation == .pop)
+          return simpleOver
+      }
+}
+
+//extension HomeViewController : UIScrollViewDelegate{
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if scrollView.contentOffset.y != 0 {
+//            scrollView.contentOffset.y = 0
+//        }
+//    }
+//
+//}

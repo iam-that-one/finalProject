@@ -14,7 +14,7 @@ class MyCollectionViewCell: UICollectionViewCell {
     }(UIImageView())
      
     override init(frame: CGRect) {
-           super.init(frame: frame)
+        super.init(frame: .zero)
            setCollectionCiewCell()
        }
     
@@ -25,17 +25,15 @@ class MyCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(image)
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
-        layer.cornerRadius = 10
+       
         
-        layer.shadowRadius = 10
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.10
-        layer.shadowOffset = CGSize(width: 0, height: 5)
         NSLayoutConstraint.activate([
             image.topAnchor.constraint(equalTo: contentView.topAnchor),
             image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            image.heightAnchor.constraint(equalToConstant: 100),
+            image.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 

@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>ReemKufi-VariableFont_wght.ttf</string>
-		<string>ReemKufi-Bold.ttf</string>
-	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>لو سمحت نبي ندخل للكاميرا عشان تقدر تصور وتختار الصور اللي تبي، لوسمحت يعني (:</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>نريد موقعك الحالي لعرضه للمستخدمين الراغبين في شراء سلعتك</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>نريد موقعك الحالي لعرضه للمستخدمين الراغبين في شراء سلعتك</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -23,6 +12,11 @@
 				<string>com.googleusercontent.apps.960856184444-95116eltc4oblvgk5icbod0tm4s7nrvj</string>
 			</array>
 		</dict>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ReemKufi-VariableFont_wght.ttf</string>
+		<string>ReemKufi-Bold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

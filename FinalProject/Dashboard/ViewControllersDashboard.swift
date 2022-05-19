@@ -13,8 +13,9 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        tabBar.layer.cornerRadius = 45
+        tabBar.layer.cornerRadius = 50
         tabBar.layer.shadowRadius = 10.0
+        tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner,]
         tabBar.layer.shadowOpacity = 10.0
         tabBar.layer.shadowColor = CGColor.init(gray: 0.30, alpha: 1)
         tabBar.layer.shadowOffset = CGSize(width: 4, height: 4)

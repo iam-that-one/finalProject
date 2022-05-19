@@ -34,7 +34,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     let cities =  ["القنفذة", "الليث", "جدة", "مكة","الطائف", "رابغ","المجمعة", "القويعية", "الأفلاج", "الزلفي", "وادي الدواسر", "الدرعية", "الرياض","الخرج", "الدوادمي", "حوطة بني تميم",
                    "سكاكا","دومة الجندل","القريات","العقيق","القرى","قلوة","بلجرشي","المخواه","المندق","ثار","يدمة","خباش","حبونا","بدر الجنوب","شرورة","فرسان","القياس","العارضة","الحرث","بيش","العيدابي","الريث","ضمد","أحد المسارحة","الدائر","صبيا","صامطة","أبو عريش","رفحاء","طريف","عرعر","الغزالة","الشنان","بقعاء","أملج","حقل","الوجه","تيماء","ضباء","سراةعبيدة","بلقرن","المجاردة","رجال المع","تثليث","ظهران الجنوب","أحد رفيدة","خميس مشيط","النماص","محايل","بيشة","الخفجي","قرية العليا","الخرخير","بقيق","رأس تنورة","النعيرية","حفر الباطن","القطيف","الجبيل","الأحساء","الخبر","الشماسية","الأسياح","البدائع","رياض الخبراء","عيون الجواء","البكيرية","بريدة","عنيزة","المذنب","الرس","الحناكية","المهد","خيبر","بدر","المدينة","ينبع","العلا","الخرمة", "خليص", "الكامل", "رنية", "تربة", "الجمجوم","رماح", "ثادق", "حريملاء", "المزاحمية", "الحريق", "الغاط", "السليل", "عفيف", "ضرماء"
                        ]
-    var categories = ["أجهزة","سيارات","خدمات", "غير مصنف"]
+    var categories = ["أجهزة","سيارات","خدمات", "أخرى","عقارات","أزياء"]
     
    
     
@@ -45,6 +45,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.textColor = .black
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -155,6 +156,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
+        $0.spacing = 5
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIStackView())
@@ -249,22 +251,27 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
              
              segment.topAnchor.constraint(equalTo: price.bottomAnchor,constant: 20),
              segment.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-             segment.widthAnchor.constraint(equalToConstant: 300),
+             segment.widthAnchor.constraint(equalToConstant: 370),
+             segment.heightAnchor.constraint(equalToConstant: 80),
+             
              
              picker.topAnchor.constraint(equalTo: segment.bottomAnchor,constant: 20),
 //             picker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-             picker.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+             picker.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: -20),
              picker.widthAnchor.constraint(equalToConstant: 190),
              picker.heightAnchor.constraint(equalToConstant: 100),
              
-             cityLable.leadingAnchor.constraint(equalTo: picker.trailingAnchor,constant: 50),
+             cityLable.leadingAnchor.constraint(equalTo: picker.trailingAnchor,constant: 10),
              cityLable.centerYAnchor.constraint(equalTo: picker.centerYAnchor),
              
              stackView.topAnchor.constraint(equalTo: picker.bottomAnchor,constant: 20),
-             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+             //stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+             //stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+             stackView.widthAnchor.constraint(equalToConstant: 300),
+             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
              
-             imagesLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            // imagesLable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+             imagesLable.centerXAnchor.constraint(equalTo: image4.centerXAnchor,constant: -50),
              imagesLable.bottomAnchor.constraint(equalTo: stackView.topAnchor),
              
              image1.widthAnchor.constraint(equalToConstant: 50),
@@ -298,8 +305,14 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         }else if segment.selectedSegmentIndex == 3{
             selectedCat = categories[3]
             print(selectedCat)
-        }else{
+        }else if segment.selectedSegmentIndex == 4{
             selectedCat = categories[4]
+            print(selectedCat)
+        }else if segment.selectedSegmentIndex == 5{
+                selectedCat = categories[5]
+                print(selectedCat)
+        }else{
+            selectedCat = categories[6]
             print(selectedCat)
         }
     }

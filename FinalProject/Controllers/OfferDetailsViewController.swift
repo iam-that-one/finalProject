@@ -15,6 +15,9 @@ class OfferDetailsViewController: UIViewController {
     var status = false
     var isOnline = false
     var phoneNumber = ""
+    var userName = ""
+    var viewConrtollerDestination = false
+    var toBeSendProfilePic = Data()
     var bookBtnToggl = false
     let db = Firestore.firestore()
     
@@ -25,6 +28,7 @@ class OfferDetailsViewController: UIViewController {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 50
@@ -45,12 +49,13 @@ class OfferDetailsViewController: UIViewController {
         $0.setBackgroundImage(UIImage(systemName: "bookmark"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(bookBtnClick), for: .touchDown)
-        $0.tintColor = .black
+        $0.tintColor = .systemTeal
         return $0
     }(UIButton(type: .system))
     
     lazy var stackView : UIStackView = {
         $0.axis = .horizontal
+        $0.spacing = 5
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIStackView())
@@ -67,8 +72,12 @@ class OfferDetailsViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
         $0.textAlignment = .center
-       // $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
         $0.backgroundColor = .systemTeal
+        $0.alpha = 0.90
+        $0.layer.borderWidth = 3
+        $0.layer.borderColor = .init(red: 0.20, green: 0.20, blue: 0.20, alpha: 1)
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
             $0.layer.cornerRadius = 5
@@ -79,16 +88,17 @@ class OfferDetailsViewController: UIViewController {
         return $0
     }(UILabel())
    
-    lazy var offerDescription : UILabel = {
-        $0.numberOfLines = 0
+    lazy var offerDescription : UITextView = {
+      //  $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
         $0.textAlignment = .right
-        $0.layer.cornerRadius = 50
+        $0.layer.cornerRadius = 10
+        $0.isEditable = false
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        
+        $0.scrollIndicatorInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
         return $0
-    }(UILabel())
+    }(UITextView())
     
     lazy var image2 : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -168,8 +178,8 @@ class OfferDetailsViewController: UIViewController {
     lazy var sendMessage: UIButton = {
         $0.setTitle("ارسل رسالة للمعلن", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .black
-        $0.tintColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .systemTeal
+        $0.tintColor = .white//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 10
         $0.addTarget(self, action: #selector(sendMessageBtnClick), for: .touchDown)
         return $0
@@ -186,7 +196,7 @@ class OfferDetailsViewController: UIViewController {
     lazy var phoneCall : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "phone.fill"), for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = .systemTeal
         $0.transform = $0.transform.rotated(by: -90)
         $0.addTarget(self, action: #selector(phoneCallBtnClic), for: .touchDown)
         return $0
@@ -199,10 +209,20 @@ class OfferDetailsViewController: UIViewController {
         return $0
     }(UIButton(type: .system))
     
+    lazy var moveToUserProfileViewBtn : UIButton = {
+        $0.tintColor = .black
+        $0.setBackgroundImage(UIImage(systemName: "chevron.right"), for: .normal)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.addTarget(self, action: #selector(UserProfileBtnClicked), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if viewConrtollerDestination{
+            moveToUserProfileViewBtn.isHidden = true
+        }
         isUserOnline()
         if isOnline == true{
             appearance.text = "متصل"
@@ -219,7 +239,7 @@ class OfferDetailsViewController: UIViewController {
         
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
-        stackView.distribution = .fill // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
+        stackView.distribution = .fillEqually // .FillEqually .FillProportionally .EqualSpacing .EqualCentering
             
         [offerImage,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
         offerTitle.text = offer!.title
@@ -231,7 +251,7 @@ class OfferDetailsViewController: UIViewController {
         offerDescription.text = offer!.description
         getProfile()
         getBookmarks()
-        [newLable,offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn].forEach{view.addSubview($0)}
+        [newLable,offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn,moveToUserProfileViewBtn].forEach{view.addSubview($0)}
         [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments,verfied,book].forEach{container.addSubview($0)}
         
         NSLayoutConstraint.activate([
@@ -240,6 +260,8 @@ class OfferDetailsViewController: UIViewController {
             newLable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             newLable.heightAnchor.constraint(equalToConstant: 120),
+            
+            
             backToOfferViewBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             backToOfferViewBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
             
@@ -255,12 +277,16 @@ class OfferDetailsViewController: UIViewController {
             offerTitle.centerXAnchor.constraint(equalTo: offerImage.centerXAnchor),
             offerTitle.topAnchor.constraint(equalTo: offerImage.bottomAnchor,constant: -25),
             
-            offerDescription.topAnchor.constraint(equalTo: offerTitle.bottomAnchor,constant: 30),
-            offerDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
-            offerDescription.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+            offerDescription.topAnchor.constraint(equalTo: offerTitle.bottomAnchor,constant: 10),
+            offerDescription.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            offerDescription.widthAnchor.constraint(equalToConstant: 300),
+            offerDescription.heightAnchor.constraint(equalToConstant: 100),
             
-            stackView.topAnchor.constraint(equalTo: offerDescription.bottomAnchor,constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.topAnchor.constraint(equalTo: offerDescription.bottomAnchor,constant: 10),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.widthAnchor.constraint(equalToConstant: 350),
+            stackView.heightAnchor.constraint(equalToConstant: 140),
+            
             image2.widthAnchor.constraint(equalToConstant: 100),
             image2.heightAnchor.constraint(equalToConstant: 100),
             image3.widthAnchor.constraint(equalToConstant: 100),
@@ -314,7 +340,14 @@ class OfferDetailsViewController: UIViewController {
             book.widthAnchor.constraint(equalToConstant: 30),
             book.heightAnchor.constraint(equalToConstant: 30),
             
+            backToOfferViewBtn.heightAnchor.constraint(equalToConstant: 40),
+            backToOfferViewBtn.widthAnchor.constraint(equalToConstant: 30),
             
+            
+            moveToUserProfileViewBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            moveToUserProfileViewBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -30),
+            moveToUserProfileViewBtn.heightAnchor.constraint(equalToConstant: 40),
+            moveToUserProfileViewBtn.widthAnchor.constraint(equalToConstant: 30),
         ])
     }
     
@@ -405,6 +438,15 @@ class OfferDetailsViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    @objc func UserProfileBtnClicked(){
+        let userProfile = UserProfileViewController()
+        userProfile.userId = offer!.userID
+        userProfile.userName = userName
+        userProfile.profilePic = toBeSendProfilePic
+        navigationController?.pushViewController(userProfile, animated: true)
+    }
+    
     // To check whether the use of is online or not
     
     func isUserOnline(){
@@ -458,8 +500,10 @@ class OfferDetailsViewController: UIViewController {
                             let data = doc.data()
                             let firstName = data["firstName"] as! String
                             self.username.text = firstName
+                            self.userName = firstName
                             let isVerified = data["isVerified"] as? Bool ?? false
                             let profilePic = data["image"] as! Data
+                            self.toBeSendProfilePic = profilePic
                             self.profilePicture.image = profilePic != Data() ? UIImage(data: profilePic) : UIImage(systemName: "person.fill")
                             let phoneNumber = data["phoneNumnber"] as? String ?? ""
                             self.phoneNumber = phoneNumber

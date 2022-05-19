@@ -45,6 +45,7 @@ class ProfileViewController: UIViewController {
         $0.text = "حسابي"
         $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.textColor = .black
         $0.textAlignment = .center
@@ -167,8 +168,8 @@ class ProfileViewController: UIViewController {
             darkmode.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 5),
-            profileOffersTableView.widthAnchor.constraint(equalToConstant: 380),
-            profileOffersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileOffersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
+            profileOffersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
             profileOffersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
             
             signOut.trailingAnchor.constraint(equalTo: newLable.trailingAnchor,constant: -20),

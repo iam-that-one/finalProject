@@ -36,6 +36,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.keyboardType = .phonePad
+        $0.textAlignment = .right
         return $0
     }(UITextField())
     
@@ -50,6 +51,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         $0.borderStyle = .roundedRect
        // $0.transform = $0.transform.rotated(by: 45)
         $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.textAlignment = .right
         return $0
     }(UITextField())
     
@@ -63,6 +65,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             )
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textAlignment = .right
         return $0
     }(UITextField())
     
@@ -76,6 +79,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             )
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textAlignment = .right
         return $0
     }(UITextField())
     
@@ -89,6 +93,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             )
         $0.borderStyle = .roundedRect
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textAlignment = .right
         return $0
     }(UITextField())
     
@@ -108,7 +113,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
         $0.tintColor = .yellow
         $0.setBackgroundImage(UIImage(named: "grayBtn"), for: .normal)
         $0.layer.cornerRadius = 10
-        $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+       // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.addTarget(self, action: #selector(signUpBtnClick), for: .touchDown)
       //  $0.transform = $0.transform.rotated(by: 90)
         return $0
@@ -169,23 +174,23 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
             profilePic.heightAnchor.constraint(equalToConstant: 150),
             
             phoneNumber.topAnchor.constraint(equalTo: profilePic.bottomAnchor,constant: 50),
-            phoneNumber.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+            phoneNumber.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             phoneNumber.widthAnchor.constraint(equalToConstant: 200),
                                                
             firstName.topAnchor.constraint(equalTo: phoneNumber.bottomAnchor,constant: 20),
-            firstName.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
+            firstName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             firstName.widthAnchor.constraint(equalToConstant: 200),
             
             lastName.topAnchor.constraint(equalTo: firstName.bottomAnchor,constant: 20),
-            lastName.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+            lastName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             lastName.widthAnchor.constraint(equalToConstant: 200),
             
             email.topAnchor.constraint(equalTo: lastName.bottomAnchor,constant: 20),
-            email.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
+            email.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             email.widthAnchor.constraint(equalToConstant: 200),
             
             password.topAnchor.constraint(equalTo: email.bottomAnchor,constant: 20),
-            password.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20),
+            password.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             password.widthAnchor.constraint(equalToConstant: 200),
             
             

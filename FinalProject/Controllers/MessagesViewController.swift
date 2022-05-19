@@ -10,6 +10,8 @@ import Firebase
 class MessagesViewController: UIViewController {
     let db = Firestore.firestore()
     var ids : [String] = []
+    var offerProviderId = ""
+    var isOnline = false
     var recntChates : [RecentChat] = []
     var filterdResult : [RecentChat] = []
     var offers : [Offer] = []
@@ -40,6 +42,7 @@ class MessagesViewController: UIViewController {
         $0.text = "رسائلي"
         $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.textColor = .black
         $0.textAlignment = .center
@@ -57,7 +60,7 @@ class MessagesViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        isUserOnline()
         let tap = UITapGestureRecognizer(target: newLable
                                          , action: #selector(UIInputViewController.dismissKeyboard))
         newLable.addGestureRecognizer(tap)
@@ -100,6 +103,7 @@ class MessagesViewController: UIViewController {
                     let date = data["date"] as? Date ?? Date()
                     let time = data["time"] as? Timestamp ?? Timestamp()
                     let reciverId = data["reciverId"] as? String ?? ""
+                    self.offerProviderId = data["senderId"] as? String ?? ""
                     print("reciver",reciverId)
                     let senderId = data["senderId"] as? String ?? ""
                     content = data["content"] as? String ?? ""
@@ -143,6 +147,21 @@ class MessagesViewController: UIViewController {
     @objc func dismissKeyboard() {
         SharedInstanceManager.shared.dismissKeyboard(view)
     }
+    
+    func isUserOnline(){
+           let userRef = Database.database().reference(withPath: "online")
+           userRef.observe(.value){ (snapshot) in
+               if snapshot.hasChild(self.offerProviderId){
+                
+                   self.isOnline = true
+               }
+               else{
+                   self.isOnline = false
+               }
+               
+           }
+       
+       }
 }
 
 extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
@@ -170,6 +189,9 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatVC = ChatViewController()
+        self.offerProviderId = filterdResult.sorted{$0.date > $1.date}[indexPath.row].id
+        isUserOnline()
+        chatVC.isOnline = isOnline
         chatVC.offerProviderId = filterdResult.sorted{$0.date > $1.date}[indexPath.row].id
         self.navigationController?.pushViewController(chatVC, animated: true)
     }

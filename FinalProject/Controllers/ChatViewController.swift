@@ -53,6 +53,7 @@ var myName = ""
         $0.text = ""
         $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.textColor = .black
         $0.textAlignment = .center
@@ -126,6 +127,9 @@ var myName = ""
             sendButton.centerYAnchor.constraint(equalTo: messageTf.centerYAnchor),
             sendButton.widthAnchor.constraint(equalToConstant: 30),
             sendButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            backToOfferViewBtn.heightAnchor.constraint(equalToConstant: 40),
+            backToOfferViewBtn.widthAnchor.constraint(equalToConstant: 30)
         ])
     }
     @objc func sentBtnClick(){

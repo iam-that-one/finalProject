@@ -94,7 +94,7 @@ class SignInViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray5
+        SharedInstanceManager.shared.setBackgroundImage(imageName: "wallpaperflare.com_wallpaper", view: view)
         drawOval()
         uiSettings()
     }
@@ -105,9 +105,9 @@ class SignInViewController: UIViewController {
 
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
-            shapeLayer.fillColor = UIColor.systemTeal.cgColor
+            shapeLayer.fillColor = UIColor.white.cgColor
             shapeLayer.lineWidth = 3
-            shapeLayer.strokeColor = UIColor.systemTeal.cgColor
+            shapeLayer.strokeColor = UIColor.white.cgColor
         shapeLayer.shadowColor = .init(gray: 0.50, alpha: 1)
         shapeLayer.shadowOffset = .init(width: 5, height: 5)
         shapeLayer.shadowOpacity = .pi
@@ -146,8 +146,6 @@ class SignInViewController: UIViewController {
     func uiSettings(){
         [signInBtn,newLable,moveToSignUpBtn,passwprd,email].forEach{view.addSubview($0)}
         
-        
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -173,7 +171,7 @@ class SignInViewController: UIViewController {
             signInBtn.widthAnchor.constraint(equalToConstant: 200),
             signInBtn.heightAnchor.constraint(equalToConstant: 50),
             
-            newLable.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -110),
+            newLable.centerXAnchor.constraint(equalTo: passwprd.centerXAnchor,constant: 50),
             newLable.topAnchor.constraint(equalTo: signInBtn.bottomAnchor,constant: 20),
             
             moveToSignUpBtn.trailingAnchor.constraint(equalTo: newLable.leadingAnchor,constant: -5),

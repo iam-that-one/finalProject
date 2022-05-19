@@ -27,6 +27,7 @@
 		B83FC1C2277F2FE800342B70 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC1C1277F2FE800342B70 /* ProfileViewController.swift */; };
 		B87263B0279EE492002388CC /* ReemKufi-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */; };
 		B87263B2279EE648002388CC /* ReemKufi-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */; };
+		B878A14E2835BB5A00DF7475 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */; };
 		B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */; };
 		B8922F49277F769900153B4A /* IconsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F48277F769900153B4A /* IconsCollectionViewCell.swift */; };
 		B8922F6B277FA84600153B4A /* OfferDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F6A277FA84600153B4A /* OfferDetailsViewController.swift */; };
@@ -74,6 +75,7 @@
 		B83FC1C1277F2FE800342B70 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReemKufi-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReemKufi-Bold.ttf"; sourceTree = "<group>"; };
+		B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersTableViewCell.swift; sourceTree = "<group>"; };
 		B8922F48277F769900153B4A /* IconsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8922F6A277FA84600153B4A /* OfferDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferDetailsViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				B8109E22278CBA9D000FF1FA /* CommentsViewController.swift */,
 				B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */,
 				B834B39B2799F782004790D5 /* MaketItViewController.swift */,
+				B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				B8922F762780D39900153B4A /* ChatTableViewCell.swift in Sources */,
 				B8922F722780AF6700153B4A /* MessagsTableViewCell.swift in Sources */,
 				B83FC1C0277F2F6800342B70 /* AddOfferViewController.swift in Sources */,
+				B878A14E2835BB5A00DF7475 /* UserProfileViewController.swift in Sources */,
 				B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,8 +488,12 @@
 				DEVELOPMENT_TEAM = H7HSH28V5D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinalProject/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "لو سمحت نبي ندخل للكاميرا عشان تقدر تصور وتختار الصور اللي تبي، لوسمحت يعني (:";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نريد موقعك الحالي لعرضه للمستخدمين الراغبين في شراء سلعتك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نريد موقعك الحالي لعرضه للمستخدمين الراغبين في شراء سلعتك";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -512,8 +520,12 @@
 				DEVELOPMENT_TEAM = H7HSH28V5D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinalProject/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "لو سمحت نبي ندخل للكاميرا عشان تقدر تصور وتختار الصور اللي تبي، لوسمحت يعني (:";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نريد موقعك الحالي لعرضه للمستخدمين الراغبين في شراء سلعتك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نريد موقعك الحالي لعرضه للمستخدمين الراغبين في شراء سلعتك";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;

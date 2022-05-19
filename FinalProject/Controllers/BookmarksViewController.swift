@@ -29,6 +29,7 @@ class BookmarksViewController: UIViewController {
         $0.text = "تفضيلاتي 🖤"
         $0.textColor = .black
         $0.layer.cornerRadius = 25
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.textAlignment = .center
         $0.backgroundColor = .systemTeal
