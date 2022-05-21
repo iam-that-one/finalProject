@@ -39,6 +39,7 @@ class SignInViewController: UIViewController {
     lazy var passwprd : UITextField = {
         $0.placeholder = "كلمة المرور"
         $0.text = "Aa123456789&"
+        $0.isSecureTextEntry = true
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .white
         $0.textColor = UIColor.black

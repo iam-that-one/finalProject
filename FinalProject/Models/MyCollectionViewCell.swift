@@ -32,8 +32,8 @@ class MyCollectionViewCell: UICollectionViewCell {
             image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             image.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            image.heightAnchor.constraint(equalToConstant: 100),
-            image.widthAnchor.constraint(equalToConstant: 100)
+            image.heightAnchor.constraint(equalToConstant: 110),
+            image.widthAnchor.constraint(equalToConstant: 110)
         ])
     }
 

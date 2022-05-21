@@ -97,7 +97,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                pinImage!.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
                let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         
-       
         annotationView!.image = resizedImage
         return annotationView
     }
@@ -128,7 +127,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let mapItem = MKMapItem(placemark: placemark)
         
             mapItem.name = self.offer!.title
-        mapItem.phoneNumber = "+966547105745"
+            mapItem.phoneNumber = "+966547105745"
             mapItem.openInMaps(launchOptions: options)
       
         }))

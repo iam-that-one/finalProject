@@ -15,18 +15,41 @@ class UserProfileViewController: UIViewController {
     var userOffers : [Offer] = []
     let db = Firestore.firestore()
     
-//    lazy var profileOffersTableView : UITableView = {
-//        $0.register(profileTableViewCell.self, forCellReuseIdentifier: "cell")
-//        $0.rowHeight = UITableView.automaticDimension
-//        $0.estimatedRowHeight = 600
-//        $0.translatesAutoresizingMaskIntoConstraints = false
-//        $0.delegate = self
-//        $0.dataSource = self
-//        $0.layer.cornerRadius = 10
-//        $0.separatorStyle = .none
-//        return $0
-//    }(UITableView())
-//
+    lazy var vStackView1 : UIStackView = {
+        $0.axis = .vertical
+        $0.spacing = 9
+       // $0.distribution = .fillEqually
+        $0.alignment = .center
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIStackView())
+    
+    lazy var vStackView2 : UIStackView = {
+        $0.axis = .vertical
+        $0.spacing = 9
+     //   $0.distribution = .fillEqually
+        $0.alignment = .center
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIStackView())
+    
+    lazy var vStackView3 : UIStackView = {
+        $0.axis = .vertical
+        $0.spacing = 9
+      //  $0.distribution = .fillEqually
+        $0.alignment = .center
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIStackView())
+    
+    lazy var hStackView : UIStackView = {
+        $0.axis = .horizontal
+        $0.spacing = 5
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIStackView())
+    
+
     
     lazy var bio : UILabel = {
         $0.numberOfLines = 0
@@ -90,23 +113,93 @@ class UserProfileViewController: UIViewController {
         return $0
     }(UIButton(type: .system))
     
+    lazy var nubmerOfOffersLable : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "العروض"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    lazy var nubmerOfVisitorsLable : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "الزيارات"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    lazy var nubmerOfPointsLable : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "النقاط"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    lazy var nubmerOfOffers : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "4"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    lazy var nubmerOfVisitors : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "1002"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    lazy var nubmerOfPoints : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "570"
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSettings()
         getOffers()
         newLable.text = "أنا \(userName) حياك الله في حسابي"
         profileImage.image = UIImage(data: profilePic) 
-        layout.estimatedItemSize = .init(width: 100, height: 100)
+        layout.estimatedItemSize = .init(width: 120, height: 110)
         print("corner",profileImage.frame.size.height / 2)
         profileImage.layer.cornerRadius = 40//profileImage.frame.size.height / 2
         profileImage.layer.masksToBounds = true
         bio.text = " أنا \(userName) أهلاً بكم في حسابي. أتمنى لكم تسوقاً ممتعاً. يرجى مزاسلتي على الخاص عند  اهتمامك بأحد عروضي."
-      //  profileImage.clipsToBounds = true
     }
     
     func uiSettings(){
         view.backgroundColor = .white
-        [profileImage,bio].forEach{container.addSubview($0)}
+        [vStackView1,vStackView2,vStackView3].reversed().forEach{hStackView.addArrangedSubview($0)}
+        [nubmerOfOffersLable,nubmerOfOffers].forEach{vStackView1.addArrangedSubview($0)}
+        [nubmerOfVisitorsLable,nubmerOfVisitors].forEach{vStackView2.addArrangedSubview($0)}
+        [nubmerOfPointsLable,nubmerOfPoints].forEach{vStackView3.addArrangedSubview($0)}
+        [profileImage,bio,hStackView].forEach{container.addSubview($0)}
         [newLable,backToOfferViewBtn,myColletionView,container].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
             
@@ -130,6 +223,11 @@ class UserProfileViewController: UIViewController {
             profileImage.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -20),
             profileImage.heightAnchor.constraint(equalToConstant: 80),
             profileImage.widthAnchor.constraint(equalToConstant: 80),
+            
+            hStackView.topAnchor.constraint(equalTo: container.topAnchor,constant: 40),
+            hStackView.trailingAnchor.constraint(equalTo: profileImage.trailingAnchor,constant: -70),
+            hStackView.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 20),
+            
             
             bio.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 10),
             bio.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -20),
@@ -185,31 +283,7 @@ class UserProfileViewController: UIViewController {
 
 }
 
-//extension UserProfileViewController : UITableViewDelegate, UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return userOffers.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = profileOffersTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! profileTableViewCell
-//        cell.offerImage.image = UIImage(data: userOffers[indexPath.row].image1)
-//        cell.price.text! = userOffers[indexPath.row].price + " ريال سعودي"
-//        cell.categoery.text = "#" + userOffers[indexPath.row].categoery
-//        cell.title.text = userOffers[indexPath.row].title
-//        cell.date.text = userOffers[indexPath.row].date.timeAgoDisplay()
-//        cell.offers = userOffers[indexPath.row]
-//        return cell
-//    }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 150
-//    }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    let details = OfferDetailsViewController()
-//        details.offer = userOffers[indexPath.row]
-//        self.navigationController?.pushViewController(details, animated: true)
-//    }
-//
-//}
+
 extension UserProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return userOffers.count

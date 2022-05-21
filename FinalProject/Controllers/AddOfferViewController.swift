@@ -432,6 +432,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
                alert.popoverPresentationController?.sourceRect = sender.bounds
                alert.popoverPresentationController?.permittedArrowDirections = .up
            default:
+               
                break
            }
            
@@ -460,14 +461,16 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         
            switch UIDevice.current.userInterfaceIdiom {
            case .pad:
-               alert.popoverPresentationController?.sourceView = sender
-               alert.popoverPresentationController?.sourceRect = sender.bounds
+               alert.modalPresentationStyle = UIModalPresentationStyle.popover
+               alert.popoverPresentationController?.sourceView = view
+               alert.popoverPresentationController?.sourceRect = view.bounds
                alert.popoverPresentationController?.permittedArrowDirections = .up
            default:
                break
            }
            
            self.present(alert, animated: true, completion: nil)
+        
     }
  
     // To take latitude and longitude of the users' current locatiion
@@ -567,3 +570,7 @@ extension AddOfferViewController : UINavigationControllerDelegate, UIImagePicker
     }
 }
 
+extension AddOfferViewController: UIPopoverPresentationControllerDelegate{
+    func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
+    }
+}

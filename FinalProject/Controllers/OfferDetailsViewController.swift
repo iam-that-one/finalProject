@@ -19,6 +19,7 @@ class OfferDetailsViewController: UIViewController {
     var viewConrtollerDestination = false
     var toBeSendProfilePic = Data()
     var bookBtnToggl = false
+    var imageSize : CGFloat = 0.0
     let db = Firestore.firestore()
     
     lazy var newLable : PaddingLabel = {
@@ -234,6 +235,15 @@ class OfferDetailsViewController: UIViewController {
         uiSettings()
           }
     func uiSettings(){
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .pad:
+            imageSize = 300
+        default:
+            imageSize = UIScreen.main.bounds.height / 3
+            break
+        }
+        
         view.backgroundColor = .white
         container.backgroundColor = .white
         
@@ -269,8 +279,8 @@ class OfferDetailsViewController: UIViewController {
             
             offerImage.topAnchor.constraint(equalTo: newLable.bottomAnchor,constant: 20),
             offerImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            offerImage.widthAnchor.constraint(equalToConstant: 370),
-            offerImage.heightAnchor.constraint(equalToConstant: 300),
+            offerImage.widthAnchor.constraint(equalToConstant: 300),
+            offerImage.heightAnchor.constraint(equalToConstant: imageSize),
             
             offerTitle.widthAnchor.constraint(equalToConstant: 300),
             offerTitle.heightAnchor.constraint(equalToConstant: 50),
@@ -280,7 +290,7 @@ class OfferDetailsViewController: UIViewController {
             offerDescription.topAnchor.constraint(equalTo: offerTitle.bottomAnchor,constant: 10),
             offerDescription.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             offerDescription.widthAnchor.constraint(equalToConstant: 300),
-            offerDescription.heightAnchor.constraint(equalToConstant: 100),
+            //offerDescription.heightAnchor.constraint(equalToConstant: 130),
             
             stackView.topAnchor.constraint(equalTo: offerDescription.bottomAnchor,constant: 10),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -297,6 +307,7 @@ class OfferDetailsViewController: UIViewController {
             container.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: -10),
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            container.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.height / 6) + 10),
             container.widthAnchor.constraint(equalToConstant: 350),
             
             
@@ -332,14 +343,14 @@ class OfferDetailsViewController: UIViewController {
             phoneCall.heightAnchor.constraint(equalToConstant: 30),
             
             pin.trailingAnchor.constraint(equalTo: sendMessage.leadingAnchor,constant: -10),
-            pin.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -30),
+            pin.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -20),
             pin.widthAnchor.constraint(equalToConstant: 30),
             pin.heightAnchor.constraint(equalToConstant: 30),
             
             book.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 5),
-            book.centerYAnchor.constraint(equalTo: pin.centerYAnchor),
             book.widthAnchor.constraint(equalToConstant: 30),
             book.heightAnchor.constraint(equalToConstant: 30),
+            book.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -20),
             
             backToOfferViewBtn.heightAnchor.constraint(equalToConstant: 40),
             backToOfferViewBtn.widthAnchor.constraint(equalToConstant: 30),
