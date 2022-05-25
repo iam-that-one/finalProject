@@ -10,6 +10,7 @@ import Firebase
 class ChatViewController: UIViewController {
 var myName = ""
     var v = false
+    var imag = Data()
     var userInfo : [User] = []
     var messages : [Message] = []
     var name = ""

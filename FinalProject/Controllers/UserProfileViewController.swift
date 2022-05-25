@@ -9,8 +9,10 @@ import UIKit
 import Firebase
 class UserProfileViewController: UIViewController {
 
+    var visirors = 0
     var userId = ""
     var userName = ""
+    var numberOfOffers = 0
     var profilePic = Data()
     var userOffers : [Offer] = []
     let db = Firestore.firestore()
@@ -149,7 +151,7 @@ class UserProfileViewController: UIViewController {
     lazy var nubmerOfOffers : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "4"
+        $0.text = ""
         $0.textColor = .black
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -160,7 +162,7 @@ class UserProfileViewController: UIViewController {
     lazy var nubmerOfVisitors : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "1002"
+        $0.text = ""
         $0.textColor = .black
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -179,11 +181,16 @@ class UserProfileViewController: UIViewController {
         return $0
     }(UILabel())
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       print("GGGGGGGGGGGGGGGGGGGGGGGGGGG")
         uiSettings()
         getOffers()
+        nubmerOfOffers.text = "\(numberOfOffers)"
         newLable.text = "أنا \(userName) حياك الله في حسابي"
         profileImage.image = UIImage(data: profilePic) 
         layout.estimatedItemSize = .init(width: 120, height: 110)
@@ -272,18 +279,17 @@ class UserProfileViewController: UIViewController {
                             let log = data["log"] as? Double ?? 0.0
                             
                             self.userOffers.append(Offer(title: offerTitle, description: offerDes, price: price, userID: userID, offerID: offerID, date: SharedInstanceManager.shared.dateFormatter.date(from: date) ?? Date(),lat: lat ,log: log, city: city, categoery: cat, image1: image1, image2: image2, image3: image3, image4: image4))
+                            self.nubmerOfOffers.text = "\(self.userOffers.count)"
                         }
                         self.myColletionView.reloadData()
-                        
                       
                     }
                 }
             }
     }
 
+  
 }
-
-
 extension UserProfileViewController : UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return userOffers.count

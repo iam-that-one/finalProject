@@ -28,6 +28,8 @@
 		B87263B0279EE492002388CC /* ReemKufi-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */; };
 		B87263B2279EE648002388CC /* ReemKufi-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */; };
 		B878A14E2835BB5A00DF7475 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */; };
+		B87A249C283C1EFC0035226A /* PrefViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A249B283C1EFC0035226A /* PrefViewController.swift */; };
+		B87A249E283C1F480035226A /* PrefViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A249D283C1F480035226A /* PrefViewTableViewCell.swift */; };
 		B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */; };
 		B8922F49277F769900153B4A /* IconsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F48277F769900153B4A /* IconsCollectionViewCell.swift */; };
 		B8922F6B277FA84600153B4A /* OfferDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8922F6A277FA84600153B4A /* OfferDetailsViewController.swift */; };
@@ -76,6 +78,8 @@
 		B87263AF279EE492002388CC /* ReemKufi-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReemKufi-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		B87263B1279EE648002388CC /* ReemKufi-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReemKufi-Bold.ttf"; sourceTree = "<group>"; };
 		B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		B87A249B283C1EFC0035226A /* PrefViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefViewController.swift; sourceTree = "<group>"; };
+		B87A249D283C1F480035226A /* PrefViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefViewTableViewCell.swift; sourceTree = "<group>"; };
 		B8922F45277F6B3900153B4A /* OffersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersTableViewCell.swift; sourceTree = "<group>"; };
 		B8922F48277F769900153B4A /* IconsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8922F6A277FA84600153B4A /* OfferDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferDetailsViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 				B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */,
 				B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */,
 				B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */,
+				B87A249D283C1F480035226A /* PrefViewTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -184,6 +189,7 @@
 				B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */,
 				B834B39B2799F782004790D5 /* MaketItViewController.swift */,
 				B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */,
+				B87A249B283C1EFC0035226A /* PrefViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -329,6 +335,7 @@
 				B8109E25278CC9E7000FF1FA /* CommentsTableViewCell.swift in Sources */,
 				B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */,
 				B8109E212789C71F000FF1FA /* RecentChatModel.swift in Sources */,
+				B87A249E283C1F480035226A /* PrefViewTableViewCell.swift in Sources */,
 				B8922F46277F6B3900153B4A /* OffersTableViewCell.swift in Sources */,
 				B8922F7E2782D2A500153B4A /* SignInViewController.swift in Sources */,
 				B8922F7A2782218500153B4A /* UserModel.swift in Sources */,
@@ -345,6 +352,7 @@
 				B83FC1C0277F2F6800342B70 /* AddOfferViewController.swift in Sources */,
 				B878A14E2835BB5A00DF7475 /* UserProfileViewController.swift in Sources */,
 				B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */,
+				B87A249C283C1EFC0035226A /* PrefViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

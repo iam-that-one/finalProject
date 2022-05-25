@@ -12,7 +12,6 @@ struct Message{
     let date : Date
     let userID : String
     let content : String
-   
     
     static var example = [
     ""

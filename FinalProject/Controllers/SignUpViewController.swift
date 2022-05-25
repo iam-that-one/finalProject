@@ -323,7 +323,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate & 
                      }
                      else{
                          let db = Firestore.firestore()
-                         db.collection("offers_users").addDocument(data: ["firstName" : self.firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"lastName":self.lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"email":self.email.text!.trimmingCharacters(in: .whitespacesAndNewlines),"uid":result!.user.uid,"image": SharedInstanceManager.shared.uploadImage((self.toBeUploaded)),"phoneNumnber": self.phoneNumber.text!, "isVerified":false] as [String: Any])
+                         db.collection("offers_users").document(result!.user.uid).setData(["firstName" : self.firstName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"lastName":self.lastName.text!.trimmingCharacters(in: .whitespacesAndNewlines),"email":self.email.text!.trimmingCharacters(in: .whitespacesAndNewlines),"uid":result!.user.uid,"image": SharedInstanceManager.shared.uploadImage((self.toBeUploaded)),"phoneNumnber": self.phoneNumber.text!, "isVerified":false] as [String: Any])
 
                              if let user = Auth.auth().currentUser{
                                  let currentUserRef = self.userRef.child(user.uid)

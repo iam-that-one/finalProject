@@ -22,7 +22,7 @@ class SignInViewController: UIViewController {
     
     lazy var email : UITextField = {
         $0.placeholder = "ايميلك لو سمحت"
-        $0.text = "n@nn.com"
+        $0.text = "ccsi-iuni@hotmail.com"
         $0.backgroundColor = .white
         $0.textColor = UIColor.black
         $0.tintColor = UIColor.lightGray
@@ -106,7 +106,7 @@ class SignInViewController: UIViewController {
 
             let shapeLayer = CAShapeLayer()
             shapeLayer.path = path.cgPath
-            shapeLayer.fillColor = UIColor.white.cgColor
+            shapeLayer.fillColor = UIColor.lightGray.cgColor
             shapeLayer.lineWidth = 3
             shapeLayer.strokeColor = UIColor.white.cgColor
         shapeLayer.shadowColor = .init(gray: 0.50, alpha: 1)

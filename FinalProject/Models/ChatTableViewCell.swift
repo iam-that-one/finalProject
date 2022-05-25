@@ -54,7 +54,12 @@ class ChatTableViewCell: UITableViewCell {
         return $0
     }(PaddingLabel())
   
-  
+    lazy var image : UIImageView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.image = UIImage(named: "pngwing.com")
+        $0.tintColor = .white
+        return $0
+    }(UIImageView())
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -74,8 +79,14 @@ class ChatTableViewCell: UITableViewCell {
       //  contentView.backgroundColor = UIColor.systemGray6
         self.backgroundColor = .clear
         contentView.layer.cornerRadius = 10
-        [username,date,content].forEach{contentView.addSubview($0)}
+        [username,date,content, image].forEach{contentView.addSubview($0)}
         
+        image.layer.borderColor = .init(gray: 0.50, alpha: 1)
+        image.layer.borderWidth = 1
+        image.layer.cornerRadius = 20
+        image.clipsToBounds = true
+        
+        image.isHidden = true
         NSLayoutConstraint.activate([
 
             username.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 20),
@@ -86,8 +97,14 @@ class ChatTableViewCell: UITableViewCell {
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
             content.heightAnchor.constraint(equalToConstant: 40),
 
+            image.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 10),
+            image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
+            image.widthAnchor.constraint(equalToConstant: 200),
+            image.heightAnchor.constraint(equalToConstant: 200),
+            
             date.topAnchor.constraint(equalTo: content.bottomAnchor,constant: 5),
-           date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20)
+            date.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
+            date.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 
         ])
     }

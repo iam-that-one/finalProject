@@ -91,10 +91,10 @@ class CommentsTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
           
-            username.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 10),
+            username.topAnchor.constraint(equalTo: contentView.topAnchor),
             username.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
             
-            content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 5),
+            content.topAnchor.constraint(equalTo:username.bottomAnchor,constant: 6),
             content.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
             content.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             content.bottomAnchor.constraint(equalTo: date.topAnchor,constant: -10),

@@ -13,16 +13,28 @@ class ProfileViewController: UIViewController {
     var myInfo : [User] = []
     let db1 = Firestore.firestore()
     var status = false
-    lazy var darkmode : UISwitch = {
+
+    lazy var preferences : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.isOn = false
-        $0.addTarget(self, action: #selector(changeModeBtnClicked), for: .valueChanged)
+        $0.setBackgroundImage(UIImage(systemName: "pencil.slash"), for: .normal)
+        $0.tintColor = .lightGray
+        $0.addTarget(self, action: #selector(preferencesBtnClicked), for: .touchDown)
         return $0
-    }(UISwitch())
+    }(UIButton(type: .system))
+    
+    lazy var profileUpdae : UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setBackgroundImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        $0.tintColor = .lightGray
+        $0.addTarget(self, action: #selector(profileUpdaeBtnClicked), for: .touchDown)
+        return $0
+    }(UIButton(type: .system))
+    
     
     lazy var sendAuthReqBtn : UIButton = {
         $0.setTitle("طلب توثيق", for: .normal)
         $0.tintColor = .black
+        $0.isHidden = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(sendAuthReqBtnClick), for: .touchDown)
         return $0
@@ -58,14 +70,17 @@ class ProfileViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 7
-        $0.backgroundColor = UIColor.systemGray4
+        $0.backgroundColor = UIColor.white
+        $0.layer.borderColor = .init(gray: 0.50, alpha: 1)
+        $0.layer.borderWidth = 1
         return $0
     }(UIView())
     
     lazy var profPic : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "person")
-        
+        $0.layer.cornerRadius = 50
+        $0.clipsToBounds = true
         return $0
     }(UIImageView())
     
@@ -80,6 +95,7 @@ class ProfileViewController: UIViewController {
     }(UILabel())
     lazy var signOut : UIButton = {
         $0.setTitle("تسجيل الخروج", for: .normal)
+        $0.isHidden = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = .black
         $0.addTarget(self, action: #selector(signOutBtnClick), for: .touchDown)
@@ -117,7 +133,6 @@ class ProfileViewController: UIViewController {
         getProfile()
         getMyOffers()
         status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        darkmode.isOn = status
         if status{
             overrideUserInterfaceStyle = .dark
             
@@ -128,7 +143,7 @@ class ProfileViewController: UIViewController {
     }
     
     func uiSettings(){
-        [email,username,profPic,verfied,darkmode].forEach{container.addSubview($0)}
+        [email,username,profPic,verfied,profileUpdae,preferences].forEach{container.addSubview($0)}
         [profileOffersTableView,newLable,signOut,sendAuthReqBtn,container].forEach{view.addSubview($0)}
 
         NSLayoutConstraint.activate([
@@ -159,14 +174,21 @@ class ProfileViewController: UIViewController {
             email.topAnchor.constraint(equalTo: username.bottomAnchor,constant: 60),
             email.trailingAnchor.constraint(equalTo: profPic.leadingAnchor,constant: -10),
             
+            preferences.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
+            preferences.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
+            preferences.widthAnchor.constraint(equalToConstant: 40),
+            preferences.heightAnchor.constraint(equalToConstant: 40),
+            
+            profileUpdae.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
+            profileUpdae.leadingAnchor.constraint(equalTo: preferences.trailingAnchor,constant: 5),
+            profileUpdae.widthAnchor.constraint(equalToConstant: 40),
+            profileUpdae.heightAnchor.constraint(equalToConstant: 40),
+            
             verfied.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 10),
             verfied.topAnchor.constraint(equalTo: container.topAnchor,constant: 10),
             verfied.widthAnchor.constraint(equalToConstant: 20),
             verfied.heightAnchor.constraint(equalToConstant: 20),
-            
-            darkmode.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            darkmode.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-            
+      
             profileOffersTableView.topAnchor.constraint(equalTo: container.bottomAnchor,constant: 5),
             profileOffersTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profileOffersTableView.widthAnchor.constraint(equalToConstant: 350),
@@ -206,8 +228,9 @@ class ProfileViewController: UIViewController {
                             let data = doc.data()
                             let phone = data["phoneNumnber"] as? String ?? ""
                             let firstName = data["firstName"] as! String
+                            let lastName = data["lastName"] as! String
                             let isVerified = data["isVerified"] as? Bool ?? false
-                            self.username.text = firstName
+                            self.username.text = firstName + " " + lastName
                             self.email.text = Auth.auth().currentUser!.email
                             let profilePic = data["image"] as! Data
                             if isVerified{
@@ -274,7 +297,17 @@ class ProfileViewController: UIViewController {
     @objc func changeModeBtnClicked(){
         changeMode()
     }
-
+    @objc func preferencesBtnClicked(){
+       let prefView = PrefViewController()
+        prefView.user = myInfo
+        prefView.modalPresentationStyle = .fullScreen
+        prefView.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(prefView, animated: true)
+    }
+    @objc func profileUpdaeBtnClicked(){
+       
+    }
+    
     func changeMode(){
         status.toggle()
         UserDefaults.standard.set(status, forKey: "isDarkMode")

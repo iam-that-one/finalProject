@@ -16,12 +16,25 @@ class OfferDetailsViewController: UIViewController {
     var isOnline = false
     var phoneNumber = ""
     var userName = ""
+    var visitors = 0
     var viewConrtollerDestination = false
     var toBeSendProfilePic = Data()
     var bookBtnToggl = false
     var imageSize : CGFloat = 0.0
     let db = Firestore.firestore()
     
+    
+    lazy var waterMark : UILabel = {
+        $0.numberOfLines = 0
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = "تشتري؟"
+        $0.textColor = .init(white: 0.60, alpha: 1)
+        $0.backgroundColor = .init(white: 0.10, alpha: 0.50)
+        $0.textAlignment = .left
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        
+        return $0
+    }(UILabel())
     lazy var newLable : PaddingLabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +73,6 @@ class OfferDetailsViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIStackView())
-    
     
     lazy var offerImage : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -141,7 +153,7 @@ class OfferDetailsViewController: UIViewController {
     lazy var username : UILabel = {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "عبدالله"
+        $0.text = ""
         $0.textColor = .black
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -263,7 +275,7 @@ class OfferDetailsViewController: UIViewController {
         getBookmarks()
         [newLable,offerImage,offerTitle,offerDescription, stackView,container,backToOfferViewBtn,moveToUserProfileViewBtn].forEach{view.addSubview($0)}
         [profilePicture,username,appearance,sendMessage,phoneCall,dote,pin,comments,verfied,book].forEach{container.addSubview($0)}
-        
+        offerImage.addSubview(waterMark)
         NSLayoutConstraint.activate([
             
             newLable.topAnchor.constraint(equalTo: view.topAnchor),
@@ -282,6 +294,10 @@ class OfferDetailsViewController: UIViewController {
             offerImage.widthAnchor.constraint(equalToConstant: 300),
             offerImage.heightAnchor.constraint(equalToConstant: imageSize),
             
+            waterMark.leadingAnchor.constraint(equalTo: offerImage.leadingAnchor),
+            waterMark.topAnchor.constraint(equalTo: offerImage.topAnchor),
+            
+            
             offerTitle.widthAnchor.constraint(equalToConstant: 300),
             offerTitle.heightAnchor.constraint(equalToConstant: 50),
             offerTitle.centerXAnchor.constraint(equalTo: offerImage.centerXAnchor),
@@ -290,7 +306,6 @@ class OfferDetailsViewController: UIViewController {
             offerDescription.topAnchor.constraint(equalTo: offerTitle.bottomAnchor,constant: 10),
             offerDescription.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             offerDescription.widthAnchor.constraint(equalToConstant: 300),
-            //offerDescription.heightAnchor.constraint(equalToConstant: 130),
             
             stackView.topAnchor.constraint(equalTo: offerDescription.bottomAnchor,constant: 10),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -422,6 +437,7 @@ class OfferDetailsViewController: UIViewController {
         let chatView = ChatViewController()
         chatView.offerProvider = offer
         chatView.offerProviderId = offer!.userID
+        chatView.imag = offer!.image1
         chatView.initialMessage =  "حاب اسألك بخصوص عرضك بعنوان: " + offer!.title
         chatView.isOnline = isOnline
         chatView.offerProviderPofile = offerProviderProfile
@@ -452,10 +468,28 @@ class OfferDetailsViewController: UIViewController {
     }
     
     @objc func UserProfileBtnClicked(){
+        if offer!.userID != Auth.auth().currentUser!.uid{
+        let newVisitor = ["visitors": self.visitors + 1]
+        db.collection("offers_users").document(offer!.userID).setData(newVisitor,merge: true)
+        }
+        
         let userProfile = UserProfileViewController()
         userProfile.userId = offer!.userID
         userProfile.userName = userName
         userProfile.profilePic = toBeSendProfilePic
+        
+        db.collection("offers_users").whereField("uid", isEqualTo: offer!.userID).addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error while fetching profile\(error)")
+            } else {
+                if let snapShot = querySnapshot?.documents{
+                    for doc in snapShot{
+                        let data = doc.data()
+                        userProfile.nubmerOfVisitors.text = "\(data["visitors"] as? Int ?? 0)"
+                    }
+                }
+            }}
+        
         navigationController?.pushViewController(userProfile, animated: true)
     }
     
@@ -510,8 +544,10 @@ class OfferDetailsViewController: UIViewController {
                     if let snapshotDocuments = querySnapshot?.documents {
                         for doc in snapshotDocuments {
                             let data = doc.data()
+                            self.visitors = data["visitors"] as? Int ?? 0
                             let firstName = data["firstName"] as! String
-                            self.username.text = firstName
+                            let lastName = data["lastName"] as! String
+                            self.username.text = firstName + " " + lastName
                             self.userName = firstName
                             let isVerified = data["isVerified"] as? Bool ?? false
                             let profilePic = data["image"] as! Data
