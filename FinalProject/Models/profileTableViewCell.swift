@@ -18,7 +18,7 @@ class profileTableViewCell: UITableViewCell {
     
     
     lazy var deleteBtn : UIButton = {
-        $0.tintColor = .black
+        $0.tintColor = DefaultStyle.Colors.label
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "trash.fill"), for: .normal)
         $0.addTarget(self, action: #selector(deleteBtnClick), for: .touchDown)
@@ -26,7 +26,7 @@ class profileTableViewCell: UITableViewCell {
     }(UIButton(type: .system))
     
     lazy var updateBtn : UIButton = {
-        $0.tintColor = .black
+        $0.tintColor = DefaultStyle.Colors.label
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         $0.addTarget(self, action: #selector(updateBtnClick), for: .touchDown)
@@ -37,7 +37,7 @@ class profileTableViewCell: UITableViewCell {
     lazy var offerImage : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "photo")
-        $0.tintColor = .black
+        $0.tintColor = DefaultStyle.Colors.label
         return $0
     }(UIImageView())
     
@@ -45,7 +45,7 @@ class profileTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -56,7 +56,7 @@ class profileTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .gray
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         
@@ -67,7 +67,7 @@ class profileTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return $0
@@ -78,7 +78,7 @@ class profileTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .darkGray
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 10, weight: .bold)
         return $0
@@ -106,7 +106,7 @@ class profileTableViewCell: UITableViewCell {
     }
     
     func cellSettings(){
-        contentView.backgroundColor = UIColor.systemGray6
+        contentView.backgroundColor = DefaultStyle.Colors.homeCell
         contentView.layer.cornerRadius = 5
         contentView.layer.shadowRadius = 3.0
         contentView.layer.shadowOpacity = 1.0

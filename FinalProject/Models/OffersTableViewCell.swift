@@ -21,7 +21,7 @@ class OffersTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -38,7 +38,7 @@ class OffersTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -49,7 +49,7 @@ class OffersTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .gray
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         
@@ -60,7 +60,7 @@ class OffersTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -109,6 +109,7 @@ class OffersTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 5
       //  contentView.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
       //  contentView.layer.borderWidth = 5
+        
         pin.isEnabled = false
         contentView.layer.shadowRadius = 3.0
         contentView.layer.shadowOpacity = 1.0

@@ -27,12 +27,12 @@ class BookmarksViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تفضيلاتي 🖤"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.headerLable
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.textAlignment = .center
-        $0.backgroundColor = .systemTeal
+        $0.backgroundColor = DefaultStyle.Colors.header
         $0.paddingTop = 20
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -40,6 +40,7 @@ class BookmarksViewController: UIViewController {
     }(PaddingLabel())
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = DefaultStyle.Colors.mainView
         [newLable,offersTableView].forEach{view.addSubview($0)}
         getMBookmarks()
         NSLayoutConstraint.activate([
@@ -109,9 +110,9 @@ extension BookmarksViewController : UITableViewDelegate, UITableViewDataSource{
         cell.categoery.text = "#" + offers[indexPath.row].categoery
         cell.city.text = offers[indexPath.row].city
         if indexPath.row % 2 == 0{
-            cell.contentView.backgroundColor = UIColor.lightGray
+            cell.contentView.backgroundColor = UIColor.systemGray6 //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         }else{
-            cell.contentView.backgroundColor = UIColor.systemGray5
+            cell.contentView.backgroundColor = DefaultStyle.Colors.homeCell
         }
         return cell
     

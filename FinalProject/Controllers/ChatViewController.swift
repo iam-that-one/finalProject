@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 class ChatViewController: UIViewController {
+    
 var myName = ""
     var v = false
     var imag = Data()
@@ -119,12 +120,12 @@ var myName = ""
             chatTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             chatTableView.bottomAnchor.constraint(equalTo: messageTf.topAnchor,constant: -20),
                                                     
-            messageTf.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: 5),
+            messageTf.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
             messageTf.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            messageTf.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-100),
+            messageTf.widthAnchor.constraint(equalToConstant: 300),
             messageTf.heightAnchor.constraint(equalToConstant: 40),
             
-            sendButton.leadingAnchor.constraint(equalTo: messageTf.trailingAnchor,constant: 10),
+            sendButton.leadingAnchor.constraint(equalTo: messageTf.trailingAnchor,constant: 5),
             sendButton.centerYAnchor.constraint(equalTo: messageTf.centerYAnchor),
             sendButton.widthAnchor.constraint(equalToConstant: 30),
             sendButton.heightAnchor.constraint(equalToConstant: 30),

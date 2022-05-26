@@ -39,12 +39,12 @@ class OfferDetailsViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تفاصيل أكثر"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.headerLable
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = DefaultStyle.Colors.header//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 50
         $0.paddingBottom = 10
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -63,7 +63,7 @@ class OfferDetailsViewController: UIViewController {
         $0.setBackgroundImage(UIImage(systemName: "bookmark"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(bookBtnClick), for: .touchDown)
-        $0.tintColor = .systemTeal
+        $0.tintColor = DefaultStyle.Colors.headerLable
         return $0
     }(UIButton(type: .system))
     
@@ -86,8 +86,9 @@ class OfferDetailsViewController: UIViewController {
         $0.text = ""
         $0.textAlignment = .center
         $0.layer.cornerRadius = 10
+        $0.textColor = .label
         $0.clipsToBounds = true
-        $0.backgroundColor = .systemTeal
+        $0.backgroundColor = DefaultStyle.Colors.homeCell
         $0.alpha = 0.90
         $0.layer.borderWidth = 3
         $0.layer.borderColor = .init(red: 0.20, green: 0.20, blue: 0.20, alpha: 1)
@@ -134,8 +135,8 @@ class OfferDetailsViewController: UIViewController {
     
     lazy var container : UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
-        $0.layer.borderColor = CGColor.init(gray: 0.90, alpha: 1)
+        $0.backgroundColor = DefaultStyle.Colors.tabBar
+        $0.layer.borderColor = DefaultStyle.Colors.borderColor
         $0.layer.borderWidth = 3
         return $0
     }(UIView())
@@ -256,8 +257,7 @@ class OfferDetailsViewController: UIViewController {
             break
         }
         
-        view.backgroundColor = .white
-        container.backgroundColor = .white
+        view.backgroundColor = DefaultStyle.Colors.mainView
         
         stackView.spacing = 10
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline

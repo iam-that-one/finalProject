@@ -14,7 +14,7 @@ class PrefViewTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "لجين"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -25,7 +25,7 @@ class PrefViewTableViewCell: UITableViewCell {
     lazy var logo : UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "person.circle.fill")
-        $0.tintColor = .darkGray
+        $0.tintColor = .black
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 40
         return $0
@@ -46,7 +46,7 @@ class PrefViewTableViewCell: UITableViewCell {
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = UIColor.systemGray6
+        contentView.backgroundColor = DefaultStyle.Colors.prefView
         contentView.layer.cornerRadius = 10
         [lable,logo].forEach{contentView.addSubview($0)}
         

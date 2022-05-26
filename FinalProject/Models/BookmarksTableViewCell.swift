@@ -17,7 +17,7 @@ class BookmarksTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -34,7 +34,7 @@ class BookmarksTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .right
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -45,7 +45,7 @@ class BookmarksTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .gray
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
         
@@ -56,7 +56,7 @@ class BookmarksTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Lable"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -67,7 +67,7 @@ class BookmarksTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .darkGray
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 10, weight: .bold)
         return $0
@@ -100,7 +100,7 @@ class BookmarksTableViewCell: UITableViewCell {
     }
     
     func cellSettings(){
-        contentView.backgroundColor = UIColor.systemGray5
+        contentView.backgroundColor = DefaultStyle.Colors.homeCell
         contentView.layer.cornerRadius = 5
       //  contentView.layer.borderColor = CGColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
       //  contentView.layer.borderWidth = 5

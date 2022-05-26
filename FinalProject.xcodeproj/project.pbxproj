@@ -14,6 +14,7 @@
 		B8109E2D2795C518000FF1FA /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */; };
 		B8109E2F2795C5B5000FF1FA /* BookmarksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */; };
 		B8214F8C2829CA37000C05AA /* CustomUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8214F8B2829CA37000C05AA /* CustomUILabel.swift */; };
+		B82EA2AA283EF39D0029D781 /* DarkModeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82EA2A9283EF39D0029D781 /* DarkModeStyle.swift */; };
 		B834B39C2799F782004790D5 /* MaketItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B834B39B2799F782004790D5 /* MaketItViewController.swift */; };
 		B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC199277DA3BB00342B70 /* AppDelegate.swift */; };
 		B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83FC19B277DA3BB00342B70 /* SceneDelegate.swift */; };
@@ -62,6 +63,7 @@
 		B8109E2C2795C517000FF1FA /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksTableViewCell.swift; sourceTree = "<group>"; };
 		B8214F8B2829CA37000C05AA /* CustomUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUILabel.swift; sourceTree = "<group>"; };
+		B82EA2A9283EF39D0029D781 /* DarkModeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeStyle.swift; sourceTree = "<group>"; };
 		B834B39B2799F782004790D5 /* MaketItViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaketItViewController.swift; sourceTree = "<group>"; };
 		B83FC196277DA3BB00342B70 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B83FC199277DA3BB00342B70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				B8109E24278CC9E7000FF1FA /* CommentsTableViewCell.swift */,
 				B8109E2E2795C5B5000FF1FA /* BookmarksTableViewCell.swift */,
 				B87A249D283C1F480035226A /* PrefViewTableViewCell.swift */,
+				B82EA2A9283EF39D0029D781 /* DarkModeStyle.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			files = (
 				B83FC19E277DA3BB00342B70 /* HomeViewController.swift in Sources */,
 				B83FC19A277DA3BB00342B70 /* AppDelegate.swift in Sources */,
+				B82EA2AA283EF39D0029D781 /* DarkModeStyle.swift in Sources */,
 				B83FC19C277DA3BB00342B70 /* SceneDelegate.swift in Sources */,
 				B8109E2F2795C5B5000FF1FA /* BookmarksTableViewCell.swift in Sources */,
 				B834B39C2799F782004790D5 /* MaketItViewController.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+
 class HomeViewController: UIViewController  {
 
     lazy var logo0000 : UIButton = {
@@ -19,7 +20,7 @@ class HomeViewController: UIViewController  {
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .white// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 18)
        // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
@@ -37,7 +38,7 @@ class HomeViewController: UIViewController  {
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .white// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray// UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 18)
        // $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
@@ -47,7 +48,7 @@ class HomeViewController: UIViewController  {
     }(UIButton())
     
     let simpleOver = SimpleOver()
-    var status = false
+   
     var filterdResult : [Offer] = []
     lazy var myColletionView : UICollectionView? = nil
     var offers : [Offer] = []
@@ -87,7 +88,7 @@ class HomeViewController: UIViewController  {
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .white//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
      //   $0.backgroundColor = UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
@@ -106,7 +107,7 @@ class HomeViewController: UIViewController  {
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .white//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
         //$0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
@@ -130,7 +131,7 @@ class HomeViewController: UIViewController  {
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .white//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
       //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
@@ -161,14 +162,14 @@ class HomeViewController: UIViewController  {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تشتري؟"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.headerLable
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
         $0.shadowColor = .init(cgColor: .init(gray: 0.50, alpha: 1))
         $0.shadowOffset = .init(width: 2, height: 5)
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+       // $0.backgroundColor = DefaultStyle.self.Colors.header//UIClor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 20
         $0.font = UIFont(name: "ReemKufi-Bold", size: 30)
       //  $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -184,16 +185,10 @@ class HomeViewController: UIViewController  {
     }(UIButton(type: .system))
     override func viewWillAppear(_ animated: Bool) {
         offersTableView.reloadData()
-        
+        newLable.backgroundColor = DefaultStyle.self.Colors.header
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
-        if status{
-            overrideUserInterfaceStyle = .dark
-            
-        }else{
-            overrideUserInterfaceStyle = .light
-        }
+       //  status = UserDefaults.standard.bool(forKey: "isDarkMode")
+     
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -211,14 +206,14 @@ class HomeViewController: UIViewController  {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
        // sc.delegate = self
       //  offersTableView.showsVerticalScrollIndicator = false
-        
+        view.backgroundColor = DefaultStyle.self.Colors.mainView
         switch UIDevice.current.userInterfaceIdiom {
         case .pad:
-            view.backgroundColor = .systemGray3
             searchBar.layer.cornerRadius = 20
             searchBar.clipsToBounds = true
          //   offersTableView.backgroundColor = .systemGray3
         default:
+            view.backgroundColor = DefaultStyle.Colors.mainView
             break
         }
 
@@ -497,7 +492,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         if indexPath.row % 2 == 0{
             cell.contentView.backgroundColor = UIColor.systemGray6 //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         }else{
-            cell.contentView.backgroundColor = UIColor.white
+            cell.contentView.backgroundColor = DefaultStyle.Colors.homeCell
         }
         return cell
     
@@ -578,3 +573,4 @@ extension HomeViewController: UIViewControllerTransitioningDelegate, UINavigatio
 //    }
 //
 //}
+

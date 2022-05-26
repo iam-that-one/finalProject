@@ -7,25 +7,32 @@
 
 import UIKit
 import Firebase
-
+var status = false
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     let userRef = Database.database().reference(withPath: "online")
 
-    var status = false
+   // var status = false
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
       
+        status = UserDefaults.standard.bool(forKey: "isDarkMode")
         
+        if status{
+            window?.overrideUserInterfaceStyle = .dark
+          
+        }else{
+            window?.overrideUserInterfaceStyle = .light
+        }
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemTeal], for: .selected)
         
         
         
         
-        UITabBar.appearance().backgroundColor = .white// UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        UITabBar.appearance().backgroundColor = DefaultStyle.Colors.tabBar// UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         var rootViewController : UIViewController?
         if Auth.auth().currentUser?.uid == nil{
              rootViewController = SignInViewController()

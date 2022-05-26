@@ -12,12 +12,12 @@ class ProfileViewController: UIViewController {
     var myOffers : [Offer] = []
     var myInfo : [User] = []
     let db1 = Firestore.firestore()
-    var status = false
+    
 
     lazy var preferences : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "pencil.slash"), for: .normal)
-        $0.tintColor = .lightGray
+        $0.tintColor = .black
         $0.addTarget(self, action: #selector(preferencesBtnClicked), for: .touchDown)
         return $0
     }(UIButton(type: .system))
@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController {
     lazy var profileUpdae : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        $0.tintColor = .lightGray
+        $0.tintColor = .black
         $0.addTarget(self, action: #selector(profileUpdaeBtnClicked), for: .touchDown)
         return $0
     }(UIButton(type: .system))
@@ -55,11 +55,11 @@ class ProfileViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "حسابي"
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = DefaultStyle.Colors.header//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.headerLable
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 40
@@ -70,7 +70,7 @@ class ProfileViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 7
-        $0.backgroundColor = UIColor.white
+        $0.backgroundColor = DefaultStyle.Colors.homeCell
         $0.layer.borderColor = .init(gray: 0.50, alpha: 1)
         $0.layer.borderWidth = 1
         return $0
@@ -116,32 +116,14 @@ class ProfileViewController: UIViewController {
         $0.tintColor = .black
         return $0
     }(UIImageView())
-    
-    override func viewWillAppear(_ animated: Bool) {
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
-        if status{
-            overrideUserInterfaceStyle = .dark
-            
-        }else{
-            overrideUserInterfaceStyle = .light
-        }
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSettings()
         getProfile()
         getMyOffers()
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        if status{
-            overrideUserInterfaceStyle = .dark
-            
-        }else{
-            overrideUserInterfaceStyle = .light
-        }
-     
+        view.backgroundColor = DefaultStyle.Colors.mainView
     }
-    
     func uiSettings(){
         [email,username,profPic,verfied,profileUpdae,preferences].forEach{container.addSubview($0)}
         [profileOffersTableView,newLable,signOut,sendAuthReqBtn,container].forEach{view.addSubview($0)}
