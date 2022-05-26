@@ -27,7 +27,7 @@ class BookmarksViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تفضيلاتي 🖤"
-        $0.textColor = DefaultStyle.Colors.headerLable
+        $0.textColor = DefaultStyle.Colors.label
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true

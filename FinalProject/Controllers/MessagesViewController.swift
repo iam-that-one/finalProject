@@ -39,26 +39,20 @@ class MessagesViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "رسائلي"
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = DefaultStyle.self.Colors.header//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 40
         return $0
     }(PaddingLabel())
-    override func viewWillAppear(_ animated: Bool) {
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        if status{
-            overrideUserInterfaceStyle = .dark
-        }else{
-            overrideUserInterfaceStyle = .light
-        }
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = DefaultStyle.self.Colors.mainView
         let tap = UITapGestureRecognizer(target: newLable
                                          , action: #selector(UIInputViewController.dismissKeyboard))
         newLable.addGestureRecognizer(tap)
@@ -118,8 +112,9 @@ class MessagesViewController: UIViewController {
                                     let id = data["uid"] as? String ?? ""
                                     let profilePic = data["image"] as? Data ?? Data()
                                     let name = data["firstName"] as? String ?? ""
+                                    let lastName = data["lastName"] as? String ?? ""
                                     if self.ids.contains(id){
-                                        self.recntChates.append(RecentChat(name: name, id: id, date: date, profilePic: profilePic,time: time, content: content))
+                                        self.recntChates.append(RecentChat(name: name + " " + lastName , id: id, date: date, profilePic: profilePic,time: time, content: content))
                                         self.filterdResult = self.recntChates
                                         self.ids.removeAll{$0 == id}
                                         self.messagesTableView.reloadData()
@@ -163,9 +158,9 @@ extension MessagesViewController : UITableViewDelegate, UITableViewDataSource{
         cell.progilePic.image =   UIImage(data: filterdResult.sorted{$0.date < $1.date}[indexPath.row].profilePic)
         
         if indexPath.row % 2 == 0{
-            cell.contentView.backgroundColor = .lightGray
+            cell.contentView.backgroundColor = DefaultStyle.self.Colors.homeCell
         }else{
-            cell.contentView.backgroundColor = UIColor.systemGray5
+            cell.contentView.backgroundColor = .darkGray
         }
   
         return cell

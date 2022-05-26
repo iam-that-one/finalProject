@@ -11,7 +11,7 @@ import Firebase
 class PrefViewController: UIViewController {
     let userRef = Database.database().reference(withPath: "online")
     var user : [User]?
-    let prefs : [PresModel] = [PresModel(lable: "الوضع الليلي", logo: "moon.fill"),PresModel(lable: "طلب توثيق", logo: "star.circle.fill"),PresModel(lable: "تسجيل الخروج", logo: "signpost.right.fill")]
+    let prefs : [PresModel] = [PresModel(lable: "الوضع الليلي", logo: DefaultStyle.self.Images.image),PresModel(lable: "طلب توثيق", logo: "star.circle.fill"),PresModel(lable: "تسجيل الخروج", logo: "signpost.right.fill")]
     
     lazy var backToProfileViewBtn : UIButton = {
         $0.tintColor = .black
@@ -61,7 +61,7 @@ class PrefViewController: UIViewController {
             newLable.widthAnchor.constraint(equalToConstant: view.bounds.width),
             newLable.heightAnchor.constraint(equalToConstant: 120),
             
-            backToProfileViewBtn.centerYAnchor.constraint(equalTo: newLable.centerYAnchor),
+            backToProfileViewBtn.centerYAnchor.constraint(equalTo: newLable.centerYAnchor,constant: 10),
             backToProfileViewBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 30),
             backToProfileViewBtn.heightAnchor.constraint(equalToConstant: 40),
             backToProfileViewBtn.widthAnchor.constraint(equalToConstant: 30),
@@ -92,19 +92,28 @@ extension PrefViewController : UITableViewDelegate, UITableViewDataSource{
         let cell = preTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PrefViewTableViewCell
         cell.lable.text = prefs[indexPath.row].lable
         cell.logo.image = UIImage(systemName: prefs[indexPath.row].logo) ?? UIImage()
-        if status && indexPath.row == 0{
+        if darkMode && indexPath.row == 0{
             cell.contentView.backgroundColor = .green
+        }else if indexPath.row == 0{
+            cell.contentView.backgroundColor = .red
         }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
-            status = UserDefaults.standard.bool(forKey: "isDarkMode")
-            status.toggle()
-            UserDefaults.standard.set(status, forKey: "isDarkMode")
-
-           exit(0)
+            darkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+            darkMode.toggle()
+            UserDefaults.standard.set(darkMode, forKey: "isDarkMode")
+            let alert = UIAlertController(title: "إجراء تغيير على النظام", message: "يجب إعادة تشغيل التطبيق لإعتماد التغييرات", preferredStyle: .alert)
             
+            alert.addAction(UIAlertAction(title: "موافق", style: .default, handler: { _ in
+                exit(0)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "فيما بعد", style: .cancel, handler: { _ in
+               
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
         if indexPath.row == 1{
         let authVC = VerefyingRequestViewController()

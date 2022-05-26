@@ -131,9 +131,8 @@ class HomeViewController: UIViewController  {
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .lightGray//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = .lightGray
         $0.translatesAutoresizingMaskIntoConstraints = false
-      //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -162,13 +161,13 @@ class HomeViewController: UIViewController  {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تشتري؟"
-        $0.textColor = DefaultStyle.Colors.headerLable
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
-        $0.shadowColor = .init(cgColor: .init(gray: 0.50, alpha: 1))
-        $0.shadowOffset = .init(width: 2, height: 5)
+       // $0.shadowColor = .init(cgColor: .init(gray: 0.50, alpha: 1))
+        //$0.shadowOffset = .init(width: 2, height: 5)
        // $0.backgroundColor = DefaultStyle.self.Colors.header//UIClor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.paddingTop = 20
         $0.font = UIFont(name: "ReemKufi-Bold", size: 30)
@@ -190,28 +189,23 @@ class HomeViewController: UIViewController  {
        //  status = UserDefaults.standard.bool(forKey: "isDarkMode")
      
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-       // offers = []
-       // filterdResult = []
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
+        
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-       // sc.delegate = self
+        
       //  offersTableView.showsVerticalScrollIndicator = false
         view.backgroundColor = DefaultStyle.self.Colors.mainView
         switch UIDevice.current.userInterfaceIdiom {
         case .pad:
             searchBar.layer.cornerRadius = 20
             searchBar.clipsToBounds = true
-         //   offersTableView.backgroundColor = .systemGray3
         default:
             view.backgroundColor = DefaultStyle.Colors.mainView
             break
@@ -358,11 +352,11 @@ class HomeViewController: UIViewController  {
     }
     @objc func devices(){
         logo2.backgroundColor = .systemTeal
-        logo3.backgroundColor = .white
-        logo4.backgroundColor = .white
-        logo0000.backgroundColor = .white
-        logo.backgroundColor = .white
-        logo1111.backgroundColor = .white
+        logo3.backgroundColor = .lightGray
+        logo4.backgroundColor = .lightGray
+        logo0000.backgroundColor = .lightGray
+        logo.backgroundColor = .lightGray
+        logo1111.backgroundColor = .lightGray
           categoery = "أجهزة"
         searchBar.text = ""
         offers.removeAll{$0.categoery == "أجهزة"}
@@ -373,10 +367,10 @@ class HomeViewController: UIViewController  {
     
     @objc func realEstate(){
         logo0000.backgroundColor = .systemTeal
-        logo3.backgroundColor = .white
-        logo4.backgroundColor = .white
-        logo.backgroundColor = .white
-        logo1111.backgroundColor = .white
+        logo3.backgroundColor = .lightGray
+        logo4.backgroundColor = .lightGray
+        logo.backgroundColor = .lightGray
+        logo1111.backgroundColor = .lightGray
           categoery = "عقارات"
         searchBar.text = ""
         offers.removeAll{$0.categoery == "عقارات"}
@@ -386,10 +380,10 @@ class HomeViewController: UIViewController  {
       }
     
     @objc func clothes(){
-        logo0000.backgroundColor = .white
-        logo3.backgroundColor = .white
-        logo4.backgroundColor = .white
-        logo.backgroundColor = .white
+        logo0000.backgroundColor = .lightGray
+        logo3.backgroundColor = .lightGray
+        logo4.backgroundColor = .lightGray
+        logo.backgroundColor = .lightGray
         logo1111.backgroundColor = .systemTeal
           categoery = "أزياء"
         searchBar.text = ""
@@ -403,11 +397,11 @@ class HomeViewController: UIViewController  {
       @objc func cars(){
           animateTableView()
           logo3.backgroundColor = .systemTeal
-          logo2.backgroundColor = .white
-          logo4.backgroundColor = .white
-          logo.backgroundColor = .white
-          logo0000.backgroundColor = .white
-          logo1111.backgroundColor = .white
+          logo2.backgroundColor = .lightGray
+          logo4.backgroundColor = .lightGray
+          logo.backgroundColor = .lightGray
+          logo0000.backgroundColor = .lightGray
+          logo1111.backgroundColor = .lightGray
           categoery = "سيارات"
           searchBar.text = ""
           offers.removeAll{$0.categoery == "سيارات"}
@@ -417,12 +411,12 @@ class HomeViewController: UIViewController  {
       }
     @objc func other(){
         animateTableView()
-        logo.backgroundColor = .white
-        logo2.backgroundColor = .white
+        logo.backgroundColor = .lightGray
+        logo2.backgroundColor = .lightGray
         logo4.backgroundColor = .systemTeal
-        logo3.backgroundColor = .white
-        logo0000.backgroundColor = .white
-        logo1111.backgroundColor = .white
+        logo3.backgroundColor = .lightGray
+        logo0000.backgroundColor = .lightGray
+        logo1111.backgroundColor = .lightGray
 
         categoery = "خدمات"
         searchBar.text = ""
@@ -435,11 +429,11 @@ class HomeViewController: UIViewController  {
       @objc func all(){
           animateTableView()
           logo.backgroundColor = .systemTeal
-          logo3.backgroundColor = .white
-          logo2.backgroundColor = .white
-          logo4.backgroundColor = .white
-          logo0000.backgroundColor = .white
-          logo1111.backgroundColor = .white
+          logo3.backgroundColor = .lightGray
+          logo2.backgroundColor = .lightGray
+          logo4.backgroundColor = .lightGray
+          logo0000.backgroundColor = .lightGray
+          logo1111.backgroundColor = .lightGray
           filterdResult = []
           offers = []
           getOffers()

@@ -22,7 +22,7 @@ class CommentsViewController: UIViewController , CommetntTableViewCellDelegate{
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "التعليقات"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.backgroundColor = UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)

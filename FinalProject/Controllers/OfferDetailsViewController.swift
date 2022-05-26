@@ -39,7 +39,7 @@ class OfferDetailsViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "تفاصيل أكثر"
-        $0.textColor = DefaultStyle.Colors.headerLable
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
@@ -192,7 +192,7 @@ class OfferDetailsViewController: UIViewController {
     lazy var sendMessage: UIButton = {
         $0.setTitle("ارسل رسالة للمعلن", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .systemTeal
+        $0.backgroundColor = DefaultStyle.Colors.headerLable
         $0.tintColor = .white//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 10
         $0.addTarget(self, action: #selector(sendMessageBtnClick), for: .touchDown)
@@ -210,7 +210,7 @@ class OfferDetailsViewController: UIViewController {
     lazy var phoneCall : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "phone.fill"), for: .normal)
-        $0.tintColor = .systemTeal
+        $0.tintColor = DefaultStyle.Colors.headerLable
         $0.transform = $0.transform.rotated(by: -90)
         $0.addTarget(self, action: #selector(phoneCallBtnClic), for: .touchDown)
         return $0

@@ -7,7 +7,7 @@
 
 import UIKit
 import Firebase
-var status = false
+var darkMode = false
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     let userRef = Database.database().reference(withPath: "online")
@@ -19,9 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
       
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+        darkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         
-        if status{
+        if darkMode{
             window?.overrideUserInterfaceStyle = .dark
           
         }else{
@@ -53,14 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
-        if status{
-            window?.overrideUserInterfaceStyle = .dark
-            
-        }else{
-            window?.overrideUserInterfaceStyle = .light
-        }
+     
         
     }
 

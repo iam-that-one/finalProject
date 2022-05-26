@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController {
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
-        $0.textColor = DefaultStyle.Colors.headerLable
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .center
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 40
@@ -291,9 +291,9 @@ class ProfileViewController: UIViewController {
     }
     
     func changeMode(){
-        status.toggle()
-        UserDefaults.standard.set(status, forKey: "isDarkMode")
-        if status{
+        darkMode.toggle()
+        UserDefaults.standard.set(darkMode, forKey: "isDarkMode")
+        if darkMode{
             overrideUserInterfaceStyle = .dark
         }else{
             overrideUserInterfaceStyle = .light

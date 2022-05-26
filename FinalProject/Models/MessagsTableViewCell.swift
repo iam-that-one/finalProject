@@ -56,7 +56,7 @@ class MessagsTableViewCell: UITableViewCell {
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = UIColor.systemGray6
+        contentView.backgroundColor = DefaultStyle.Colors.prefView
         contentView.layer.cornerRadius = 10
         [username,date,progilePic].forEach{contentView.addSubview($0)}
         

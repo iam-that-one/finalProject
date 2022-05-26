@@ -42,12 +42,12 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "إضافة إعلان جديد"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .center
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = DefaultStyle.Colors.header //UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.paddingTop = 20
         return $0
@@ -57,7 +57,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "اختر اسم المدينة"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -89,7 +89,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
           $0.layer.cornerRadius = 5
           $0.layer.borderColor = .init(gray: 0.90, alpha: 1)
           $0.layer.borderWidth = 1
-          $0.backgroundColor = .white
+         // $0.backgroundColor = .white
           $0.textColor = UIColor.lightGray
           $0.text = "وصف المنتج"
           $0.delegate = self
@@ -107,7 +107,8 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
     lazy var segment : UISegmentedControl = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(segmentClicked), for: .valueChanged)
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.tintColor = DefaultStyle.Colors.label
+        $0.backgroundColor = DefaultStyle.Colors.header //UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(UISegmentedControl(items: categories))
   
@@ -172,17 +173,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         $0.addTarget(self, action: #selector(postOfferBtnClick), for: .touchDown)
         return $0
     }(UIButton(type: .system))
-    
-    override func viewWillAppear(_ animated: Bool) {
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
-        if status{
-            overrideUserInterfaceStyle = .dark
-            
-        }else{
-            overrideUserInterfaceStyle = .light
-        }
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let db =  Firestore.firestore()
@@ -225,7 +216,7 @@ class AddOfferViewController: UIViewController, CLLocationManagerDelegate{
         
     }
     func uiSettings(){
-        
+        view.backgroundColor = DefaultStyle.Colors.mainView
          [pageTitle,offerTitle,offerDes,segment,price,picker,stackView,postOfferBtn,cityLable,imagesLable].forEach{view.addSubview($0)}
          [image1,image2,image3,image4].forEach{stackView.addArrangedSubview($0)}
         stackView.alignment = .fill // .Leading .FirstBaseline .Center .Trailing .LastBaseline
