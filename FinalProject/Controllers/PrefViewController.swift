@@ -95,7 +95,7 @@ extension PrefViewController : UITableViewDelegate, UITableViewDataSource{
         if darkMode && indexPath.row == 0{
             cell.contentView.backgroundColor = .green
         }else if indexPath.row == 0{
-            cell.contentView.backgroundColor = .red
+            cell.contentView.backgroundColor = .darkGray
         }
         return cell
     }

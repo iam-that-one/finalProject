@@ -63,7 +63,7 @@ class OfferDetailsViewController: UIViewController {
         $0.setBackgroundImage(UIImage(systemName: "bookmark"), for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(bookBtnClick), for: .touchDown)
-        $0.tintColor = DefaultStyle.Colors.headerLable
+        $0.tintColor = DefaultStyle.Colors.label
         return $0
     }(UIButton(type: .system))
     
@@ -155,7 +155,7 @@ class OfferDetailsViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -165,7 +165,7 @@ class OfferDetailsViewController: UIViewController {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "غير متصل"
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -192,7 +192,7 @@ class OfferDetailsViewController: UIViewController {
     lazy var sendMessage: UIButton = {
         $0.setTitle("ارسل رسالة للمعلن", for: .normal)
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = DefaultStyle.Colors.headerLable
+        $0.backgroundColor = DefaultStyle.Colors.label
         $0.tintColor = .white//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 10
         $0.addTarget(self, action: #selector(sendMessageBtnClick), for: .touchDown)
@@ -201,7 +201,7 @@ class OfferDetailsViewController: UIViewController {
     
     lazy var comments : UIButton = {
         $0.setTitle("التعليقات 📨", for: .normal)
-        $0.tintColor = .black
+        $0.tintColor = DefaultStyle.self.Colors.label
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addTarget(self, action: #selector(showCommentsBtnCkick), for: .touchDown)
         return $0
@@ -210,7 +210,7 @@ class OfferDetailsViewController: UIViewController {
     lazy var phoneCall : UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setBackgroundImage(UIImage(systemName: "phone.fill"), for: .normal)
-        $0.tintColor = DefaultStyle.Colors.headerLable
+        $0.tintColor = DefaultStyle.Colors.label
         $0.transform = $0.transform.rotated(by: -90)
         $0.addTarget(self, action: #selector(phoneCallBtnClic), for: .touchDown)
         return $0
@@ -391,7 +391,6 @@ class OfferDetailsViewController: UIViewController {
     }
     func makeItBooked(){
        bookBtnToggl.toggle()
-   
         if bookBtnToggl{
             book.setBackgroundImage(UIImage(systemName: "bookmark.fill"), for: .normal)
             db.collection("Bookmarks").document(offer!.offerID).setData(["id" : Auth.auth().currentUser!.uid, "offerID" : offer!.offerID])
@@ -527,7 +526,11 @@ class OfferDetailsViewController: UIViewController {
                     
                     if id == Auth.auth().currentUser!.uid && offerID == self.offer!.offerID{
                         self.book.setBackgroundImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+                        self.bookBtnToggl = true
                         break
+                    }else{
+                        self.book.setBackgroundImage(UIImage(systemName: "bookmark"), for: .normal)
+                        self.bookBtnToggl = false
                     }
                 }
             }

@@ -12,7 +12,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var offer : Offer? = nil
     var count = 0
     let map = MKMapView()
-    var status = false
+  //  var status = false
     var cordinat = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
     lazy var dismissMapView : UIButton = {
         $0.setTitle("إخفاء", for: .normal)
@@ -26,18 +26,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }(UIButton(type: .system))
     
     override func viewWillAppear(_ animated: Bool) {
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
+     
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        darkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         
-        if status{
+        if darkMode{
             overrideUserInterfaceStyle = .dark
             
         }else{
             overrideUserInterfaceStyle = .light
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         cordinat =  CLLocationCoordinate2D(latitude: offer!.lat, longitude: offer!.log)
         print("My",cordinat.latitude, cordinat.longitude)
         if cordinat.latitude == 0.0 && cordinat.longitude == 0.0{
@@ -52,7 +53,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         map.frame = view.bounds
         map.mapType = .hybrid
-        view.backgroundColor = .white
         view.addSubview(map)
         map.addSubview(dismissMapView)
         map.delegate = self

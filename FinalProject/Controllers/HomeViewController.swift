@@ -131,8 +131,9 @@ class HomeViewController: UIViewController  {
         $0.layer.cornerRadius = 5
         $0.layer.borderColor = .init(gray: 0.0, alpha: 1)
         $0.layer.borderWidth = 3
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .lightGray//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.translatesAutoresizingMaskIntoConstraints = false
+      //  $0.setBackgroundImage(UIImage(systemName: "square.fill"), for: .normal)
         $0.titleLabel?.font =  UIFont(name: "ReemKufi", size: 20)
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -189,23 +190,28 @@ class HomeViewController: UIViewController  {
        //  status = UserDefaults.standard.bool(forKey: "isDarkMode")
      
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+       // offers = []
+       // filterdResult = []
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
-        
         // observe the keyboard status. If will show, the function (keyboardWillShow) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         // observe the keyboard status. If will Hide, the function (keyboardWillHide) will be excuted.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+       // sc.delegate = self
       //  offersTableView.showsVerticalScrollIndicator = false
         view.backgroundColor = DefaultStyle.self.Colors.mainView
         switch UIDevice.current.userInterfaceIdiom {
         case .pad:
             searchBar.layer.cornerRadius = 20
             searchBar.clipsToBounds = true
+         //   offersTableView.backgroundColor = .systemGray3
         default:
             view.backgroundColor = DefaultStyle.Colors.mainView
             break
@@ -229,7 +235,7 @@ class HomeViewController: UIViewController  {
         stackView.addArrangedSubview(logo0000)
         stackView.addArrangedSubview(logo1111)
         sc.addSubview(stackView)
-      
+        getMessages()
         getOffers()
         temp = offers
         [newLable, searchBar,sc,offersTableView].forEach{view.addSubview($0)}
@@ -465,7 +471,65 @@ class HomeViewController: UIViewController  {
     @objc func dismissKeyboard() {
         SharedInstanceManager.shared.dismissKeyboard(view)
     }
+    
+    
+    var ids : [String] = []
+    var offerProviderId = ""
+    var recntChates : [RecentChat] = []
+ 
 
+        func getMessages(){
+           let read = UserDefaults.standard.value(forKey: "bad24") as? Int ?? 0
+        db.collection("RecentMessages").addSnapshotListener { querySnapshot, error in
+            if let error = error{
+                print(error)
+            }else{
+                var content = ""
+                self.recntChates = []
+                for doc in querySnapshot!.documents{
+                    let data = doc.data()
+                    let date = data["date"] as? Date ?? Date()
+                    let time = data["time"] as? Timestamp ?? Timestamp()
+                    let reciverId = data["reciverId"] as? String ?? ""
+                    self.offerProviderId = data["senderId"] as? String ?? ""
+                    print("reciver",reciverId)
+                    let senderId = data["senderId"] as? String ?? ""
+                    content = data["content"] as? String ?? ""
+                    print("sender", senderId)
+                    if reciverId == Auth.auth().currentUser!.uid{
+                        self.ids.append(senderId)
+                        self.db.collection("offers_users").addSnapshotListener {[self] querySnapshot, error in
+                            if let error = error{
+                                print(error)
+                            }else{
+                                for doc in querySnapshot!.documents{
+                                    print("idddddddddddddddd",doc.documentID)
+                                    let data = doc.data()
+                                    let id = data["uid"] as? String ?? ""
+                                    let profilePic = data["image"] as? Data ?? Data()
+                                    let name = data["firstName"] as? String ?? ""
+                                    let lastName = data["lastName"] as? String ?? ""
+                                    if self.ids.contains(id){
+                                        self.recntChates.append(RecentChat(name: name + " " + lastName , id: id, date: date, profilePic: profilePic,time: time, content: content))
+                                      //  self.filterdResult = self.recntChates
+                                        self.ids.removeAll{$0 == id}
+                                        if self.recntChates.count > read && recntChates.last!.id != senderId{
+                                            SharedInstanceManager.shared.playAudioAsset("Tri Tone iphone Xs Message Ringtone Mp3 Ringtone")
+                                        }
+                                        UserDefaults.standard.set(self.recntChates.count, forKey: "bad24")
+                                        self.tabBarController?.tabBar.items?[3].badgeValue = "\(read == 0 ? self.recntChates.count : self.recntChates.count - read)"
+                                        if self.recntChates.count - read == 0 || self.recntChates.count == 0{
+                                            self.tabBarController?.tabBar.items?[3].badgeValue = nil
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource{

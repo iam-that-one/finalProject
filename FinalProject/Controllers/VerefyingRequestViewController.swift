@@ -60,22 +60,15 @@ class VerefyingRequestViewController: UIViewController ,MFMailComposeViewControl
         $0.text = "طلب توثيق"
         $0.paddingTop = 20
         $0.textAlignment = .center
-        $0.backgroundColor = .systemTeal//UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = DefaultStyle.self.Colors.header
+        $0.textColor = DefaultStyle.self.Colors.label
+        //UIColor.init(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         return $0
     }(PaddingLabel())
-    override func viewWillAppear(_ animated: Bool) {
-        status = UserDefaults.standard.bool(forKey: "isDarkMode")
-        
-        if status{
-            overrideUserInterfaceStyle = .dark
-            
-        }else{
-            overrideUserInterfaceStyle = .light
-        }
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = DefaultStyle.self.Colors.mainView
        // imagePicker.delegate = self
         [identity,certificate,chooseId,chooseCert,sendReq,header].forEach{view.addSubview($0)}
         

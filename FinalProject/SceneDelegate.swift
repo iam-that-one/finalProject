@@ -52,8 +52,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+       
+        darkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
         
-     
+        if darkMode{
+            window?.overrideUserInterfaceStyle = .dark
+            
+        }else{
+            window?.overrideUserInterfaceStyle = .light
+        }
         
     }
 

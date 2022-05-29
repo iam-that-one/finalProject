@@ -52,6 +52,7 @@
 		B8922F8F2784D0E100153B4A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = B8922F8E2784D0E100153B4A /* FirebaseDatabase */; };
 		B8922F912784D0E100153B4A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B8922F902784D0E100153B4A /* FirebaseFirestore */; };
 		B8922F932784D0E100153B4A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B8922F922784D0E100153B4A /* FirebaseStorage */; };
+		B8CF7B542841F9C20011A01B /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CF7B532841F9C20011A01B /* RatingView.swift */; };
 		B8D5BA7A27873E56009C1340 /* profileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,7 @@
 		B8922F832782D39D00153B4A /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		B8922F852782D3DA00153B4A /* VerefyingRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerefyingRequestViewController.swift; sourceTree = "<group>"; };
 		B8922F8727832AE200153B4A /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		B8CF7B532841F9C20011A01B /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		B8D5BA7927873E56009C1340 /* profileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,6 +195,7 @@
 				B834B39B2799F782004790D5 /* MaketItViewController.swift */,
 				B878A14D2835BB5A00DF7475 /* UserProfileViewController.swift */,
 				B87A249B283C1EFC0035226A /* PrefViewController.swift */,
+				B8CF7B532841F9C20011A01B /* RatingView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				B83FC1C0277F2F6800342B70 /* AddOfferViewController.swift in Sources */,
 				B878A14E2835BB5A00DF7475 /* UserProfileViewController.swift in Sources */,
 				B8109E27278CD4D7000FF1FA /* CommentsModel.swift in Sources */,
+				B8CF7B542841F9C20011A01B /* RatingView.swift in Sources */,
 				B87A249C283C1EFC0035226A /* PrefViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

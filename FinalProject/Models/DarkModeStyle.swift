@@ -86,7 +86,6 @@ public enum DefaultStyle {
             }else{
                 return "moon"
             }
-            
         }()
     }
 }

@@ -21,7 +21,7 @@ class ChatTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = .black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         
@@ -32,7 +32,7 @@ class ChatTableViewCell: UITableViewCell {
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.textColor = UIColor.black
+        $0.textColor = DefaultStyle.self.Colors.label
         $0.textAlignment = .left
         $0.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         

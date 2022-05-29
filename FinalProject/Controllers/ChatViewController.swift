@@ -43,6 +43,7 @@ var myName = ""
         $0.text = ""
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .white
+        $0.textColor = .darkGray
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 25
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +54,7 @@ var myName = ""
         $0.numberOfLines = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = ""
-        $0.backgroundColor = .systemTeal//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
+        $0.backgroundColor = DefaultStyle.self.Colors.header//UIColor(red: 249/255, green: 195/255, blue: 34/255, alpha: 1)
         $0.layer.cornerRadius = 25
         $0.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
         $0.clipsToBounds = true
@@ -94,8 +95,7 @@ var myName = ""
         super.viewDidLoad()
         fetchMesssages()
         messageTf.text = initialMessage
-        view.backgroundColor = .white
-        view.backgroundColor = UIColor.systemGray5
+        view.backgroundColor = DefaultStyle.self.Colors.mainView
         [messageTf,sendButton,newLable,chatTableView,backToOfferViewBtn].forEach{view.addSubview($0)}
         getProfile(offerProviderId)
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -135,6 +135,7 @@ var myName = ""
         ])
     }
     @objc func sentBtnClick(){
+        UserDefaults.standard.set(0, forKey: "bad24")
         db.collection("offers_users").whereField("uid", isEqualTo: Auth.auth().currentUser!.uid)
             .addSnapshotListener { querySnapshot, error in
                 if let error = error{

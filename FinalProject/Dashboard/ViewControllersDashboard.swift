@@ -20,7 +20,8 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
         tabBar.layer.shadowColor = CGColor.init(gray: 0.30, alpha: 1)
         tabBar.layer.shadowOffset = CGSize(width: 4, height: 4)
        // tabBar.layer.masksToBounds = true
-        
+        tabBarController?.tabBar.items?[3].badgeValue = "5"//
+        tabBarController?.tabBar.items?[3].badgeColor = .red
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +33,9 @@ class DashboardTabBarController: UITabBarController, UITabBarControllerDelegate 
         let item4 = ProfileViewController()
         let item5 = BookmarksViewController()
        
-        
+        item4.tabBarItem.badgeValue = "5"
+        item4.tabBarItem.badgeColor = .red
+       // self.tabBar.items?[3].badgeValue = nil
         let icon1 = UITabBarItem(title: "الرئيسية", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
             item1.tabBarItem = icon1
         

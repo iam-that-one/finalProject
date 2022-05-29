@@ -50,8 +50,13 @@ class MessagesViewController: UIViewController {
         return $0
     }(PaddingLabel())
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.items?[3].badgeValue = nil
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.items?[3].badgeValue = nil
         view.backgroundColor = DefaultStyle.self.Colors.mainView
         let tap = UITapGestureRecognizer(target: newLable
                                          , action: #selector(UIInputViewController.dismissKeyboard))
@@ -83,6 +88,7 @@ class MessagesViewController: UIViewController {
     }
     
     func getProfile(){
+        
         db.collection("RecentMessages").addSnapshotListener { querySnapshot, error in
             if let error = error{
                 print(error)
